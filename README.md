@@ -6,6 +6,118 @@ The library computes a nonlinear forward trajectory, evaluates the matching thet
 
 The first worked example is nonlinear concentration decay with accumulated exposure. Its continuous state, cost, tangent, costate, gradient, and Hessian have elementary analytical references. The example uses the library's explicit quadrature and nodal cost sources throughout; accumulated running cost is not added to the physical state. The analytical references never replace a numerical forward step or supply the optimization gradient.
 
+## Hidden-state oscillator example
+
+Recover **initial displacement and unmeasured initial velocity** from six noisy
+displacement observations of a known mass–spring–damper system. This example has
+exact state, tangent, adjoint, objective, gradient, Hessian, and noisy-data
+least-squares references. Thirteen error measures, including both recovered
+initial-state components, converge at second order for theta = 0.5 and first
+order for theta = 0.65.
+
+```bash
+make oscillator-plots
+```
+
+It also demonstrates a measurement schedule that cannot identify velocity:
+sampling at integer half-periods eliminates that sensitivity. Genuine running
+cost, consistent quadrature, and costate comparisons use a separate analytical
+verification functional, without adding artificial information to the inverse
+problem. The oscillator adds **245 numerical and qualification checks**; `make test` runs all five
+suites (635 checks). It also reports engineering qualification for displacement
+(1 mm), velocity (2 mm/s), and support-force error (0.04 N), including numerical
+model error and whole-interval persistence. The coarse midpoint grid cannot
+establish the tolerances. The refined midpoint grid qualifies from elapsed zero
+with deterministic measurement bounds. The added theta = 0.65, N = 1024
+bounded-data case remains unqualified under its conservative numerical allowance;
+further refinement to theta = 0.65, N = 8192 qualifies all three goals from
+**4.029296875 s**. The simultaneous 95% Gaussian noise-box
+case qualifies all three goals from **4.8203125 s**. These are retrospective
+all-data decisions through the eight-second elapsed horizon.
+
+Read [the complete derivation and experiment](docs/oscillator.md).
+
+![Hidden-state oscillator convergence](results/oscillator/convergence.png)
+
+The phase portraits overlay the analytical solution and optimal discrete
+reconstruction, with a second panel magnifying their difference:
+
+![Oscillator phase portraits](results/oscillator/phase_portraits.png)
+
+![Oscillator engineering qualification verdict](results/oscillator/qualification_verdict.png)
+
+## Peng–Robinson gas composition example
+
+Infer methane–ethane–nitrogen mole fractions from density observations at several
+known temperatures and pressures, using the actual pinned **ThermoGPU** scalar
+CPU backend. The example runs the library's tangent, adjoint, exact Hessian-vector
+products, and optimizer, and independently encloses a nonlinear bounded-error
+composition set in C++20.
+
+```bash
+make gas-plots
+```
+
+The synthetic truth is 85% methane, 10% ethane, and 5% nitrogen. Four density
+observations with 0.1% error bounds give an accurate fit but cannot qualify all
+three fractions to one percentage point. With 0.02% error bounds, all three
+qualify. One density is deliberately underdetermined. Verdicts remain separate
+from numerical test success.
+
+This is a **static** specialization: composition carries unchanged between
+experiments. It does not test nontrivial theta stepping or running-cost
+quadrature; the decay and thermal examples continue to do that.
+Read [the complete experiment and derivation](docs/peng_robinson.md).
+The optional example links GPL-3.0-or-later upstream code; its original license
+and revision are included under `third_party/ThermoGPU`.
+
+![Peng–Robinson composition qualification](results/peng_robinson/composition_sets.png)
+
+## Two-temperature example
+
+The project now also includes the earlier coupled **fluid–wall thermal model**, using this same C++20 optimality and qualification machinery. It reconstructs both initial temperatures from fluid observations, checks conservative energy balance, and qualifies fluid temperature (0.2 K tolerance) and stored-energy deviation (60 kJ tolerance). The retained analytical Gaussian-ellipse reference qualifies those goals after 0.067798 and 1.995560 minutes. A separate numerical-error-aware 95% noise-box analysis reports physical qualification under its explicit initial-temperature domain assumption.
+
+```bash
+make thermal
+make thermal-plots
+```
+
+On the refined grid, the physical analysis qualifies both goals jointly after **4.734375 minutes**. Assimilating an added wall-temperature measurement at the same resolution reduces that time to **3.5078125 minutes**. The primary coarse grid cannot establish either tolerance with the conservative numerical allowance. The thermal tests distinguish numerical correctness, analytical/reference uncertainty, and physical qualification explicitly.
+
+Read [docs/two_temperature.md](docs/two_temperature.md) for the complete derivation, assumptions, reference comparisons, and figures. All thermal inference and qualification computations are C++20; Python only renders their outputs.
+
+![Two-temperature qualification verdict](results/two_temperature/qualification_verdict.png)
+
+`make test` runs the library validation plus the decay, two-temperature, gas-composition, and hidden-state oscillator suites. `make qualification-plots` draws the decay, thermal, gas, and oscillator examples; `make decay-plots` draws only decay and `make thermal-plots` only the thermal example.
+
+## State qualification in C++20
+
+The full **measurement-to-qualification experiment** is now [examples/decay_qualification.cpp](examples/decay_qualification.cpp). It uses the optimality library to reconstruct the initial concentration, compute measurement information and goal adjoints, propagate uncertainty, and decide whether concentration and accumulated exposure meet specified tolerances. All numerical inference, analytical references, nonlinear uncertainty sets, numerical-error allowances, and qualification decisions run in C++20. Python only plots the resulting CSV files.
+
+```bash
+make test qualification
+# Optional figures; numerical results already exist after the command above.
+make qualification-plots
+```
+
+Read [docs/state_qualification.md](docs/state_qualification.md) for the standalone explanation of the experiment, assumptions, error budgets, and results. The earlier `theta_decay` executable remains a separate running-cost optimality-system verification example; it does not replace the measurement-driven state-qualification experiment.
+
+`make test` now runs both the library validation and state-qualification checks. It ends with a table of persistent qualification times for concentration and exposure, using `unqualified` when no time exists over the ten-minute horizon. All reported times are elapsed from $t_0$. The same C++ report is written to `results/qualification/qualification_times.csv` and read directly by the plot renderer. The qualification plots mark these times with vertical lines and label unqualified cases explicitly; no threshold-crossing decisions are made in Python. Use `make validation` for only the library checks.
+
+The final **PHYSICAL QUALIFICATION DETERMINATION** gives the actual engineering decision separately from numerical test success. It states whether concentration, exposure, and **all requested goals together** qualify. Joint qualification starts at the latest individual persistent qualification time, and is not established if either goal remains unqualified. The baseline is **NOT QUALIFIED for all requested goals: exposure blocks it**. The added-exposure case is **QUALIFIED for all requested goals from elapsed zero** on the refined grid. These decisions use bounded-error data and continuous, numerical-error-aware envelopes; local Gaussian indicators and uncorrected node results remain diagnostics. `qualification_decisions.csv` is the C++ source for the final console and plot verdicts.
+
+![Explicit physical qualification verdict](results/qualification/qualification_verdict.png)
+
+| Bounded-data experiment | Concentration | Accumulated exposure |
+|---|---|---|
+| Analytical reference with concentration observations | Qualified after 0.25850 min | Unqualified over the horizon |
+| Coarse numerical model with physical error allowance | Qualified after 5 min | Unqualified over the horizon |
+| Added bounded exposure observation, refined numerical model | Qualified over the whole horizon | Qualified over the whole horizon |
+
+The numerical statements in this table use **whole-step envelopes**, including the time between nodes, relative to the piecewise-linear numerical reconstruction. They are conditional analytical error bounds evaluated in ordinary floating point, not directed-rounding certificates. The added observation is assimilated before retrospective qualification; this is not an online prediction made before the observation arrived.
+
+![C++20 state qualification with numerical-error budgets](results/qualification/qualification.png)
+
 ## Build and run
 
 The header-only library and example require a C++20 compiler and the standard library. The tested direct build is:
@@ -164,6 +276,10 @@ The finest two grids give:
 
 ![Convergence of the C++ discrete optimality system](results/convergence.png)
 
+The last panel in that figure is control error at each time step, calculated as $|\xi_h^*-\xi^*|$. The executable also writes a dedicated `control_convergence.csv`, including each fitted control, the analytical minimizer, error, and observed order. This directly tests whether solving successively refined discrete optimization problems recovers the continuous problem's optimum.
+
+![Convergence of the optimized initial concentration](results/control_convergence.png)
+
 The half-weight method shows second-order convergence throughout. The off-centered method supplies a first-order control experiment. Smoothness, stable propagation, and an isolated optimum with nonzero Hessian are essential here. Newton and optimization tolerances must be below the temporal errors being measured.
 
 **Adjoint convention matters.** The raw nodal adjoint includes the preceding interval's quadrature endpoint contribution. For a pointwise comparison to a remaining-cost continuous costate, subtract
@@ -191,6 +307,6 @@ Before reaching the numerical floor, $e_{k+1}/e_k^2$ settles near **0.1493**, de
 
 This is a small dense ODE library with prescribed time grids, explicit analytical derivative callbacks, and optional second derivatives. It supports arbitrary finite strictly increasing time grids and per-step theta in $[0,1]$; accuracy and positivity still depend on the model and grid. `Grid::uniform` is only a convenience.
 
-It currently uses identity mass matrices, stores complete trajectories, and refactors dense step matrices during derivative sweeps. It has no sparse backend, DAE solver, mesh-adaptation derivatives, Enzyme binding, or GPU execution. Callback interfaces allow future derivative adapters without changing the mathematical contract. The control predicate is a feasibility safeguard; the optimizer solves interior unconstrained stationarity and does not implement boundary KKT conditions. Sampled observations can be added in a later version as explicit nodal costs with their own semantics; they must not be silently assigned running-cost quadrature weights.
+It currently uses identity mass matrices, stores complete trajectories, and refactors dense step matrices during derivative sweeps. It has no sparse backend, DAE solver, mesh-adaptation derivatives, Enzyme binding, or GPU execution. Callback interfaces allow future derivative adapters without changing the mathematical contract. The control predicate is a feasibility safeguard; the optimizer solves interior unconstrained stationarity and does not implement boundary KKT conditions. Sampled observations now use explicit `Problem::nodal` costs; their values and derivative sources are not multiplied by running-cost quadrature weights. `goal_gradient` and `state_pullback` expose the same discrete adjoint for prediction goals and information actions. `qualification.hpp` contains local goal variance, box support, independent-Gaussian noise-box calibration, and persistent node criteria. Decay-specific nonlinear set construction and physical error bounds remain in the example model.
 
 `include/theta_opt/` is the reusable library. `examples/` contains problem definitions, `tests/` verification, `docs/` derivations and callback contracts, and `results/` reproducible outputs. C++ produces all numerical results; Python is used only for figures.

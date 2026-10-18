@@ -1,0 +1,121 @@
+name,error,tolerance,passed
+exact bounded interval contains truth,0,9.9999999999999998e-13,1
+primary information tangent versus adjoint,4.5474735088646412e-13,1e-08,1
+Gaussian adjoint optimizer stationarity,1.0524559002078604e-10,1e-08,1
+finite-noise confidence outer set contains analytical set,0,2.0000000000000001e-09,1
+primary corrected set contains exact set,0,2.0000000000000001e-09,1
+primary physical bound against analytical paths,0,2.0000000000000001e-10,1
+primary full goal allowance covers truth,0,2.0000000000000001e-09,1
+primary continuous interval envelope against analytical truth,0,2.0000000000000001e-09,1
+concentration-only data do not qualify accumulated exposure,0,0,1
+raw discrete interval excludes truth on this grid,0,0,1
+all goal adjoints versus tangent,1.5543122344752192e-15,9.9999999999999994e-12,1
+nonlinear interval envelope covered by linear plus curvature,0,2.0000000000000001e-10,1
+added exposure corrected set contains exact set,0,2.0000000000000001e-09,1
+added exposure physical bound against analytical paths,0,2.0000000000000001e-10,1
+added exposure full goal allowance covers truth,0,2.0000000000000001e-09,1
+added exposure continuous interval envelope against analytical truth,0,2.0000000000000001e-09,1
+added exposure retains synthetic truth,0,9.9999999999999998e-13,1
+added exposure concentration qualified over whole horizon,0,0,1
+added exposure accumulated goal qualified over whole horizon,0,0,1
+added exposure adjoint optimizer stationarity,3.5360159245101386e-11,1e-08,1
+nodal observation adjoint gradient FD,3.7017262998230242e-10,2e-08,1
+nodal observation incremental Hessian FD,6.4033726768309228e-11,2e-08,1
+standalone observation quadrature cost,0,1e-10,1
+added observation adjoint gradient FD,8.203791969931608e-10,2e-08,1
+added observation incremental Hessian FD,1.6431689692781791e-10,2e-08,1
+standalone observation quadrature cost,0,1e-10,1
+refined 0.500000/1 corrected set contains exact set,0,2.0000000000000001e-09,1
+refined 0.500000/1 physical bound against analytical paths,0,2.0000000000000001e-10,1
+refined 0.500000/1 full goal allowance covers truth,0,2.0000000000000001e-09,1
+refined 0.500000/1 continuous interval envelope against analytical truth,0,2.0000000000000001e-09,1
+refined observation stationarity,1.7726264900375099e-10,1e-08,1
+refined 0.500000/2 corrected set contains exact set,0,2.0000000000000001e-09,1
+refined 0.500000/2 physical bound against analytical paths,0,2.0000000000000001e-10,1
+refined 0.500000/2 full goal allowance covers truth,0,2.0000000000000001e-09,1
+refined 0.500000/2 continuous interval envelope against analytical truth,0,2.0000000000000001e-09,1
+refined observation stationarity,1.2437695318112674e-10,1e-08,1
+refined 0.500000/4 corrected set contains exact set,0,2.0000000000000001e-09,1
+refined 0.500000/4 physical bound against analytical paths,0,2.0000000000000001e-10,1
+refined 0.500000/4 full goal allowance covers truth,0,2.0000000000000001e-09,1
+refined 0.500000/4 continuous interval envelope against analytical truth,0,2.0000000000000001e-09,1
+refined observation stationarity,1.1328182836223277e-10,1e-08,1
+refined 0.500000/8 corrected set contains exact set,0,2.0000000000000001e-09,1
+refined 0.500000/8 physical bound against analytical paths,0,2.0000000000000001e-10,1
+refined 0.500000/8 full goal allowance covers truth,0,2.0000000000000001e-09,1
+refined 0.500000/8 continuous interval envelope against analytical truth,0,2.0000000000000001e-09,1
+refined observation stationarity,1.1105782959930366e-10,1e-08,1
+refined 0.500000/16 corrected set contains exact set,0,2.0000000000000001e-09,1
+refined 0.500000/16 physical bound against analytical paths,0,2.0000000000000001e-10,1
+refined 0.500000/16 full goal allowance covers truth,0,2.0000000000000001e-09,1
+refined 0.500000/16 continuous interval envelope against analytical truth,0,2.0000000000000001e-09,1
+refined observation stationarity,1.0967937669192906e-10,1e-08,1
+refined 0.500000/32 corrected set contains exact set,0,2.0000000000000001e-09,1
+refined 0.500000/32 physical bound against analytical paths,0,2.0000000000000001e-10,1
+refined 0.500000/32 full goal allowance covers truth,0,2.0000000000000001e-09,1
+refined 0.500000/32 continuous interval envelope against analytical truth,0,2.0000000000000001e-09,1
+refined observation stationarity,1.0796696869874722e-10,1e-08,1
+refined 0.500000/64 corrected set contains exact set,0,2.0000000000000001e-09,1
+refined 0.500000/64 physical bound against analytical paths,0,2.0000000000000001e-10,1
+refined 0.500000/64 full goal allowance covers truth,0,2.0000000000000001e-09,1
+refined 0.500000/64 continuous interval envelope against analytical truth,0,2.0000000000000001e-09,1
+refined observation stationarity,1.0804512839968083e-10,1e-08,1
+refined 0.500000/128 corrected set contains exact set,0,2.0000000000000001e-09,1
+refined 0.500000/128 physical bound against analytical paths,0,2.0000000000000001e-10,1
+refined 0.500000/128 full goal allowance covers truth,0,2.0000000000000001e-09,1
+refined 0.500000/128 continuous interval envelope against analytical truth,0,2.0000000000000001e-09,1
+refined observation stationarity,1.1181100489920937e-10,1e-08,1
+observation problem temporal order,1.7611766722103184e-05,0.13,1
+observation problem temporal order,5.310529374558115e-05,0.13,1
+observation problem temporal order,2.6596518405419545e-06,0.13,1
+observation problem temporal order,2.659326989951083e-06,0.13,1
+observation problem temporal order,2.3054994323201683e-05,0.13,1
+observation problem temporal order,4.4421381883985589e-07,0.13,1
+observation problem temporal order,8.0083278308773487e-06,0.13,1
+refined 0.650000/1 corrected set contains exact set,0,2.0000000000000001e-09,1
+refined 0.650000/1 physical bound against analytical paths,0,2.0000000000000001e-10,1
+refined 0.650000/1 full goal allowance covers truth,0,2.0000000000000001e-09,1
+refined 0.650000/1 continuous interval envelope against analytical truth,0,2.0000000000000001e-09,1
+refined observation stationarity,6.5440985963505227e-11,1e-08,1
+refined 0.650000/2 corrected set contains exact set,0,2.0000000000000001e-09,1
+refined 0.650000/2 physical bound against analytical paths,0,2.0000000000000001e-10,1
+refined 0.650000/2 full goal allowance covers truth,0,2.0000000000000001e-09,1
+refined 0.650000/2 continuous interval envelope against analytical truth,0,2.0000000000000001e-09,1
+refined observation stationarity,7.6141759564052336e-11,1e-08,1
+refined 0.650000/4 corrected set contains exact set,0,2.0000000000000001e-09,1
+refined 0.650000/4 physical bound against analytical paths,0,2.0000000000000001e-10,1
+refined 0.650000/4 full goal allowance covers truth,0,2.0000000000000001e-09,1
+refined 0.650000/4 continuous interval envelope against analytical truth,0,2.0000000000000001e-09,1
+refined observation stationarity,8.9961815774586285e-11,1e-08,1
+refined 0.650000/8 corrected set contains exact set,0,2.0000000000000001e-09,1
+refined 0.650000/8 physical bound against analytical paths,0,2.0000000000000001e-10,1
+refined 0.650000/8 full goal allowance covers truth,0,2.0000000000000001e-09,1
+refined 0.650000/8 continuous interval envelope against analytical truth,0,2.0000000000000001e-09,1
+refined observation stationarity,9.8779651125369128e-11,1e-08,1
+refined 0.650000/16 corrected set contains exact set,0,2.0000000000000001e-09,1
+refined 0.650000/16 physical bound against analytical paths,0,2.0000000000000001e-10,1
+refined 0.650000/16 full goal allowance covers truth,0,2.0000000000000001e-09,1
+refined 0.650000/16 continuous interval envelope against analytical truth,0,2.0000000000000001e-09,1
+refined observation stationarity,1.0524559002078604e-10,1e-08,1
+refined 0.650000/32 corrected set contains exact set,0,2.0000000000000001e-09,1
+refined 0.650000/32 physical bound against analytical paths,0,2.0000000000000001e-10,1
+refined 0.650000/32 full goal allowance covers truth,0,2.0000000000000001e-09,1
+refined 0.650000/32 continuous interval envelope against analytical truth,0,2.0000000000000001e-09,1
+refined observation stationarity,1.0653167237251182e-10,1e-08,1
+refined 0.650000/64 corrected set contains exact set,0,2.0000000000000001e-09,1
+refined 0.650000/64 physical bound against analytical paths,0,2.0000000000000001e-10,1
+refined 0.650000/64 full goal allowance covers truth,0,2.0000000000000001e-09,1
+refined 0.650000/64 continuous interval envelope against analytical truth,0,2.0000000000000001e-09,1
+refined observation stationarity,1.0562928309809649e-10,1e-08,1
+refined 0.650000/128 corrected set contains exact set,0,2.0000000000000001e-09,1
+refined 0.650000/128 physical bound against analytical paths,0,2.0000000000000001e-10,1
+refined 0.650000/128 full goal allowance covers truth,0,2.0000000000000001e-09,1
+refined 0.650000/128 continuous interval envelope against analytical truth,0,2.0000000000000001e-09,1
+refined observation stationarity,1.1385736797819845e-10,1e-08,1
+observation problem temporal order,0.0056640945535393339,0.13,1
+observation problem temporal order,0.0053912037283495584,0.13,1
+observation problem temporal order,0.0079905449751923596,0.13,1
+observation problem temporal order,0.013619294428062978,0.13,1
+observation problem temporal order,0.0018936992160281108,0.13,1
+observation problem temporal order,0.0034535777521480515,0.13,1
+observation problem temporal order,0.0030386511481559353,0.13,1

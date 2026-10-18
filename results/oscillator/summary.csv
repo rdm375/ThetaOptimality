@@ -1,0 +1,17 @@
+quantity,value
+analytical_initial_displacement_m,0.020543752725728361
+analytical_initial_velocity_m_s,0.11941097401781503
+truth_displacement_m,0.02
+truth_velocity_m_s,0.12
+local_initial_displacement_sd_m,0.00053556057959321427
+local_initial_velocity_sd_m_s,0.00081472053275552275
+half_period_velocity_sensitivity_max,7.1579589695825326e-17
+scaled_information_condition,17.106066851680296
+primary_discrete_displacement_m,0.020901754234222174
+primary_discrete_velocity_m_s,0.11892537848197775
+finest_q0_theta_0.500000,0.020549373047736318
+finest_v0_theta_0.500000,0.11940339977481963
+finest_q0_theta_0.650000,0.02072710981561781
+finest_v0_theta_0.650000,0.12005719518658343
+qualification_numerical_allowance_refinement_order,2.0000076286319786
+checks_passed,245

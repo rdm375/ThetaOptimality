@@ -30,6 +30,18 @@ nt=read('newton.csv');fig,ax=plt.subplots(figsize=(6,4),layout='constrained')
 ax.semilogy([r['iteration'] for r in nt],[max(r['error'],1e-16) for r in nt],'o-')
 ax.set(title='Newton convergence at N=160, θ=0.5',xlabel='Iteration k',ylabel='Error to discrete minimizer |ξk − ξ*h|');ax.grid(alpha=.2)
 fig.savefig(root/'results/newton.png',dpi=150);plt.close(fig)
+controls=read('control_convergence.csv')
+fig,axes=plt.subplots(1,2,figsize=(10,4),layout='constrained')
+for theta in [.5,.65]:
+    rr=[r for r in controls if abs(r['theta']-theta)<1e-12]
+    axes[0].loglog([r['h'] for r in rr[1:]],[r['absolute_error'] for r in rr[1:]],'o-',label=f'θ={theta:g}')
+    axes[1].semilogx([r['h'] for r in rr],[r['discrete_minimizer'] for r in rr],'o-',label=f'θ={theta:g}')
+axes[0].set(title='Convergence of optimized initial state',xlabel='Maximum step h (min)',ylabel='|ξ*h − ξ*|')
+axes[0].grid(which='both',alpha=.2);axes[0].legend()
+axes[1].axhline(controls[0]['analytical_minimizer'],color='k',ls='--',label='Analytical minimizer')
+axes[1].set(title='Discrete control versus mesh size',xlabel='Maximum step h (min)',ylabel='Discrete minimizer ξ*h')
+axes[1].grid(alpha=.2);axes[1].legend()
+fig.savefig(root/'results/control_convergence.png',dpi=150);plt.close(fig)
 (root/'results/orders.json').write_text(json.dumps(orders,indent=2))
 table='| Quantity | θ = 0.5 | θ = 0.65 |\n|---|---:|---:|\n'
 for k in keys:table+=f'| {k.replace("_"," ")} | {orders["0.5"][k]:.6f} | {orders["0.65"][k]:.6f} |\n'

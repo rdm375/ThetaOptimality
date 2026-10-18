@@ -1,0 +1,4 @@
+case,criterion,fluid_status,fluid_elapsed_min,energy_status,energy_elapsed_min,all_goals_status,all_goals_elapsed_min,blocking_goals
+primary,continuous_joint95_box,not_qualified,,not_qualified,,not_qualified,,fluid+energy
+refined,continuous_joint95_box,qualified,3.7109375,qualified,4.734375,qualified,4.734375,
+added_wall_sensor,continuous_joint95_box,qualified,2.4609375,qualified,3.5078125,qualified,3.5078125,

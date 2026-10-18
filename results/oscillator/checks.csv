@@ -1,0 +1,246 @@
+name,error,tolerance,passed
+analytical noiseless recovery,2.312964634635743e-16,2e-14,1
+analytical semigroup,1.1102230246251565e-16,1.0000000000000001e-15,1
+half-period design blind to initial velocity,7.1579589695825326e-17,1.0000000000000001e-15,1
+well-spaced information positive definite,0,0,1
+optimized discrete stationarity,1.0855052835308339e-10,1e-08,1
+one Newton correction for quadratic objective,0,0,1
+forward residual,1.3877787807814457e-17,4.9999999999999999e-13,1
+nodal Hessian symmetry,2.9760783933902628e-17,5.0000000000000002e-14,1
+Newton versus explicit rational theta map,1.9949319973733282e-15,2e-12,1
+theta mechanical energy balance,7.8062556418956319e-18,2e-14,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+optimized discrete stationarity,8.5358125390282295e-11,1e-08,1
+one Newton correction for quadratic objective,0,0,1
+forward residual,6.9388939039072284e-18,4.9999999999999999e-13,1
+nodal Hessian symmetry,2.4361068354131489e-16,5.0000000000000002e-14,1
+Newton versus explicit rational theta map,1.214306433183765e-15,2e-12,1
+theta mechanical energy balance,6.5052130349130266e-18,2e-14,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+optimized discrete stationarity,3.0363245444411823e-10,1e-08,1
+one Newton correction for quadratic objective,0,0,1
+forward residual,6.0715321659188248e-18,4.9999999999999999e-13,1
+nodal Hessian symmetry,6.1273832246640824e-17,5.0000000000000002e-14,1
+Newton versus explicit rational theta map,3.4694469519536142e-15,2e-12,1
+theta mechanical energy balance,7.3725747729014302e-18,2e-14,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+adjoint cost directional difference,1.2196778698125854e-08,1.9999999999999999e-06,1
+incremental adjoint directional difference,4.6436616685241461e-07,5.0000000000000004e-06,1
+tangent-adjoint duality,2.3874235921539366e-12,2.0000000000000001e-09,1
+optimized discrete stationarity,1.3499141027722828e-10,1e-08,1
+one Newton correction for quadratic objective,0,0,1
+forward residual,6.9388939039072284e-18,4.9999999999999999e-13,1
+nodal Hessian symmetry,3.0684547804128107e-16,5.0000000000000002e-14,1
+Newton versus explicit rational theta map,4.163336342344337e-15,2e-12,1
+theta mechanical energy balance,1.032702569292443e-17,2e-14,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+optimized discrete stationarity,9.9176169806541647e-10,1e-08,1
+one Newton correction for quadratic objective,0,0,1
+forward residual,6.8033686323465403e-18,4.9999999999999999e-13,1
+nodal Hessian symmetry,1.2278616023312077e-16,5.0000000000000002e-14,1
+Newton versus explicit rational theta map,2.1163626406917047e-14,2e-12,1
+theta mechanical energy balance,1.4348738126487848e-17,2e-14,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+optimized discrete stationarity,1.8344573644645172e-09,1e-08,1
+one Newton correction for quadratic objective,0,0,1
+forward residual,6.9117888495950908e-18,4.9999999999999999e-13,1
+nodal Hessian symmetry,5.832913265794797e-16,5.0000000000000002e-14,1
+Newton versus explicit rational theta map,7.4593109467002705e-14,2e-12,1
+theta mechanical energy balance,1.3912092642178256e-17,2e-14,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+temporal order state_q,3.7970079145521751e-05,0.059999999999999998,1
+temporal order state_v,1.9396515255953872e-05,0.059999999999999998,1
+temporal order tangent,0.00019684272467701547,0.059999999999999998,1
+temporal order nodal_adjoint,7.8115745888895916e-05,0.059999999999999998,1
+temporal order control_q,0.0003236585973189765,0.059999999999999998,1
+temporal order control_v,0.00012162582837937919,0.059999999999999998,1
+temporal order running_cost,8.427290510759633e-06,0.059999999999999998,1
+temporal order running_gradient,3.2907039755336598e-06,0.059999999999999998,1
+temporal order running_costate,6.8934100713402557e-05,0.059999999999999998,1
+temporal order running_hessian,0.00011498709163260123,0.059999999999999998,1
+temporal order nodal_cost,0.002864667931352427,0.059999999999999998,1
+temporal order nodal_gradient,0.00025806528852534427,0.059999999999999998,1
+temporal order nodal_hessian,0.00037850328640853803,0.059999999999999998,1
+optimized discrete stationarity,3.1941152900466166e-11,1e-08,1
+one Newton correction for quadratic objective,0,0,1
+forward residual,6.9388939039072284e-18,4.9999999999999999e-13,1
+nodal Hessian symmetry,9.1992657313619255e-17,5.0000000000000002e-14,1
+Newton versus explicit rational theta map,5.2041704279304213e-16,2e-12,1
+theta mechanical energy balance,6.9388939039072284e-18,2e-14,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+optimized discrete stationarity,3.475977374675049e-11,1e-08,1
+one Newton correction for quadratic objective,0,0,1
+forward residual,7.2641545556528797e-18,4.9999999999999999e-13,1
+nodal Hessian symmetry,1.9679562641282704e-16,5.0000000000000002e-14,1
+Newton versus explicit rational theta map,1.3877787807814457e-15,2e-12,1
+theta mechanical energy balance,9.8662397696180903e-18,2e-14,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+optimized discrete stationarity,2.7963387557608207e-10,1e-08,1
+one Newton correction for quadratic objective,0,0,1
+forward residual,7.3725747729014302e-18,4.9999999999999999e-13,1
+nodal Hessian symmetry,1.0548914773936159e-16,5.0000000000000002e-14,1
+Newton versus explicit rational theta map,6.591949208711867e-15,2e-12,1
+theta mechanical energy balance,8.6058547441036914e-18,2e-14,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+optimized discrete stationarity,5.6888766399069461e-10,1e-08,1
+one Newton correction for quadratic objective,0,0,1
+forward residual,6.579751934271405e-18,4.9999999999999999e-13,1
+nodal Hessian symmetry,2.635757035940433e-16,5.0000000000000002e-14,1
+Newton versus explicit rational theta map,1.3704315460216776e-14,2e-12,1
+theta mechanical energy balance,1.0909784360635388e-17,2e-14,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+optimized discrete stationarity,7.1554090869825534e-10,1e-08,1
+one Newton correction for quadratic objective,0,0,1
+forward residual,6.8304736866586779e-18,4.9999999999999999e-13,1
+nodal Hessian symmetry,5.0920285704723737e-16,5.0000000000000002e-14,1
+Newton versus explicit rational theta map,1.7780915628762273e-14,2e-12,1
+theta mechanical energy balance,1.3008732003931545e-17,2e-14,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+optimized discrete stationarity,1.4379724947487999e-10,1e-08,1
+one Newton correction for quadratic objective,0,0,1
+forward residual,6.8948481906500048e-18,4.9999999999999999e-13,1
+nodal Hessian symmetry,1.813249346515368e-15,5.0000000000000002e-14,1
+Newton versus explicit rational theta map,1.474514954580286e-14,2e-12,1
+theta mechanical energy balance,1.665774994070307e-17,2e-14,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+temporal order state_q,0.018952802235146504,0.20000000000000001,1
+temporal order state_v,0.016436407913571371,0.20000000000000001,1
+temporal order tangent,0.018820093718195374,0.20000000000000001,1
+temporal order nodal_adjoint,0.02340870061717315,0.20000000000000001,1
+temporal order control_q,0.056235869127117866,0.20000000000000001,1
+temporal order control_v,0.027038600088869824,0.20000000000000001,1
+temporal order running_cost,0.02836658143385995,0.20000000000000001,1
+temporal order running_gradient,0.028598298586917648,0.20000000000000001,1
+temporal order running_costate,0.028598298586917648,0.20000000000000001,1
+temporal order running_hessian,0.028415113639502665,0.20000000000000001,1
+temporal order nodal_cost,0.0038156765684782545,0.20000000000000001,1
+temporal order nodal_gradient,0.0302623946761027,0.20000000000000001,1
+temporal order nodal_hessian,0.025864673306087327,0.20000000000000001,1
+bounded_primary: analytical set contains synthetic truth,0,0,1
+bounded_primary: numerical set contains synthetic truth,0,0,1
+bounded_primary: corrected numerical set contains analytical vertex,0,0,1
+bounded_primary: corrected numerical set contains analytical vertex,0,0,1
+bounded_primary: corrected numerical set contains analytical vertex,0,0,1
+bounded_primary: corrected numerical set contains analytical vertex,0,0,1
+bounded_primary: corrected numerical set contains analytical vertex,0,0,1
+bounded_primary: uniform reconstruction allowance versus exact solution,0,2.0000000000000001e-13,1
+bounded_primary: goal pullback information equals incremental adjoint,3.6764299347984482e-16,2.0000000000000001e-13,1
+bounded_primary: goal adjoints equal analytical discrete tangents,7.9936057773011271e-15,1.9999999999999999e-11,1
+bounded_primary: prior box support encloses polygon projections,0,2e-12,1
+bounded_primary: whole-interval envelopes enclose analytical physical-set probes,0,2e-12,1
+bounded_primary expected joint engineering decision,0,0,1
+bounded_primary analytical persistent-time suffix,0.86622978366143744,1.000000000002,1
+bounded_primary analytical persistent-time suffix,0.78980879489509093,1.000000000002,1
+bounded_primary analytical persistent-time suffix,0.81973479631078061,1.000000000002,1
+bounded_refined: analytical set contains synthetic truth,0,0,1
+bounded_refined: numerical set contains synthetic truth,0,0,1
+bounded_refined: corrected numerical set contains analytical vertex,0,0,1
+bounded_refined: corrected numerical set contains analytical vertex,0,0,1
+bounded_refined: corrected numerical set contains analytical vertex,0,0,1
+bounded_refined: corrected numerical set contains analytical vertex,0,0,1
+bounded_refined: corrected numerical set contains analytical vertex,0,0,1
+bounded_refined: uniform reconstruction allowance versus exact solution,0,2.0000000000000001e-13,1
+bounded_refined: goal pullback information equals incremental adjoint,3.0699543504183051e-15,2.0000000000000001e-13,1
+bounded_refined: goal adjoints equal analytical discrete tangents,5.6843418860808015e-14,1.9999999999999999e-11,1
+bounded_refined: prior box support encloses polygon projections,0,2e-12,1
+bounded_refined: qualified suffix covers every whole interval,0.89414973915721063,1,1
+bounded_refined: qualified suffix covers every whole interval,0.81828811634726983,1,1
+bounded_refined: qualified suffix covers every whole interval,0.84815362367228664,1,1
+bounded_refined: whole-interval envelopes enclose analytical physical-set probes,0,2e-12,1
+bounded_refined expected joint engineering decision,0,0,1
+refined bounded-data qualification begins at elapsed zero,0,0,1
+bounded_refined analytical persistent-time suffix,0.86622978366143744,1.000000000002,1
+bounded_refined analytical persistent-time suffix,0.78980879489509093,1.000000000002,1
+bounded_refined analytical persistent-time suffix,0.81973479631078061,1.000000000002,1
+bounded_first_order: analytical set contains synthetic truth,0,0,1
+bounded_first_order: numerical set contains synthetic truth,0,0,1
+bounded_first_order: corrected numerical set contains analytical vertex,0,0,1
+bounded_first_order: corrected numerical set contains analytical vertex,0,0,1
+bounded_first_order: corrected numerical set contains analytical vertex,0,0,1
+bounded_first_order: corrected numerical set contains analytical vertex,0,0,1
+bounded_first_order: corrected numerical set contains analytical vertex,0,0,1
+bounded_first_order: uniform reconstruction allowance versus exact solution,0,2.0000000000000001e-13,1
+bounded_first_order: goal pullback information equals incremental adjoint,3.5163049246453875e-16,2.0000000000000001e-13,1
+bounded_first_order: goal adjoints equal analytical discrete tangents,9.7699626167013776e-15,1.9999999999999999e-11,1
+bounded_first_order: prior box support encloses polygon projections,0,2e-12,1
+bounded_first_order: whole-interval envelopes enclose analytical physical-set probes,0,2e-12,1
+bounded_first_order expected joint engineering decision,0,0,1
+bounded_first_order analytical persistent-time suffix,0.86622978366143744,1.000000000002,1
+bounded_first_order analytical persistent-time suffix,0.78980879489509093,1.000000000002,1
+bounded_first_order analytical persistent-time suffix,0.81973479631078061,1.000000000002,1
+bounded_first_order_refined: analytical set contains synthetic truth,0,0,1
+bounded_first_order_refined: numerical set contains synthetic truth,0,0,1
+bounded_first_order_refined: corrected numerical set contains analytical vertex,0,0,1
+bounded_first_order_refined: corrected numerical set contains analytical vertex,0,0,1
+bounded_first_order_refined: corrected numerical set contains analytical vertex,0,0,1
+bounded_first_order_refined: corrected numerical set contains analytical vertex,0,0,1
+bounded_first_order_refined: corrected numerical set contains analytical vertex,0,0,1
+bounded_first_order_refined: uniform reconstruction allowance versus exact solution,0,2.0000000000000001e-13,1
+bounded_first_order_refined: goal pullback information equals incremental adjoint,1.1254651116302282e-15,2.0000000000000001e-13,1
+bounded_first_order_refined: goal adjoints equal analytical discrete tangents,2.3092638912203256e-14,1.9999999999999999e-11,1
+bounded_first_order_refined: prior box support encloses polygon projections,0,2e-12,1
+bounded_first_order_refined: whole-interval envelopes enclose analytical physical-set probes,0,2e-12,1
+bounded_first_order_refined expected joint engineering decision,0,0,1
+bounded_first_order_refined analytical persistent-time suffix,0.86622978366143744,1.000000000002,1
+bounded_first_order_refined analytical persistent-time suffix,0.78980879489509093,1.000000000002,1
+bounded_first_order_refined analytical persistent-time suffix,0.81973479631078061,1.000000000002,1
+bounded_first_order_4096: analytical set contains synthetic truth,0,0,1
+bounded_first_order_4096: numerical set contains synthetic truth,0,0,1
+bounded_first_order_4096: corrected numerical set contains analytical vertex,0,0,1
+bounded_first_order_4096: corrected numerical set contains analytical vertex,0,0,1
+bounded_first_order_4096: corrected numerical set contains analytical vertex,0,0,1
+bounded_first_order_4096: corrected numerical set contains analytical vertex,0,0,1
+bounded_first_order_4096: corrected numerical set contains analytical vertex,0,0,1
+bounded_first_order_4096: uniform reconstruction allowance versus exact solution,0,2.0000000000000001e-13,1
+bounded_first_order_4096: goal pullback information equals incremental adjoint,2.097195957452037e-15,2.0000000000000001e-13,1
+bounded_first_order_4096: goal adjoints equal analytical discrete tangents,6.7501559897209518e-14,1.9999999999999999e-11,1
+bounded_first_order_4096: prior box support encloses polygon projections,0,2e-12,1
+bounded_first_order_4096: qualified suffix covers every whole interval,0.99979315798543167,1,1
+bounded_first_order_4096: qualified suffix covers every whole interval,0.99993793924817198,1,1
+bounded_first_order_4096: whole-interval envelopes enclose analytical physical-set probes,0,2e-12,1
+bounded_first_order_4096 expected joint engineering decision,0,0,1
+bounded_first_order_4096 analytical persistent-time suffix,0.86622978366143744,1.000000000002,1
+bounded_first_order_4096 analytical persistent-time suffix,0.78980879489509093,1.000000000002,1
+bounded_first_order_4096 analytical persistent-time suffix,0.81973479631078061,1.000000000002,1
+bounded_first_order_8192: analytical set contains synthetic truth,0,0,1
+bounded_first_order_8192: numerical set contains synthetic truth,0,0,1
+bounded_first_order_8192: corrected numerical set contains analytical vertex,0,0,1
+bounded_first_order_8192: corrected numerical set contains analytical vertex,0,0,1
+bounded_first_order_8192: corrected numerical set contains analytical vertex,0,0,1
+bounded_first_order_8192: corrected numerical set contains analytical vertex,0,0,1
+bounded_first_order_8192: corrected numerical set contains analytical vertex,0,0,1
+bounded_first_order_8192: uniform reconstruction allowance versus exact solution,0,2.0000000000000001e-13,1
+bounded_first_order_8192: goal pullback information equals incremental adjoint,1.6616247068572312e-14,2.0000000000000001e-13,1
+bounded_first_order_8192: goal adjoints equal analytical discrete tangents,1.092459456231154e-13,1.9999999999999999e-11,1
+bounded_first_order_8192: prior box support encloses polygon projections,0,2e-12,1
+bounded_first_order_8192: qualified suffix covers every whole interval,0.99922209189578537,1,1
+bounded_first_order_8192: qualified suffix covers every whole interval,0.99978544810962733,1,1
+bounded_first_order_8192: qualified suffix covers every whole interval,0.99954592377643081,1,1
+bounded_first_order_8192: whole-interval envelopes enclose analytical physical-set probes,0,2e-12,1
+bounded_first_order_8192 expected joint engineering decision,0,0,1
+bounded_first_order_8192 analytical persistent-time suffix,0.86622978366143744,1.000000000002,1
+bounded_first_order_8192 analytical persistent-time suffix,0.78980879489509093,1.000000000002,1
+bounded_first_order_8192 analytical persistent-time suffix,0.81973479631078061,1.000000000002,1
+joint95_refined: analytical set contains synthetic truth,0,0,1
+joint95_refined: numerical set contains synthetic truth,0,0,1
+joint95_refined: corrected numerical set contains analytical vertex,0,0,1
+joint95_refined: corrected numerical set contains analytical vertex,0,0,1
+joint95_refined: corrected numerical set contains analytical vertex,0,0,1
+joint95_refined: corrected numerical set contains analytical vertex,0,0,1
+joint95_refined: corrected numerical set contains analytical vertex,0,0,1
+joint95_refined: corrected numerical set contains analytical vertex,0,0,1
+joint95_refined: corrected numerical set contains analytical vertex,0,0,1
+joint95_refined: uniform reconstruction allowance versus exact solution,0,2.0000000000000001e-13,1
+joint95_refined: goal pullback information equals incremental adjoint,3.0699543504183051e-15,2.0000000000000001e-13,1
+joint95_refined: goal adjoints equal analytical discrete tangents,5.6843418860808015e-14,1.9999999999999999e-11,1
+joint95_refined: prior box support encloses polygon projections,0,2e-12,1
+joint95_refined: qualified suffix covers every whole interval,0.99967413442997832,1,1
+joint95_refined: qualified suffix covers every whole interval,0.99356633320000731,1,1
+joint95_refined: qualified suffix covers every whole interval,0.99342631551382121,1,1
+joint95_refined: whole-interval envelopes enclose analytical physical-set probes,0,2e-12,1
+joint95_refined expected joint engineering decision,0,0,1
+oscillatory first crossing is not persistent qualification,0,0,1
+joint95_refined analytical persistent-time suffix,0.99999999999999956,1.000000000002,1
+joint95_refined analytical persistent-time suffix,0.99999999999999956,1.000000000002,1
+joint95_refined analytical persistent-time suffix,0.99999999999999944,1.000000000002,1
+midpoint reconstruction allowance improves quadratically,7.6286319785623391e-06,0.080000000000000002,1

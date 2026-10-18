@@ -27,7 +27,7 @@ $$
 w_n=h_{n-1}\theta_{n-1}+h_n(1-\theta_n),\quad 0<n<K.
 $$
 
-Thus $J_h=\sum_n w_n c_n+\Phi+\mathcal R$. This matters on nonuniform grids: an interior weight is generally not just one interval length.
+Thus $J_h=\sum_n w_n c_n+\Phi+\mathcal R$. This matters on nonuniform grids: an interior weight is generally not just one interval length. With isolated observations, add explicit costs $\sum_j\ell_j(t_{n_j},\mathbf x_{n_j},\boldsymbol\xi)$, without multiplying them by $w_{n_j}$. Their state gradients add to $\mathbf q_{n_j}$, their direct control gradients add to the reduced gradient, and their directional gradient derivatives add to the incremental adjoint. The same derivation otherwise applies. Pure sampled-data assimilation has zero running cost; theta-consistent quadrature remains available for genuine running terms and is tested in the separate running-cost example.
 
 For implementation, write the same update as $\mathbf R_n=\mathbf x_{n+1}-\mathbf x_n-h_n[(1-\theta_n)\mathbf f_n+\theta_n\mathbf f_{n+1}]=0$. Its derivative blocks are $\partial_{\mathbf x_{n+1}}\mathbf R_n=\mathbf B_n$ and $\partial_{\mathbf x_n}\mathbf R_n=-\mathbf C_n$, with
 

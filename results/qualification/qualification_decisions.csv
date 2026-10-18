@@ -1,0 +1,3 @@
+case,role,concentration_status,concentration_elapsed_min,exposure_status,exposure_elapsed_min,all_goals_status,all_goals_elapsed_min,blocking_goals
+baseline,physical_continuous,qualified,5,not_qualified,,not_qualified,,exposure
+added_exposure,physical_continuous,qualified,0,qualified,0,qualified,0,

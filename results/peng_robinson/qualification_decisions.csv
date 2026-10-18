@@ -1,0 +1,4 @@
+case,joint_qualified,blocking_goals
+one_density,0,methane+ethane+nitrogen
+four_densities,0,ethane+nitrogen
+four_precise_densities,1,none

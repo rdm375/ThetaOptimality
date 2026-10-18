@@ -1,0 +1,91 @@
+name,error,tolerance,passed
+primary optimized adjoint stationarity,7.4598422057647884e-13,1e-08,1
+primary one quadratic Newton update,0,0,1
+primary information action equals Hessian,0,1e-10,1
+primary information action equals Hessian,0,1e-10,1
+primary information symmetry,1.0658141036401503e-14,1e-10,1
+primary exact confidence polygon contains truth,0,0,1
+primary numerical polygon contains analytical vertex,0,0,1
+primary numerical polygon contains analytical vertex,0,0,1
+primary numerical polygon contains analytical vertex,0,0,1
+primary numerical polygon contains analytical vertex,0,0,1
+primary numerical polygon contains analytical vertex,0,0,1
+primary goal adjoints versus tangents,2.5579538487363607e-13,2.0000000000000001e-10,1
+primary conservative theta thermal-energy balance,5.2580162446247414e-13,2.0000000000000001e-09,1
+primary computable defect bound versus analytical corners,0,2.0000000000000001e-10,1
+primary whole-step physical envelope covers truth,0,2e-08,1
+refined optimized adjoint stationarity,4.8116783994689438e-13,1e-08,1
+refined one quadratic Newton update,0,0,1
+refined information action equals Hessian,0,1e-10,1
+refined information action equals Hessian,0,1e-10,1
+refined information symmetry,3.5527136788005009e-14,1e-10,1
+refined exact confidence polygon contains truth,0,0,1
+refined numerical polygon contains analytical vertex,0,0,1
+refined numerical polygon contains analytical vertex,0,0,1
+refined numerical polygon contains analytical vertex,0,0,1
+refined numerical polygon contains analytical vertex,0,0,1
+refined numerical polygon contains analytical vertex,0,0,1
+refined goal adjoints versus tangents,1.4210854715202004e-13,2.0000000000000001e-10,1
+refined conservative theta thermal-energy balance,5.3290705182007514e-13,2.0000000000000001e-09,1
+refined computable defect bound versus analytical corners,0,2.0000000000000001e-10,1
+refined whole-step physical envelope covers truth,0,2e-08,1
+wall sensor optimized adjoint stationarity,4.1534965571077276e-12,1e-08,1
+wall sensor one quadratic Newton update,0,0,1
+wall sensor information action equals Hessian,0,1e-10,1
+wall sensor information action equals Hessian,0,1e-10,1
+wall sensor information symmetry,1.4921397450962104e-13,1e-10,1
+wall sensor exact confidence polygon contains truth,0,0,1
+wall sensor numerical polygon contains analytical vertex,0,0,1
+wall sensor numerical polygon contains analytical vertex,0,0,1
+wall sensor numerical polygon contains analytical vertex,0,0,1
+wall sensor numerical polygon contains analytical vertex,0,0,1
+wall sensor goal adjoints versus tangents,1.4210854715202004e-13,2.0000000000000001e-10,1
+wall sensor conservative theta thermal-energy balance,5.2446935683292395e-13,2.0000000000000001e-09,1
+wall sensor computable defect bound versus analytical corners,0,2.0000000000000001e-10,1
+wall sensor whole-step physical envelope covers truth,0,2e-08,1
+refined thermal case qualifies both goals,0,0,1
+wall observation qualifies both goals,0,0,1
+wall observation advances joint qualification,0,0,1
+library theta equals original conservative mass step,8.1712414612411521e-14,1.9999999999999999e-11,1
+wall covariance update versus new information solve,9.3675067702747583e-17,2e-12,1
+reference initial fit fluid matches retained benchmark,3.1802471767150564e-09,9.9999999999999995e-08,1
+reference initial fit wall matches retained benchmark,3.0739695233705788e-09,9.9999999999999995e-08,1
+two-control adjoint objective finite difference,6.8399970132304588e-09,1.9999999999999999e-06,1
+two-control incremental adjoint finite difference,2.0066082129233109e-09,1.9999999999999999e-06,1
+nodal thermal cost matches library cost API,0,1e-10,1
+refined thermal inverse stationarity,4.489741911584133e-13,1e-08,1
+refined thermal inverse stationarity,1.20570220474292e-13,1e-08,1
+refined thermal inverse stationarity,2.304822999121825e-13,1e-08,1
+refined thermal inverse stationarity,2.4985569169189148e-13,1e-08,1
+thermal theta running quadrature,0,9.9999999999999998e-13,1
+thermal running adjoint gradient FD,6.123967999371871e-11,1.9999999999999999e-07,1
+thermal running Hessian FD,8.8318241608931203e-12,1.9999999999999999e-07,1
+refined thermal inverse stationarity,4.3010039973978564e-13,1e-08,1
+refined thermal inverse stationarity,3.1707969583294471e-13,1e-08,1
+refined thermal inverse stationarity,6.6627129161056509e-13,1e-08,1
+refined thermal inverse stationarity,4.1058389327330858e-13,1e-08,1
+thermal temporal order,1.4820863014186614e-05,0.14999999999999999,1
+thermal temporal order,1.8255020844737402e-05,0.14999999999999999,1
+thermal temporal order,9.2454418529896998e-06,0.14999999999999999,1
+thermal temporal order,3.189906482514715e-06,0.14999999999999999,1
+thermal temporal order,8.2584218277226284e-06,0.14999999999999999,1
+thermal temporal order,6.9353756382284359e-07,0.14999999999999999,1
+thermal temporal order,3.5818804182685682e-06,0.14999999999999999,1
+refined thermal inverse stationarity,1.7497114868092467e-13,1e-08,1
+refined thermal inverse stationarity,1.9406698470447736e-13,1e-08,1
+refined thermal inverse stationarity,4.276579090856103e-13,1e-08,1
+refined thermal inverse stationarity,4.0073500073845025e-13,1e-08,1
+thermal theta running quadrature,0,9.9999999999999998e-13,1
+thermal running adjoint gradient FD,1.0603262712294281e-10,1.9999999999999999e-07,1
+thermal running Hessian FD,3.3262087528740381e-11,1.9999999999999999e-07,1
+refined thermal inverse stationarity,7.4598422057647884e-13,1e-08,1
+refined thermal inverse stationarity,9.0094598448331453e-14,1e-08,1
+refined thermal inverse stationarity,1.7477859437509125e-12,1e-08,1
+refined thermal inverse stationarity,1.2567402630711544e-12,1e-08,1
+thermal temporal order,0.0078244200159776067,0.14999999999999999,1
+thermal temporal order,0.0084862189370552565,0.14999999999999999,1
+thermal temporal order,0.0076112513697706996,0.14999999999999999,1
+thermal temporal order,0.0034844335897407097,0.14999999999999999,1
+thermal temporal order,0.0092099596059336264,0.14999999999999999,1
+thermal temporal order,0.021123796548699891,0.14999999999999999,1
+thermal temporal order,0.023061957573671243,0.14999999999999999,1

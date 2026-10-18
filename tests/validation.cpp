@@ -2,6 +2,7 @@
 #include <iomanip>
 #include <iostream>
 #include <string>
+#include <theta_opt/qualification.hpp>
 
 using namespace theta_opt;
 int checks=0;
@@ -76,6 +77,37 @@ int main(){try{
     rejects([&]{sys.tangent(xi,Trajectory<2>{},d);},"wrong trajectory size");
     rejects([]{System<2,1> s0(decay::problem(),Grid::uniform(0.,1.,2,.5),NewtonOptions{-1.,0.,20,20});},"invalid Newton options");
     rejects([]{System<2,1> s0(decay::problem(),Grid::uniform(0.,1.,2,.5));s0.forward({-1.});},"inadmissible initial state");
+
+    // Mixed running and unweighted nodal costs, including duplicate endpoints
+    // and direct state/control cross derivatives.
+    auto nodal_problem=cp;auto nodal_cost=ScalarFunction<2,2>::zero();
+    nodal_cost.evaluate=[](double,const Vec<2>& x,const Vec<2>& p){double r=x[0]-p[1];return ScalarValue<2,2>{.5*r*r,{r,0.},{0.,-r}};};
+    nodal_cost.directional_gradient=[](double,const Vec<2>&,const Vec<2>&,const Vec<2>& s,const Vec<2>& d){double dr=s[0]-d[1];return ScalarDirection<2,2>{{dr,0.},{0.,-dr}};};
+    for(auto node:{0U,2U,4U,4U})nodal_problem.nodal.emplace_back(node,nodal_cost);
+    System<2,2> nodal(nodal_problem,variable);auto ne=nodal.evaluate(xi),np=nodal.evaluate(xi+eps*d),nm=nodal.evaluate(xi-eps*d);
+    double addition=0.;for(auto node:{0U,2U,4U,4U})addition+=nodal_cost.evaluate(variable.time[node],e.trajectory.state[node],xi).value;
+    close(ne.cost,e.cost+addition,2e-14,"nodal observations have no quadrature weights");
+    close(nodal.cost(xi,ne.trajectory),ne.cost,2e-14,"mixed cost API");
+    close(dot(ne.gradient,d),(np.cost-nm.cost)/(2*eps),3e-8,"nodal direct-control gradient FD");
+    close(norm(nodal.hessian_vector(xi,d)-(.5/eps)*(np.gradient-nm.gradient)),0.,2e-7,"nodal mixed incremental adjoint FD");
+    auto goal=sys.goal_gradient(xi,e.trajectory,4,{1.,0.});
+    close(dot(goal,d),s.back()[0],2e-12,"goal adjoint versus tangent with direct controls");
+    close(dot(goal,d),(plus.trajectory.state.back()[0]-minus.trajectory.state.back()[0])/(2*eps),2e-8,"goal adjoint versus FD");
+    rejects([&]{sys.goal_gradient(xi,e.trajectory,5,{1.,0.});},"goal node bounds");
+    close(local_goal_variance(Vec<2>{1.,2.},Mat<2,2>{{{2.,.5},{.5,3.}}}),16.,1e-14,"correlated local goal variance");
+    close(box_support(Vec<2>{-2.,3.},Vec<2>{.1,.2}),.8,1e-14,"box support");
+    auto tq=persistent_node_qualification({0.,1.,2.,3.},{.5,1.2,.9,.8});
+    check(tq&&*tq==2.,"persistent qualification ignores early temporary crossing");
+    check(!persistent_node_qualification({0.,1.},{.5,1.1}),"unqualified at horizon");
+    rejects([]{persistent_node_qualification({0.,1.},{.5,std::nan("")});},"invalid qualification ratios");
+    double gaussian_radius=independent_gaussian_box_radius(.03,9,.95);
+    close(std::pow(std::erf(gaussian_radius/(.03*std::sqrt(2.))),9),.95,1e-13,"joint Gaussian noise-box probability");
+    rejects([]{independent_gaussian_box_radius(.03,0,.95);},"Gaussian measurement count");
+    auto joint_time=all_goals_qualification_time<2>({.5,2.});
+    check(joint_time&&*joint_time==2.,"all goals qualify from latest persistent time");
+    check(!all_goals_qualification_time<2>({.5,std::nullopt}),"one unqualified goal blocks joint qualification");
+    auto initially_qualified=all_goals_qualification_time<2>({0.,0.});
+    check(initially_qualified&&*initially_qualified==0.,"zero qualification time is a qualified result");
 
     // End-to-end decay: compare all quantities at a fixed nonstationary input.
     double analytical_min=decay::root([](double v){return decay::reference(v)[1];});

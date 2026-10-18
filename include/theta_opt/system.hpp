@@ -56,6 +56,8 @@ template<std::size_t N,std::size_t P> struct Problem {
     Dynamics<N,P> dynamics;InitialCondition<N,P> initial;
     ScalarFunction<N,P> running=ScalarFunction<N,P>::zero(),terminal=ScalarFunction<N,P>::zero();
     Penalty<P> penalty=Penalty<P>::zero();
+    // Isolated measurements are nodal costs, not running-cost densities.
+    std::vector<std::pair<std::size_t,ScalarFunction<N,P>>> nodal;
 };
 template<std::size_t N> struct Trajectory {std::vector<Vec<N>> state;double max_residual{};std::size_t newton_updates{};};
 template<std::size_t N,std::size_t P> struct Evaluation {
@@ -81,6 +83,8 @@ public:
         if(!problem_.dynamics.value||!problem_.dynamics.derivatives||!problem_.dynamics.admissible||!problem_.initial.value||!problem_.initial.jacobian||
            !problem_.running.evaluate||!problem_.terminal.evaluate||!problem_.penalty.value||!problem_.penalty.gradient)throw std::invalid_argument("Missing first-order callback");
         if(!std::isfinite(options_.absolute_tolerance)||!std::isfinite(options_.relative_tolerance)||options_.absolute_tolerance<=0||options_.relative_tolerance<0||!options_.max_iterations||!options_.max_backtracks)throw std::invalid_argument("Newton options");
+        for(const auto& [node,cost]:problem_.nodal)
+            if(node>=grid_.time.size()||!cost.evaluate)throw std::invalid_argument("Invalid nodal cost");
     }
     const Grid& grid() const{return grid_;}
     Trajectory<N> forward(const Vec<P>& p) const{
@@ -121,6 +125,7 @@ public:
         auto w=grid_.weights();double value=problem_.penalty.value(p);
         for(std::size_t n=0;n<x.size();++n)value+=w[n]*problem_.running.evaluate(grid_.time[n],x[n],p).value;
         value+=problem_.terminal.evaluate(grid_.time.back(),x.back(),p).value;
+        for(const auto& [node,cost]:problem_.nodal)value+=cost.evaluate(grid_.time[node],x[node],p).value;
         if(!std::isfinite(value))throw std::runtime_error("Nonfinite cost");
         return value;
     }
@@ -131,12 +136,33 @@ public:
         e.nodal_adjoint.resize(x.size());e.step_multiplier.resize(grid_.steps());e.cost=problem_.penalty.value(p);e.gradient=problem_.penalty.gradient(p);
         for(std::size_t n=0;n<x.size();++n){auto c=problem_.running.evaluate(grid_.time[n],x[n],p);e.cost+=w[n]*c.value;e.nodal_adjoint[n]=w[n]*c.x;e.gradient=e.gradient+w[n]*c.control;}
         auto phi=problem_.terminal.evaluate(grid_.time.back(),x.back(),p);e.cost+=phi.value;e.nodal_adjoint.back()=e.nodal_adjoint.back()+phi.x;e.gradient=e.gradient+phi.control;
+        for(const auto& [node,cost]:problem_.nodal){auto v=cost.evaluate(grid_.time[node],x[node],p);e.cost+=v.value;e.nodal_adjoint[node]=e.nodal_adjoint[node]+v.x;e.gradient=e.gradient+v.control;}
         for(std::size_t n=grid_.steps();n-->0;){auto [bn,cn]=blocks(n,x,p);auto z=LU<N>(transpose(bn)).solve(e.nodal_adjoint[n+1]);e.step_multiplier[n]=z;
             e.nodal_adjoint[n]=e.nodal_adjoint[n]+mv(transpose(cn),z);e.gradient=e.gradient+mv(transpose(forcing(n,x,p)),z);
         }
         e.gradient=e.gradient+mv(transpose(problem_.initial.jacobian(p)),e.nodal_adjoint[0]);
         if(!std::isfinite(e.cost))throw std::runtime_error("Nonfinite cost");
         (void)norm(e.gradient);return e;
+    }
+    // Pull back arbitrary nodal state sources through the SAME discrete model.
+    // Useful for goal gradients and J^T R^-1 J information actions.
+    Vec<P> state_pullback(const Vec<P>& p,const Trajectory<N>& trajectory,
+                          std::vector<Vec<N>> sources) const{
+        const auto& x=trajectory.state;
+        if(x.size()!=grid_.time.size()||sources.size()!=x.size())throw std::invalid_argument("Pullback size");
+        Vec<P> gradient{};
+        for(std::size_t n=grid_.steps();n-->0;){auto [bn,cn]=blocks(n,x,p);
+            auto z=LU<N>(transpose(bn)).solve(sources[n+1]);
+            sources[n]=sources[n]+mv(transpose(cn),z);
+            gradient=gradient+mv(transpose(forcing(n,x,p)),z);
+        }
+        return gradient+mv(transpose(problem_.initial.jacobian(p)),sources[0]);
+    }
+    Vec<P> goal_gradient(const Vec<P>& p,const Trajectory<N>& trajectory,
+                         std::size_t node,const Vec<N>& state_gradient) const{
+        if(node>=grid_.time.size())throw std::invalid_argument("Goal node");
+        std::vector<Vec<N>> sources(grid_.time.size());sources[node]=state_gradient;
+        return state_pullback(p,trajectory,std::move(sources));
     }
     // Converts the paper's nodal adjoint to the remaining-cost convention.
     // Only the fixed-grid running-cost endpoint term is removed.
@@ -151,6 +177,11 @@ public:
         std::vector<Vec<N>> dl(x.size());auto hv=problem_.penalty.hessian_vector(p,direction);
         for(std::size_t n=0;n<x.size();++n){auto dc=problem_.running.directional_gradient(grid_.time[n],x[n],p,s[n],direction);dl[n]=w[n]*dc.x;hv=hv+w[n]*dc.control;}
         auto dp=problem_.terminal.directional_gradient(grid_.time.back(),x.back(),p,s.back(),direction);dl.back()=dl.back()+dp.x;hv=hv+dp.control;
+        for(const auto& [node,cost]:problem_.nodal){
+            if(!cost.directional_gradient)throw std::invalid_argument("Nodal cost requires second-order callback");
+            auto dc=cost.directional_gradient(grid_.time[node],x[node],p,s[node],direction);
+            dl[node]=dl[node]+dc.x;hv=hv+dc.control;
+        }
         for(std::size_t n=grid_.steps();n-->0;){double h=grid_.time[n+1]-grid_.time[n],th=grid_.theta[n];auto [bn,cn]=blocks(n,x,p);
             auto old=problem_.dynamics.directional_derivatives(grid_.time[n],x[n],p,s[n],direction),next=problem_.dynamics.directional_derivatives(grid_.time[n+1],x[n+1],p,s[n+1],direction);
             auto db=scaled(-h*th,next.x),dc=scaled(h*(1-th),old.x);

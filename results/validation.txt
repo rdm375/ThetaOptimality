@@ -1,20 +1,74 @@
-ThetaOptimality 0.1.0 validation
+ThetaOptimality 0.6.2 validation
 
-Compiler: GCC 13.3.0
-Language: C++20
-Build: -O2 -Wall -Wextra -Wpedantic -Werror
-Result: 107 validation checks passed
+Compiler: GCC 13.3.0; C++20; -O2 -Wall -Wextra -Wpedantic -Werror
+Library suite: 124 checks passed
+Nonlinear decay qualification: 120 checks passed
+Two-temperature qualification: 90 checks passed
+Peng–Robinson inverse composition: 56 checks passed
+Hidden-state oscillator: 245 checks passed
+Total: 635 checks passed
 
-Sanitizers: AddressSanitizer + UndefinedBehaviorSanitizer
-Build: -O1 -g -fsanitize=address,undefined -fno-omit-frame-pointer
-Run: ASAN_OPTIONS=detect_leaks=0
-Result: 107 validation checks passed; no reported address/undefined-behavior errors
-LeakSanitizer process inspection is unsupported in this execution environment and was disabled.
+The new two-temperature executable also passed AddressSanitizer and UndefinedBehaviorSanitizer:
+-O1 -g -fsanitize=address,undefined -fno-omit-frame-pointer
+ASAN_OPTIONS=detect_leaks=0 (leak inspection unavailable in this environment).
+Earlier library and decay numerical paths passed the same sanitizer configuration.
 
-Example: six grids for each of theta=0.5 and 0.65
-Analytical-objective minimizer: 2.94636705953319
-All seven tested quantities show approximately second order at theta=0.5.
-Full measured orders: orders.json and convergence.csv
+Thermal port reproduces retained Python fit, covariance and analytical ellipse qualification times.
+Conservative constant-mass theta steps and discrete energy balance verified independently.
+Seven thermal quantities show second-order convergence for theta=0.5.
+Final physical thermal decisions use 95% Gaussian noise boxes, known initial-temperature
+domain [0,60] C squared, and computable whole-step discretization allowances.
+Both reconstructed thermal goals qualify on the refined grid and earlier with the wall sensor.
+All numerical inference and qualification is C++20. Python only draws figures.
 
-Make and direct compiler builds: tested
-CMake configuration and installation: supplied but not tested (CMake unavailable)
+Make integration tested. CMake integration supplied, not executed (CMake unavailable).
+
+The gas executable passed the same AddressSanitizer/UndefinedBehaviorSanitizer configuration.
+Pinned ThermoGPU revision: 5a1a4174231a389b1724571eb646d48bfddb98e7.
+Gas checks include noiseless truth recovery, nearby multistart agreement, analytic
+composition sensitivities, library adjoint/HVP checks away from stationarity,
+thermodynamic consistency, and bounded nonlinear qualification enclosures.
+Static gas composition carries exactly: no temporal convergence is claimed.
+One density and baseline four densities do not jointly qualify to 0.01;
+four improved-precision densities do qualify under the stated domain/EOS assumptions.
+
+Oscillator: known m=10 kg, c=4 N s/m, k=40.4 N/m; initial displacement
+and hidden initial velocity reconstructed from displacement samples only.
+245 checks pass, including 13 analytical temporal-convergence comparisons for
+each of theta=0.5 and theta=0.65, plus independent discrete energy balance.
+Midpoint orders range 1.997135--2.000122; theta=0.65 orders range 0.971402--1.056236.
+Running quadrature/costate tests use a separate exactly integrable verification
+functional. No running verification signal is added to the reconstruction data.
+Oscillator numerical paths passed AddressSanitizer and UndefinedBehaviorSanitizer
+with ASAN_OPTIONS=detect_leaks=0. Core optimize.hpp is unchanged by this update.
+No oscillator engineering qualification decision is inferred from test success.
+
+Oscillator engineering qualification is now mandatory in make test.
+Goals: displacement 0.001 m, velocity 0.002 m/s, signed support force 0.04 N.
+Initial domain: |q0|<=0.08 m, |v0|<=0.30 m/s; known model parameters.
+Conservative numerical allowances use a quadratic reconstruction, transformed
+contractive norm, and uniform residual bounds over the entire prior domain.
+Observed midpoint numerical-allowance refinement order: 2.00000762863.
+Bounded data / midpoint N128: all three goals NOT QUALIFIED.
+Bounded data / midpoint N1024: all three goals QUALIFIED from elapsed 0 s.
+Bounded data / theta .65 N128: all three goals NOT QUALIFIED.
+Simultaneous 95% Gaussian noise box / midpoint N1024:
+  displacement from 4.8203125 s; velocity from 4.1484375 s;
+  support force from 4.765625 s; ALL GOALS from 4.8203125 s.
+Decisions cover whole intervals through elapsed 8 s and use all data retrospectively.
+Analytical uncertainty polygons, physical trajectories, and persistent crossings
+independently validate numerical outer sets and bounds. First-crossing rebound is tested.
+Ordinary floating-point conservative model analysis, not an interval-arithmetic certificate.
+The extended oscillator suite passes AddressSanitizer/UndefinedBehaviorSanitizer
+with leak inspection disabled as above. No shared library headers were modified.
+
+Added bounded-data theta=0.65, N=1024 qualification experiment.
+All three engineering goals remain NOT QUALIFIED under the computed error budget.
+The new case executes the same uncertainty-set, analytical-enclosure, goal-adjoint,
+whole-interval, and expected-verdict checks. The plotting script includes all seven cases.
+
+Theta=0.65 bounded-data refinement: N4096 remains jointly unqualified (displacement).
+At N8192, persistent displacement qualification begins at 3.3837890625 s,
+velocity at 4.029296875 s, and support force at 3.3037109375 s.
+ALL GOALS qualify from elapsed 4.029296875 s through 8 s.
+N8192 is the first fully qualifying grid of a doubling probe, not a minimal-N proof.

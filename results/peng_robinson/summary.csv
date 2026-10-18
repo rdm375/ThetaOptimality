@@ -1,0 +1,13 @@
+quantity,value
+fit_ethane,0.09959524148954553
+fit_nitrogen,0.051090509835159316
+fit_methane,0.84931424867529515
+cost,0.50591840899523255
+gradient_norm,1.1752661066566361e-09
+information_condition_number,141.2195134336325
+local_ethane_standard_deviation,0.0025693955182714626
+local_nitrogen_standard_deviation,0.0046549782039779098
+one_density_cells,8255
+four_densities_cells,1100
+four_precise_densities_cells,908
+checks_passed,56

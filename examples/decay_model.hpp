@@ -35,7 +35,7 @@ inline Problem<2,1> problem(){
     p.penalty.hessian_vector=[](const Vec<1>&,const Vec<1>& d){return beta*d;};return p;
 }
 template<class Function> double root(Function g,double lo=.1,double hi=6.){
-    double gl=g(lo),gh=g(hi);if(gl*gh>=0)throw std::runtime_error("Root not bracketed");
+    double gl=g(lo),gh=g(hi);if(gl==0)return lo;if(gh==0)return hi;if(gl*gh>0)throw std::runtime_error("Root not bracketed");
     for(int k=0;k<100;++k){double mid=.5*(lo+hi);if(mid==lo||mid==hi)return mid;double gm=g(mid);if(gm==0)return mid;if(gl*gm<=0)hi=mid;else{lo=mid;gl=gm;}}return .5*(lo+hi);
 }
 }
