@@ -1,0 +1,382 @@
+name,error,tolerance,passed
+analytical invariant mean,3.5527136788005009e-15,2e-14,1
+analytical common mode persists,0,1e-14,1
+noiseless absolute-datum recovery,3.5527136788005009e-15,2e-14,1
+analytical missing information rank,0,0,1
+analytical null direction,2.8421709430404007e-14,2.0000000000000001e-13,1
+added datum restores analytical rank,0,0,1
+discrete rank matches physical information,0,0,1
+projected optimum is stationary,2.7755575615628914e-14,1e-08,1
+discrete forward residual,1.8873791418627661e-15,2e-12,1
+discrete Hessian symmetry,0,2.0000000000000001e-10,1
+total heat invariant,1.4210854715202004e-14,2.0000000000000001e-10,1
+theta heat balance per step,1.4210854715202004e-14,2e-12,1
+neutral tangent preserved at every node,2.2204460492503131e-15,9.9999999999999998e-13,1
+forward versus independent modal theta recurrence,3.5527136788005009e-15,3e-11,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+measurement gradient annihilates common offset,8.5265128291212022e-14,1e-10,1
+incremental adjoint annihilates common offset,1.490710152240039e-13,1e-10,1
+optimizer preserves seed arithmetic mean,0,2e-12,1
+discrete rank matches physical information,0,0,1
+projected optimum is stationary,3.1286084833936911e-13,1e-08,1
+discrete forward residual,1.7763568394002505e-15,2e-12,1
+discrete Hessian symmetry,5.6843418860808015e-14,2.0000000000000001e-10,1
+total heat invariant,2.8421709430404007e-14,2.0000000000000001e-10,1
+theta heat balance per step,2.8421709430404007e-14,2e-12,1
+neutral tangent preserved at every node,0,9.9999999999999998e-13,1
+forward versus independent modal theta recurrence,7.1054273576010019e-15,3e-11,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+measurement gradient annihilates common offset,2.2737367544323206e-13,1e-10,1
+incremental adjoint annihilates common offset,0,1e-10,1
+optimizer preserves seed arithmetic mean,3.5527136788005009e-15,2e-12,1
+discrete rank matches physical information,0,0,1
+projected optimum is stationary,2.702282841937631e-13,1e-08,1
+discrete forward residual,1.7763568394002505e-15,2e-12,1
+discrete Hessian symmetry,8.5265128291212022e-14,2.0000000000000001e-10,1
+total heat invariant,5.6843418860808015e-14,2.0000000000000001e-10,1
+theta heat balance per step,2.8421709430404007e-14,2e-12,1
+neutral tangent preserved at every node,0,9.9999999999999998e-13,1
+forward versus independent modal theta recurrence,1.0658141036401503e-14,3e-11,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+measurement gradient annihilates common offset,2.2737367544323206e-13,1e-10,1
+incremental adjoint annihilates common offset,0,1e-10,1
+optimizer preserves seed arithmetic mean,7.1054273576010019e-15,2e-12,1
+cost finite-difference adjoint,2.5588633434381336e-09,1.9999999999999999e-06,1
+gradient finite-difference incremental adjoint,2.4916175789257977e-09,3.0000000000000001e-06,1
+tangent adjoint pairing,2.8421709430404007e-14,1.0000000000000001e-09,1
+discrete rank matches physical information,0,0,1
+projected optimum is stationary,1.0156320229270932e-12,1e-08,1
+discrete forward residual,1.7902346272080649e-15,2e-12,1
+discrete Hessian symmetry,2.8421709430404007e-14,2.0000000000000001e-10,1
+total heat invariant,1.1368683772161603e-13,2.0000000000000001e-10,1
+theta heat balance per step,2.8421709430404007e-14,2e-12,1
+neutral tangent preserved at every node,0,9.9999999999999998e-13,1
+forward versus independent modal theta recurrence,2.4868995751603507e-14,3e-11,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+measurement gradient annihilates common offset,3.4106051316484809e-13,1e-10,1
+incremental adjoint annihilates common offset,0,1e-10,1
+optimizer preserves seed arithmetic mean,7.1054273576010019e-15,2e-12,1
+discrete rank matches physical information,0,0,1
+projected optimum is stationary,1.0931255900459291e-12,1e-08,1
+discrete forward residual,1.7763568394002505e-15,2e-12,1
+discrete Hessian symmetry,5.6843418860808015e-14,2.0000000000000001e-10,1
+total heat invariant,1.4210854715202004e-13,2.0000000000000001e-10,1
+theta heat balance per step,2.8421709430404007e-14,2e-12,1
+neutral tangent preserved at every node,0,9.9999999999999998e-13,1
+forward versus independent modal theta recurrence,3.1974423109204508e-14,3e-11,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+measurement gradient annihilates common offset,7.673861546209082e-13,1e-10,1
+incremental adjoint annihilates common offset,0,1e-10,1
+optimizer preserves seed arithmetic mean,1.7763568394002505e-14,2e-12,1
+temporal order state,2.861723973435204e-05,0.040000000000000001,1
+temporal order tangent,2.8613679537770054e-05,0.040000000000000001,1
+temporal order observation_adjoint,2.2564028330229746e-05,0.040000000000000001,1
+temporal order observation_cost,0.00013349219267810852,0.040000000000000001,1
+temporal order observation_gradient,9.8891406916656877e-06,0.040000000000000001,1
+temporal order observation_hessian,2.1031054574738306e-05,0.040000000000000001,1
+temporal order initial_difference,2.2028446342581276e-05,0.040000000000000001,1
+temporal order representative_control,2.2025212146115081e-05,0.040000000000000001,1
+temporal order running_cost,1.563159823803062e-08,0.040000000000000001,1
+temporal order running_gradient,1.5111031093084648e-08,0.040000000000000001,1
+temporal order running_costate,1.5111031093084648e-08,0.040000000000000001,1
+temporal order running_hessian,1.4700685113666623e-08,0.040000000000000001,1
+discrete rank matches physical information,0,0,1
+projected optimum is stationary,9.7877261850953801e-13,1e-08,1
+discrete forward residual,1.7763568394002505e-15,2e-12,1
+discrete Hessian symmetry,0,2.0000000000000001e-10,1
+total heat invariant,1.4210854715202004e-14,2.0000000000000001e-10,1
+theta heat balance per step,1.4210854715202004e-14,2e-12,1
+neutral tangent preserved at every node,0,9.9999999999999998e-13,1
+forward versus independent modal theta recurrence,3.5527136788005009e-15,3e-11,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+measurement gradient annihilates common offset,5.6843418860808015e-14,1e-10,1
+incremental adjoint annihilates common offset,0,1e-10,1
+optimizer preserves seed arithmetic mean,0,2e-12,1
+discrete rank matches physical information,0,0,1
+projected optimum is stationary,9.1016083558770333e-13,1e-08,1
+discrete forward residual,1.8804402479588589e-15,2e-12,1
+discrete Hessian symmetry,5.6843418860808015e-14,2.0000000000000001e-10,1
+total heat invariant,5.6843418860808015e-14,2.0000000000000001e-10,1
+theta heat balance per step,2.8421709430404007e-14,2e-12,1
+neutral tangent preserved at every node,1.0658141036401503e-14,9.9999999999999998e-13,1
+forward versus independent modal theta recurrence,1.0658141036401503e-14,3e-11,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+measurement gradient annihilates common offset,2.8421709430404007e-14,1e-10,1
+incremental adjoint annihilates common offset,7.0847089228706512e-14,1e-10,1
+optimizer preserves seed arithmetic mean,0,2e-12,1
+discrete rank matches physical information,0,0,1
+projected optimum is stationary,3.9124259387790516e-13,1e-08,1
+discrete forward residual,1.8179902028236938e-15,2e-12,1
+discrete Hessian symmetry,0,2.0000000000000001e-10,1
+total heat invariant,5.6843418860808015e-14,2.0000000000000001e-10,1
+theta heat balance per step,2.8421709430404007e-14,2e-12,1
+neutral tangent preserved at every node,0,9.9999999999999998e-13,1
+forward versus independent modal theta recurrence,1.7763568394002505e-14,3e-11,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+measurement gradient annihilates common offset,1.4210854715202004e-13,1e-10,1
+incremental adjoint annihilates common offset,0,1e-10,1
+optimizer preserves seed arithmetic mean,3.5527136788005009e-15,2e-12,1
+discrete rank matches physical information,0,0,1
+projected optimum is stationary,3.6187719487656977e-13,1e-08,1
+discrete forward residual,1.8110513089197866e-15,2e-12,1
+discrete Hessian symmetry,8.5265128291212022e-14,2.0000000000000001e-10,1
+total heat invariant,1.2789769243681803e-13,2.0000000000000001e-10,1
+theta heat balance per step,2.8421709430404007e-14,2e-12,1
+neutral tangent preserved at every node,0,9.9999999999999998e-13,1
+forward versus independent modal theta recurrence,3.1974423109204508e-14,3e-11,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+measurement gradient annihilates common offset,2.2737367544323206e-13,1e-10,1
+incremental adjoint annihilates common offset,0,1e-10,1
+optimizer preserves seed arithmetic mean,7.1054273576010019e-15,2e-12,1
+discrete rank matches physical information,0,0,1
+projected optimum is stationary,8.5682572148471081e-12,1e-08,1
+discrete forward residual,1.7832957333041577e-15,2e-12,1
+discrete Hessian symmetry,2.8421709430404007e-14,2.0000000000000001e-10,1
+total heat invariant,1.2789769243681803e-13,2.0000000000000001e-10,1
+theta heat balance per step,2.8421709430404007e-14,2e-12,1
+neutral tangent preserved at every node,5.4845017416482733e-14,9.9999999999999998e-13,1
+forward versus independent modal theta recurrence,3.5527136788005009e-14,3e-11,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+measurement gradient annihilates common offset,3.1263880373444408e-13,1e-10,1
+incremental adjoint annihilates common offset,3.7992269511535263e-13,1e-10,1
+optimizer preserves seed arithmetic mean,3.5527136788005009e-15,2e-12,1
+temporal order state,0.0071148494515017591,0.089999999999999997,1
+temporal order tangent,0.007114849496557496,0.089999999999999997,1
+temporal order observation_adjoint,0.0066561167452284797,0.089999999999999997,1
+temporal order observation_cost,0.015119487878544891,0.089999999999999997,1
+temporal order observation_gradient,0.0056988535558452069,0.089999999999999997,1
+temporal order observation_hessian,0.0065407073818140038,0.089999999999999997,1
+temporal order initial_difference,0.006617401800715017,0.089999999999999997,1
+temporal order representative_control,0.0066174018014875102,0.089999999999999997,1
+temporal order running_cost,0.019047600281573707,0.089999999999999997,1
+temporal order running_gradient,0.019047600271965059,0.089999999999999997,1
+temporal order running_costate,0.019047600271965059,0.089999999999999997,1
+temporal order running_hessian,0.019047600260152286,0.089999999999999997,1
+discrete rank matches physical information,0,0,1
+projected optimum is stationary,2.1436186159462522e-12,1e-08,1
+discrete forward residual,1.8873791418627661e-15,2e-12,1
+discrete Hessian symmetry,2.8421709430404007e-14,2.0000000000000001e-10,1
+total heat invariant,1.4210854715202004e-14,2.0000000000000001e-10,1
+theta heat balance per step,1.4210854715202004e-14,2e-12,1
+neutral tangent preserved at every node,2.2204460492503131e-15,9.9999999999999998e-13,1
+forward versus independent modal theta recurrence,3.5527136788005009e-15,3e-11,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+discrete rank matches physical information,0,0,1
+projected optimum is stationary,2.1469492850201277e-12,1e-08,1
+discrete forward residual,1.7763568394002505e-15,2e-12,1
+discrete Hessian symmetry,2.8421709430404007e-14,2.0000000000000001e-10,1
+total heat invariant,2.8421709430404007e-14,2.0000000000000001e-10,1
+theta heat balance per step,2.8421709430404007e-14,2e-12,1
+neutral tangent preserved at every node,0,9.9999999999999998e-13,1
+forward versus independent modal theta recurrence,7.1054273576010019e-15,3e-11,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+discrete rank matches physical information,0,0,1
+projected optimum is stationary,5.5018212208324258e-12,1e-08,1
+discrete forward residual,1.7763568394002505e-15,2e-12,1
+discrete Hessian symmetry,2.8421709430404007e-14,2.0000000000000001e-10,1
+total heat invariant,5.6843418860808015e-14,2.0000000000000001e-10,1
+theta heat balance per step,2.8421709430404007e-14,2e-12,1
+neutral tangent preserved at every node,0,9.9999999999999998e-13,1
+forward versus independent modal theta recurrence,1.0658141036401503e-14,3e-11,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+cost finite-difference adjoint,1.3972680790175218e-08,1.9999999999999999e-06,1
+gradient finite-difference incremental adjoint,4.5625370148627553e-09,3.0000000000000001e-06,1
+tangent adjoint pairing,2.2737367544323206e-13,1.0000000000000001e-09,1
+discrete rank matches physical information,0,0,1
+projected optimum is stationary,2.8199664825478976e-12,1e-08,1
+discrete forward residual,1.7902346272080649e-15,2e-12,1
+discrete Hessian symmetry,1.4210854715202004e-14,2.0000000000000001e-10,1
+total heat invariant,1.1368683772161603e-13,2.0000000000000001e-10,1
+theta heat balance per step,2.8421709430404007e-14,2e-12,1
+neutral tangent preserved at every node,0,9.9999999999999998e-13,1
+forward versus independent modal theta recurrence,2.4868995751603507e-14,3e-11,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+discrete rank matches physical information,0,0,1
+projected optimum is stationary,1.0543566020260187e-11,1e-08,1
+discrete forward residual,1.7763568394002505e-15,2e-12,1
+discrete Hessian symmetry,1.4210854715202004e-14,2.0000000000000001e-10,1
+total heat invariant,1.4210854715202004e-13,2.0000000000000001e-10,1
+theta heat balance per step,2.8421709430404007e-14,2e-12,1
+neutral tangent preserved at every node,0,9.9999999999999998e-13,1
+forward versus independent modal theta recurrence,3.1974423109204508e-14,3e-11,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+temporal order state,2.861723973435204e-05,0.040000000000000001,1
+temporal order tangent,2.8613679537770054e-05,0.040000000000000001,1
+temporal order observation_adjoint,2.9029267085700639e-05,0.040000000000000001,1
+temporal order observation_cost,6.5210827699058171e-05,0.040000000000000001,1
+temporal order observation_gradient,2.0007204343919227e-05,0.040000000000000001,1
+temporal order observation_hessian,2.741024444707918e-05,0.040000000000000001,1
+temporal order initial_difference,2.202691908159693e-05,0.040000000000000001,1
+temporal order representative_control,3.5253155275860593e-05,0.040000000000000001,1
+temporal order running_cost,1.563159823803062e-08,0.040000000000000001,1
+temporal order running_gradient,1.5111031093084648e-08,0.040000000000000001,1
+temporal order running_costate,1.5111031093084648e-08,0.040000000000000001,1
+temporal order running_hessian,1.4700685113666623e-08,0.040000000000000001,1
+discrete rank matches physical information,0,0,1
+projected optimum is stationary,1.4299672557172016e-13,1e-08,1
+discrete forward residual,1.7763568394002505e-15,2e-12,1
+discrete Hessian symmetry,1.4210854715202004e-14,2.0000000000000001e-10,1
+total heat invariant,1.4210854715202004e-14,2.0000000000000001e-10,1
+theta heat balance per step,1.4210854715202004e-14,2e-12,1
+neutral tangent preserved at every node,0,9.9999999999999998e-13,1
+forward versus independent modal theta recurrence,3.5527136788005009e-15,3e-11,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+discrete rank matches physical information,0,0,1
+projected optimum is stationary,3.0861979638530102e-12,1e-08,1
+discrete forward residual,1.8804402479588589e-15,2e-12,1
+discrete Hessian symmetry,1.4210854715202004e-14,2.0000000000000001e-10,1
+total heat invariant,5.6843418860808015e-14,2.0000000000000001e-10,1
+theta heat balance per step,2.8421709430404007e-14,2e-12,1
+neutral tangent preserved at every node,1.0658141036401503e-14,9.9999999999999998e-13,1
+forward versus independent modal theta recurrence,1.0658141036401503e-14,3e-11,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+discrete rank matches physical information,0,0,1
+projected optimum is stationary,3.5700886691358846e-12,1e-08,1
+discrete forward residual,1.8179902028236938e-15,2e-12,1
+discrete Hessian symmetry,5.6843418860808015e-14,2.0000000000000001e-10,1
+total heat invariant,5.6843418860808015e-14,2.0000000000000001e-10,1
+theta heat balance per step,2.8421709430404007e-14,2e-12,1
+neutral tangent preserved at every node,0,9.9999999999999998e-13,1
+forward versus independent modal theta recurrence,1.7763568394002505e-14,3e-11,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+discrete rank matches physical information,0,0,1
+projected optimum is stationary,2.5678348336555246e-12,1e-08,1
+discrete forward residual,1.8110513089197866e-15,2e-12,1
+discrete Hessian symmetry,8.5265128291212022e-14,2.0000000000000001e-10,1
+total heat invariant,1.2789769243681803e-13,2.0000000000000001e-10,1
+theta heat balance per step,2.8421709430404007e-14,2e-12,1
+neutral tangent preserved at every node,0,9.9999999999999998e-13,1
+forward versus independent modal theta recurrence,3.1974423109204508e-14,3e-11,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+discrete rank matches physical information,0,0,1
+projected optimum is stationary,3.0416780205655414e-11,1e-08,1
+discrete forward residual,1.7832957333041577e-15,2e-12,1
+discrete Hessian symmetry,5.6843418860808015e-14,2.0000000000000001e-10,1
+total heat invariant,1.2789769243681803e-13,2.0000000000000001e-10,1
+theta heat balance per step,2.8421709430404007e-14,2e-12,1
+neutral tangent preserved at every node,5.4845017416482733e-14,9.9999999999999998e-13,1
+forward versus independent modal theta recurrence,3.5527136788005009e-14,3e-11,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+temporal order state,0.0071148494515017591,0.089999999999999997,1
+temporal order tangent,0.007114849496557496,0.089999999999999997,1
+temporal order observation_adjoint,0.0071451680526146699,0.089999999999999997,1
+temporal order observation_cost,0.0098904100921859417,0.089999999999999997,1
+temporal order observation_gradient,0.0064633418676766086,0.089999999999999997,1
+temporal order observation_hessian,0.0070233672386359469,0.089999999999999997,1
+temporal order initial_difference,0.0066174018007220115,0.089999999999999997,1
+temporal order representative_control,0.0076171356970693438,0.089999999999999997,1
+temporal order running_cost,0.019047600281573707,0.089999999999999997,1
+temporal order running_gradient,0.019047600271965059,0.089999999999999997,1
+temporal order running_costate,0.019047600271965059,0.089999999999999997,1
+temporal order running_hessian,0.019047600260152286,0.089999999999999997,1
+distinct optimizer representatives,0,1.9999999999999999e-11,1
+equal fit costs along common mode,1.1102230246251565e-16,1.9999999999999999e-11,1
+added data removes seed dependence,2.8421709430404007e-14,3e-11,1
+cannot invert missing measurement information,0,0,1
+observation tangent maps expose missing common mode,1.2490009027033011e-14,2e-12,1
+difference_coarse: exact feasible set contains truth,0,0,1
+difference_coarse: numerical feasible set contains truth,0,0,1
+difference_coarse: outer polygon contains analytical vertex,0,0,1
+difference_coarse: outer polygon contains analytical vertex,0,0,1
+difference_coarse: outer polygon contains analytical vertex,0,0,1
+difference_coarse: outer polygon contains analytical vertex,0,0,1
+difference_coarse: goal adjoints agree with tangent maps,7.7715611723760958e-16,1.9999999999999999e-11,1
+difference_coarse: quadratic defect allowance versus exact corners,0,1.9999999999999999e-11,1
+difference_coarse: whole interval envelopes enclose analytical feasible probes,0,2.0000000000000001e-10,1
+difference_coarse joint verdict,0,0,1
+difference_coarse expected goal verdict,0,0,1
+difference_coarse expected goal verdict,0,0,1
+difference_coarse expected goal verdict,0,0,1
+difference_coarse expected goal verdict,0,0,1
+truth plus common offset remains feasible,0,0,1
+persistent common shift exceeds absolute tolerance,0,0,1
+difference_refined: exact feasible set contains truth,0,0,1
+difference_refined: numerical feasible set contains truth,0,0,1
+difference_refined: outer polygon contains analytical vertex,0,0,1
+difference_refined: outer polygon contains analytical vertex,0,0,1
+difference_refined: outer polygon contains analytical vertex,0,0,1
+difference_refined: outer polygon contains analytical vertex,0,0,1
+difference_refined: goal adjoints agree with tangent maps,2.3869795029440866e-14,1.9999999999999999e-11,1
+difference_refined: quadratic defect allowance versus exact corners,0,1.9999999999999999e-11,1
+difference_refined: whole interval envelopes enclose analytical feasible probes,0,2.0000000000000001e-10,1
+difference_refined: qualified remaining whole intervals,0.99285776888701216,1,1
+difference_refined joint verdict,0,0,1
+difference_refined expected goal verdict,0,0,1
+difference_refined expected goal verdict,0,0,1
+difference_refined expected goal verdict,0,0,1
+difference_refined expected goal verdict,0,0,1
+truth plus common offset remains feasible,0,0,1
+persistent common shift exceeds absolute tolerance,0,0,1
+difference_theta65: exact feasible set contains truth,0,0,1
+difference_theta65: numerical feasible set contains truth,0,0,1
+difference_theta65: outer polygon contains analytical vertex,0,0,1
+difference_theta65: outer polygon contains analytical vertex,0,0,1
+difference_theta65: outer polygon contains analytical vertex,0,0,1
+difference_theta65: outer polygon contains analytical vertex,0,0,1
+difference_theta65: goal adjoints agree with tangent maps,3.2973623831367149e-14,1.9999999999999999e-11,1
+difference_theta65: quadratic defect allowance versus exact corners,0,1.9999999999999999e-11,1
+difference_theta65: whole interval envelopes enclose analytical feasible probes,0,2.0000000000000001e-10,1
+difference_theta65 joint verdict,0,0,1
+difference_theta65 expected goal verdict,0,0,1
+difference_theta65 expected goal verdict,0,0,1
+difference_theta65 expected goal verdict,0,0,1
+difference_theta65 expected goal verdict,0,0,1
+truth plus common offset remains feasible,0,0,1
+persistent common shift exceeds absolute tolerance,0,0,1
+shifted_seed: exact feasible set contains truth,0,0,1
+shifted_seed: numerical feasible set contains truth,0,0,1
+shifted_seed: outer polygon contains analytical vertex,0,0,1
+shifted_seed: outer polygon contains analytical vertex,0,0,1
+shifted_seed: outer polygon contains analytical vertex,0,0,1
+shifted_seed: outer polygon contains analytical vertex,0,0,1
+shifted_seed: goal adjoints agree with tangent maps,2.3869795029440866e-14,1.9999999999999999e-11,1
+shifted_seed: quadratic defect allowance versus exact corners,0,1.9999999999999999e-11,1
+shifted_seed: whole interval envelopes enclose analytical feasible probes,0,2.0000000000000001e-10,1
+shifted_seed: qualified remaining whole intervals,0.9928577688864082,1,1
+shifted_seed joint verdict,0,0,1
+shifted_seed expected goal verdict,0,0,1
+shifted_seed expected goal verdict,0,0,1
+shifted_seed expected goal verdict,0,0,1
+shifted_seed expected goal verdict,0,0,1
+truth plus common offset remains feasible,0,0,1
+persistent common shift exceeds absolute tolerance,0,0,1
+added_absolute: exact feasible set contains truth,0,0,1
+added_absolute: numerical feasible set contains truth,0,0,1
+added_absolute: outer polygon contains analytical vertex,0,0,1
+added_absolute: outer polygon contains analytical vertex,0,0,1
+added_absolute: outer polygon contains analytical vertex,0,0,1
+added_absolute: outer polygon contains analytical vertex,0,0,1
+added_absolute: goal adjoints agree with tangent maps,2.3869795029440866e-14,1.9999999999999999e-11,1
+added_absolute: quadratic defect allowance versus exact corners,0,1.9999999999999999e-11,1
+added_absolute: whole interval envelopes enclose analytical feasible probes,0,2.0000000000000001e-10,1
+added_absolute: qualified remaining whole intervals,0.29153301646104918,1,1
+added_absolute: qualified remaining whole intervals,0.43576246617606584,1,1
+added_absolute: qualified remaining whole intervals,0.99285776888633692,1,1
+added_absolute: qualified remaining whole intervals,0.44310208523238087,1,1
+added_absolute joint verdict,0,0,1
+added_absolute expected goal verdict,0,0,1
+added_absolute expected goal verdict,0,0,1
+added_absolute expected goal verdict,0,0,1
+added_absolute expected goal verdict,0,0,1
+added datum establishes absolute temperatures from start,0,0,1
+difference remains joint limiting goal,0,0,1

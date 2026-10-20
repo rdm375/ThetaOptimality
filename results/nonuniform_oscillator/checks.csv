@@ -1,0 +1,920 @@
+check,error,tolerance,passed
+mesh is genuinely nonuniform theta=0.500000 m=8,0,0,1
+fixed observation node theta=0.500000 m=8,0,2e-14,1
+fixed observation node theta=0.500000 m=8,0,2e-14,1
+fixed observation node theta=0.500000 m=8,0,2e-14,1
+fixed observation node theta=0.500000 m=8,0,2e-14,1
+fixed observation node theta=0.500000 m=8,0,2e-14,1
+fixed observation node theta=0.500000 m=8,0,2e-14,1
+forward residual theta=0.500000 m=8,6.9388939039072284e-18,2e-12,1
+discrete fit stationarity theta=0.500000 m=8,1.336000184236457e-10,2e-08,1
+mesh is genuinely nonuniform theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+nested mesh retains coarse node theta=0.500000 m=16,0,0,1
+fixed observation node theta=0.500000 m=16,0,2e-14,1
+fixed observation node theta=0.500000 m=16,0,2e-14,1
+fixed observation node theta=0.500000 m=16,0,2e-14,1
+fixed observation node theta=0.500000 m=16,0,2e-14,1
+fixed observation node theta=0.500000 m=16,0,2e-14,1
+fixed observation node theta=0.500000 m=16,0,2e-14,1
+forward residual theta=0.500000 m=16,7.8062556418956319e-18,2e-12,1
+discrete fit stationarity theta=0.500000 m=16,6.5661326173248183e-11,2e-08,1
+nonuniform tangent-adjoint pairing theta=0.500000,1.1368683772161603e-13,2.0000000000000001e-09,1
+nonuniform discrete objective gradient theta=0.500000,5.9104991123604123e-08,3.0000000000000001e-06,1
+nonuniform incremental-adjoint Hessian theta=0.500000,4.6704444685019553e-06,7.9999999999999996e-06,1
+nonuniform running costate terminal zero theta=0.500000,0,1e-14,1
+mesh is genuinely nonuniform theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+nested mesh retains coarse node theta=0.500000 m=32,0,0,1
+fixed observation node theta=0.500000 m=32,0,2e-14,1
+fixed observation node theta=0.500000 m=32,0,2e-14,1
+fixed observation node theta=0.500000 m=32,0,2e-14,1
+fixed observation node theta=0.500000 m=32,0,2e-14,1
+fixed observation node theta=0.500000 m=32,0,2e-14,1
+fixed observation node theta=0.500000 m=32,0,2e-14,1
+forward residual theta=0.500000 m=32,7.1557343384043293e-18,2e-12,1
+discrete fit stationarity theta=0.500000 m=32,4.0418577792595726e-10,2e-08,1
+mesh is genuinely nonuniform theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+nested mesh retains coarse node theta=0.500000 m=64,0,0,1
+fixed observation node theta=0.500000 m=64,0,2e-14,1
+fixed observation node theta=0.500000 m=64,0,2e-14,1
+fixed observation node theta=0.500000 m=64,0,2e-14,1
+fixed observation node theta=0.500000 m=64,0,2e-14,1
+fixed observation node theta=0.500000 m=64,0,2e-14,1
+fixed observation node theta=0.500000 m=64,0,2e-14,1
+forward residual theta=0.500000 m=64,7.0473141211557788e-18,2e-12,1
+discrete fit stationarity theta=0.500000 m=64,9.094108190259469e-11,2e-08,1
+qualification: analytical set contains synthetic truth theta=0.500000,0,0,1
+qualification: numerical set contains synthetic truth theta=0.500000,0,0,1
+qualification: corrected numerical set contains analytical vertex theta=0.500000,0,0,1
+qualification: corrected numerical set contains analytical vertex theta=0.500000,0,0,1
+qualification: corrected numerical set contains analytical vertex theta=0.500000,0,0,1
+qualification: corrected numerical set contains analytical vertex theta=0.500000,0,0,1
+qualification: corrected numerical set contains analytical vertex theta=0.500000,0,0,1
+qualification: uniform reconstruction allowance versus exact solution theta=0.500000,0,2.0000000000000001e-13,1
+qualification: goal pullback information equals incremental adjoint theta=0.500000,2.4560432233517404e-15,2.0000000000000001e-13,1
+qualification: goal adjoints equal analytical discrete tangents theta=0.500000,3.4194869158454821e-14,1.9999999999999999e-11,1
+qualification: prior box support encloses polygon projections theta=0.500000,0,2e-12,1
+qualification: qualified suffix covers every whole interval theta=0.500000,0.98038102879586775,1,1
+qualification: qualified suffix covers every whole interval theta=0.500000,0.90328391880361736,1,1
+qualification: qualified suffix covers every whole interval theta=0.500000,0.94916026624681338,1,1
+qualification: whole-interval envelopes enclose analytical physical-set probes theta=0.500000,0,2e-12,1
+nonuniform observed order theta=0.500000 state,0.021001760999836083,0.34999999999999998,1
+nonuniform observed order theta=0.500000 tangent,0.023217116465499288,0.34999999999999998,1
+nonuniform observed order theta=0.500000 nodal_adjoint,0.0220315584602222,0.34999999999999998,1
+nonuniform observed order theta=0.500000 point_cost,0.031758987475851486,0.34999999999999998,1
+nonuniform observed order theta=0.500000 point_gradient,0.017502051737009694,0.34999999999999998,1
+nonuniform observed order theta=0.500000 point_hessian,0.02697800115342508,0.34999999999999998,1
+nonuniform observed order theta=0.500000 recovered_initial_state,0.026637512405904396,0.34999999999999998,1
+nonuniform observed order theta=0.500000 running_cost,0.021571625200464961,0.34999999999999998,1
+nonuniform observed order theta=0.500000 running_gradient,0.0209484271119873,0.34999999999999998,1
+nonuniform observed order theta=0.500000 running_costate,0.019412019232088351,0.34999999999999998,1
+nonuniform observed order theta=0.500000 running_hessian,0.021379875618156685,0.34999999999999998,1
+mesh is genuinely nonuniform theta=0.650000 m=8,0,0,1
+fixed observation node theta=0.650000 m=8,0,2e-14,1
+fixed observation node theta=0.650000 m=8,0,2e-14,1
+fixed observation node theta=0.650000 m=8,0,2e-14,1
+fixed observation node theta=0.650000 m=8,0,2e-14,1
+fixed observation node theta=0.650000 m=8,0,2e-14,1
+fixed observation node theta=0.650000 m=8,0,2e-14,1
+forward residual theta=0.650000 m=8,5.2041704279304213e-18,2e-12,1
+discrete fit stationarity theta=0.650000 m=8,9.9743850582649101e-11,2e-08,1
+mesh is genuinely nonuniform theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+nested mesh retains coarse node theta=0.650000 m=16,0,0,1
+fixed observation node theta=0.650000 m=16,0,2e-14,1
+fixed observation node theta=0.650000 m=16,0,2e-14,1
+fixed observation node theta=0.650000 m=16,0,2e-14,1
+fixed observation node theta=0.650000 m=16,0,2e-14,1
+fixed observation node theta=0.650000 m=16,0,2e-14,1
+fixed observation node theta=0.650000 m=16,0,2e-14,1
+forward residual theta=0.650000 m=16,6.9388939039072284e-18,2e-12,1
+discrete fit stationarity theta=0.650000 m=16,5.7335469868890685e-11,2e-08,1
+nonuniform tangent-adjoint pairing theta=0.650000,4.5474735088646412e-13,2.0000000000000001e-09,1
+nonuniform discrete objective gradient theta=0.650000,5.3452481552085374e-08,3.0000000000000001e-06,1
+nonuniform incremental-adjoint Hessian theta=0.650000,4.0775339584797621e-06,7.9999999999999996e-06,1
+nonuniform running costate terminal zero theta=0.650000,0,1e-14,1
+mesh is genuinely nonuniform theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+nested mesh retains coarse node theta=0.650000 m=32,0,0,1
+fixed observation node theta=0.650000 m=32,0,2e-14,1
+fixed observation node theta=0.650000 m=32,0,2e-14,1
+fixed observation node theta=0.650000 m=32,0,2e-14,1
+fixed observation node theta=0.650000 m=32,0,2e-14,1
+fixed observation node theta=0.650000 m=32,0,2e-14,1
+fixed observation node theta=0.650000 m=32,0,2e-14,1
+forward residual theta=0.650000 m=32,6.9388939039072284e-18,2e-12,1
+discrete fit stationarity theta=0.650000 m=32,1.3027010113311981e-10,2e-08,1
+mesh is genuinely nonuniform theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+nested mesh retains coarse node theta=0.650000 m=64,0,0,1
+fixed observation node theta=0.650000 m=64,0,2e-14,1
+fixed observation node theta=0.650000 m=64,0,2e-14,1
+fixed observation node theta=0.650000 m=64,0,2e-14,1
+fixed observation node theta=0.650000 m=64,0,2e-14,1
+fixed observation node theta=0.650000 m=64,0,2e-14,1
+fixed observation node theta=0.650000 m=64,0,2e-14,1
+forward residual theta=0.650000 m=64,6.9456701674852628e-18,2e-12,1
+discrete fit stationarity theta=0.650000 m=64,2.469877820243731e-10,2e-08,1
+qualification: analytical set contains synthetic truth theta=0.650000,0,0,1
+qualification: numerical set contains synthetic truth theta=0.650000,0,0,1
+qualification: corrected numerical set contains analytical vertex theta=0.650000,0,0,1
+qualification: corrected numerical set contains analytical vertex theta=0.650000,0,0,1
+qualification: corrected numerical set contains analytical vertex theta=0.650000,0,0,1
+qualification: corrected numerical set contains analytical vertex theta=0.650000,0,0,1
+qualification: corrected numerical set contains analytical vertex theta=0.650000,0,0,1
+qualification: uniform reconstruction allowance versus exact solution theta=0.650000,0,2.0000000000000001e-13,1
+qualification: goal pullback information equals incremental adjoint theta=0.650000,1.0234163646934785e-15,2.0000000000000001e-13,1
+qualification: goal adjoints equal analytical discrete tangents theta=0.650000,1.1546319456101628e-14,1.9999999999999999e-11,1
+qualification: prior box support encloses polygon projections theta=0.650000,0,2e-12,1
+qualification: whole-interval envelopes enclose analytical physical-set probes theta=0.650000,0,2e-12,1
+nonuniform observed order theta=0.650000 state,0.068446578203367858,0.29999999999999999,1
+nonuniform observed order theta=0.650000 tangent,0.078545003708822003,0.29999999999999999,1
+nonuniform observed order theta=0.650000 nodal_adjoint,0.048863080582959628,0.29999999999999999,1
+nonuniform observed order theta=0.650000 point_cost,0.016397101632701139,0.29999999999999999,1
+nonuniform observed order theta=0.650000 point_gradient,0.10068636107866169,0.29999999999999999,1
+nonuniform observed order theta=0.650000 point_hessian,0.062500026503150452,0.29999999999999999,1
+nonuniform observed order theta=0.650000 recovered_initial_state,0.090823173126905132,0.29999999999999999,1
+nonuniform observed order theta=0.650000 running_cost,0.077328255588713035,0.29999999999999999,1
+nonuniform observed order theta=0.650000 running_gradient,0.077932382626728303,0.29999999999999999,1
+nonuniform observed order theta=0.650000 running_costate,0.083261249002826609,0.29999999999999999,1
+nonuniform observed order theta=0.650000 running_hessian,0.077891902754964271,0.29999999999999999,1

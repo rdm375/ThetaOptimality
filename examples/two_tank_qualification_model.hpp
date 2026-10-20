@@ -1,0 +1,32 @@
+#pragma once
+#include "two_tank_model.hpp"
+namespace two_tank::qualification {
+inline constexpr std::array<Vec<2>,3> goals{{{1.,0.},{0.,1.},{volume1,volume2}}};
+inline constexpr std::array<double,3> tolerance{.005,.012,.04};
+inline constexpr std::array<const char*,3> names{"downstream_concentration","upstream_concentration","inventory"};
+inline constexpr std::array<const char*,3> units{"mg/L","mg/L","mg"};
+inline ConvexPolygon2 prior(){return rectangle_polygon({0.,0.},{.8,1.6});}
+inline double dual(const Vec<2>& c){return std::abs(c[0])+std::abs(c[1]);}
+inline std::vector<double> allowance(const System<2,2>& sys){const auto& g=sys.grid();std::vector<double> D(g.steps()),E(g.time.size());for(auto corner:prior()){auto tr=sys.forward(corner);for(std::size_t n=0;n<g.steps();++n)D[n]=std::max(D[n],linear_theta_quadratic_defect_bound(A,tr.state[n],tr.state[n+1],g.time[n+1]-g.time[n],g.theta[n],[](auto x){return norm(x);}));}for(std::size_t n=0;n<g.steps();++n)E[n+1]=propagate_defect_bound(E[n],D[n],g.time[n+1]-g.time[n],0.);return E;}
+inline ConvexPolygon2 uncertainty_set(const Grid& grid,const std::vector<Mat<2,2>>& J,const std::vector<double>& E,bool added,double multiplier,bool analytical=false){auto p=prior();for(auto o:observations(added)){auto n=node_at(grid,o.tau);auto h=analytical?propagator(o.tau)[o.component]:J[n][o.component];double width=multiplier*o.scale+(analytical?0.:E[n]);p=clip_halfspace(std::move(p),h,o.value+width);p=clip_halfspace(std::move(p),-1.*h,-o.value+width);}if(p.size()<3)throw std::runtime_error("Empty two-tank uncertainty set");return p;}
+inline double exact_spread(double tau,const ConvexPolygon2& p,const Vec<2>& center,const Vec<2>& c){return polygon_goal_bound(p,mv(transpose(propagator(tau)),c),center);}
+inline std::optional<double> exact_persistent(const ConvexPolygon2& polygon,const Vec<2>& center,const Vec<2>& c,double tol){double last=0.;for(auto vertex:polygon){auto delta=vertex-center;double B=(mixing*c[0]+c[1])*delta[1],C=c[0]*(delta[0]-mixing*delta[1]);auto error=[&](double t){return std::abs(C*std::exp(-fast*t)+B*std::exp(-slow*t))-tol;};if(error(horizon)>0)return std::nullopt;std::vector<double> times{0.,horizon};auto add=[&](double ratio){if(ratio>0){double t=-std::log(ratio)/(fast-slow);if(t>0&&t<horizon)times.push_back(t);}};if(C!=0){add(-slow*B/(fast*C));add(-B/C);}std::sort(times.begin(),times.end());for(std::size_t j=0;j+1<times.size();++j)if(error(times[j])>0&&error(times[j+1])<=0){double lo=times[j],hi=times[j+1];for(int k=0;k<80;++k){double mid=.5*(lo+hi);if(error(mid)>0)lo=mid;else hi=mid;}last=std::max(last,hi);}}return last;}
+struct Result {Vec<2> center{};ConvexPolygon2 polygon,reference;std::vector<double> error;std::vector<std::array<double,3>> node,whole,local95;IntervalQualification<3> decision;std::array<std::optional<double>,3> analytical_time;};
+template<class Check> Result experiment(const System<2,2>& sys,bool added,bool gaussian,Check&& check){
+    Result r;r.center=fit(sys).control;auto tr=sys.forward(r.center);auto J=control_to_state_jacobians(sys,r.center,tr);const auto& grid=sys.grid();r.error=allowance(sys);double multiplier=gaussian?independent_gaussian_box_radius(1.,observations(added).size(),.95):1.;
+    r.polygon=uncertainty_set(grid,J,r.error,added,multiplier);r.reference=uncertainty_set(grid,J,r.error,added,multiplier,true);
+    check("reference set contains truth",polygon_contains(r.reference,truth)?0.:1.,0.);check("numerical set contains truth",polygon_contains(r.polygon,truth)?0.:1.,0.);for(auto v:r.reference)check("outer set contains analytical vertex",polygon_contains(r.polygon,v)?0.:1.,0.);
+    Mat<2,2> info{};double goal_error=0.;for(auto o:observations(added)){auto n=node_at(grid,o.tau);Vec<2> c{};c[o.component]=1.;auto h=sys.goal_gradient(r.center,tr,n,c);info=add(info,scaled(1/(o.scale*o.scale),outer(h)));}auto covariance=inverse(info);
+    for(int j=0;j<2;++j){Vec<2> unit{};unit[j]=1.;check("information equals incremental adjoint",norm(sys.hessian_vector(r.center,unit)-mv(info,unit))/std::max(norm(info[0]),norm(info[1])),2e-12);}
+    r.node.resize(grid.time.size());r.local95.resize(grid.time.size());r.whole.resize(grid.steps());
+    for(std::size_t n=0;n<grid.time.size();++n)for(std::size_t k=0;k<3;++k){auto g=mv(transpose(J[n]),goals[k]);if(n==0||n==grid.steps()/2||n==grid.steps())goal_error=std::max(goal_error,norm(sys.goal_gradient(r.center,tr,n,goals[k])-g));r.node[n][k]=polygon_goal_bound(r.polygon,g,r.center)+dual(goals[k])*r.error[n];r.local95[n][k]=std::sqrt(-2*std::log(.05))*std::sqrt(local_goal_variance(g,covariance));}
+    check("goal adjoints match tangent maps",goal_error,2e-11);
+    for(std::size_t n=0;n<grid.steps();++n){double h=grid.time[n+1]-grid.time[n];for(std::size_t k=0;k<3;++k){double spread=0.;for(auto v:r.polygon){auto x=mv(J[n],v-r.center),next=mv(J[n+1],v-r.center);spread=std::max(spread,quadratic_absolute_maximum(dot(goals[k],x),h*dot(goals[k],mv(A,x)),dot(goals[k],next-x-h*mv(A,x))));}r.whole[n][k]=spread+dual(goals[k])*std::max(r.error[n],r.error[n+1]);}}
+    std::vector<double> times;for(double t:grid.time)times.push_back(t-t0);r.decision=qualify_intervals(times,r.whole,tolerance);
+    double violation=0.,allowance_violation=0.;for(auto corner:prior()){auto path=sys.forward(corner);for(std::size_t n=0;n<grid.steps();++n){double h=grid.time[n+1]-grid.time[n];for(double s:{0.,.25,.5,.75,1.})allowance_violation=std::max(allowance_violation,norm(linear_quadratic_reconstruction(A,path.state[n],path.state[n+1],h,s)-exact(times[n]+h*s,corner))-std::max(r.error[n],r.error[n+1]));}}
+    for(std::size_t n=0;n<grid.steps();++n){double h=times[n+1]-times[n];for(double s:{0.,.5,1.}){auto center=linear_quadratic_reconstruction(A,tr.state[n],tr.state[n+1],h,s);for(auto v:r.reference){auto delta=exact(times[n]+h*s,v)-center;for(std::size_t k=0;k<3;++k)violation=std::max(violation,(std::abs(dot(goals[k],delta))-r.whole[n][k])/tolerance[k]);}}}
+    check("uniform defect allowance versus exact corners",allowance_violation,2e-12);check("physical goal envelopes enclose exact feasible probes",violation,2e-12);
+    for(std::size_t k=0;k<3;++k){r.analytical_time[k]=exact_persistent(r.reference,analytical_fit(added),goals[k],tolerance[k]);if(r.decision.persistent[k]){double suffix=0.;for(std::size_t n=0;n<grid.steps();++n)if(times[n]>=*r.decision.persistent[k]-1e-12)suffix=std::max(suffix,r.whole[n][k]/tolerance[k]);check("qualified whole-interval suffix",suffix,1.);}}
+    return r;
+}
+}

@@ -6,6 +6,182 @@ The library computes a nonlinear forward trajectory, evaluates the matching thet
 
 The first worked example is nonlinear concentration decay with accumulated exposure. Its continuous state, cost, tangent, costate, gradient, and Hessian have elementary analytical references. The example uses the library's explicit quadrature and nodal cost sources throughout; accumulated running cost is not added to the physical state. The analytical references never replace a numerical forward step or supply the optimization gradient.
 
+See [the feature-based test roadmap](docs/feature_test_roadmap.md) for current
+coverage, proposed engineering examples, and the shared validation and
+qualification requirements for extending this series.
+
+## Electrical state from resistor temperature
+
+An isolated RLC discharge heats a resistor through **Ri²**. Temperature records
+can locally identify initial voltage and current while leaving two opposite
+polarities globally indistinguishable. Each fitted branch has a full-rank local
+Hessian. The new example exercises nonlinear electrical-to-thermal coupling and
+the residual-curvature terms in the exact incremental adjoint.
+
+```bash
+make electrothermal-plots
+```
+
+A new shared `bounded_sets.hpp` searches the full two-control prior and retains
+all feasible regions. It supports quadratic observation bounds, disconnected
+box covers, whole-interval polynomial goal bounds, and conservative behavior
+when a subdivision budget is exhausted. Qualification uses the full union.
+
+Temperature-only data qualify resistor temperature rise (0.02 K tolerance) and
+stored energy (0.05 J) from elapsed zero, but leave signed voltage (0.01 V) and
+current (0.01 A) **NOT QUALIFIED** through eight seconds. Keeping only one fitted
+polarity would incorrectly qualify the signed goals. Adding a genuine ±0.02 V
+initial-voltage datum removes the opposite region and establishes joint
+qualification from **3.296875 s**. A ±3 V datum leaves both polarities feasible
+and does not establish joint qualification.
+
+The example adds **349 checks**, seven plots, and thirteen measured convergence
+quantities. Midpoint is second order and theta = 0.65 is approximately first
+order against independently evaluated analytical solutions and derivatives.
+Read [the complete engineering experiment](docs/electrothermal.md), including
+why local curvature, global ambiguity, and engineering sufficiency differ.
+
+![Electrothermal reconstruction](results/electrothermal/reconstruction.png)
+
+![Electrothermal engineering decisions](results/electrothermal/qualification_verdict.png)
+
+## Persistent unobservable thermal mode
+
+Two insulated masses exchange heat. Difference measurements identify the
+exponentially decaying temperature difference but cannot identify a persistent
+common temperature offset. This example tests singular optimization and the
+engineering consequences of genuinely missing measurement information.
+
+```bash
+make insulated-thermal-plots
+```
+
+A new shared **rank-aware quadratic optimizer** uses the discrete adjoint and
+incremental-adjoint Hessian, reports the missing direction, and preserves an
+explicit seed-selected representative without inventing information. Changing
+that representative changes absolute temperatures but not the difference fit.
+Bounded qualification retains the full common-offset uncertainty.
+
+At theta = 0.5, N = 512, the difference qualifies from **1.515625 elapsed
+minutes**, while both absolute temperatures and their weighted mean remain
+**NOT QUALIFIED** through the eight-minute horizon. An actual added absolute
+temperature datum makes those three goals qualify from zero; the tighter
+difference tolerance sets joint qualification at **1.515625 minutes**.
+The coarse midpoint and theta = 0.65, N = 512 cases cannot establish even the
+difference tolerance under the conservative numerical budget.
+
+The example adds **381 checks**, seven plots, analytical references, and twelve
+measured convergence quantities for each observation design. Midpoint gives
+second-order convergence; theta = 0.65 gives approximately first order.
+A converged representative is explicitly distinguished from a uniquely recovered
+state. Read [the standalone derivation and experiment](docs/insulated_thermal.md).
+
+![Insulated thermal reconstruction](results/insulated_thermal/reconstruction.png)
+
+## Poorly timed oscillator measurements
+
+Four displacement samples at exact half-periods have zero analytical
+sensitivity to initial velocity. A matched case moves the same four samples to
+well-spaced times, restoring rank two and qualification of both initial-state
+components. Both cases use the C++20 theta method and the same bounded data,
+prior, and tolerances; only sample times change.
+
+```bash
+make sampling-comparison
+```
+
+The side-by-side plots compare the physical feasible sets, theta-discrete
+reconstructions, mesh-refinement behavior, and engineering qualification. See
+[the experiment and interpretation](docs/oscillator.md#15-poorly-timed-sampling-is-a-full-inverse-problem-test).
+
+![Poor versus proper oscillator sampling](results/oscillator_poor_timing/sampling_comparison.png)
+
+## Nonuniform time-step consistency
+
+The oscillator optimality system is tested on nested, quadratically graded
+time meshes while keeping all six observation times fixed. The test compares
+state, tangent, adjoint, nodal objective and its derivatives, recovered initial
+state, and a separate exact running-cost verification functional. Midpoint
+converges at second order and theta = 0.65 at first order across all eleven
+quantities.
+
+```bash
+make nonuniform-oscillator-plots
+```
+
+The C++20 test checks the fixed observation nodes, nested mesh family,
+tangent–adjoint pairing, discrete gradient and Hessian finite differences, and
+analytical convergence references. Read [the standalone experiment](docs/nonuniform_mesh.md).
+
+![Nonuniform oscillator mesh and convergence](results/nonuniform_oscillator/nonuniform_convergence.png)
+
+The nonuniform oscillator case also plots analytical and reconstructed states,
+bounded uncertainty bands, whole-interval qualification bounds, and persistent
+qualification times for both theta values. See the
+[standalone experiment](docs/nonuniform_mesh.md) for the assumptions and
+interpretation.
+
+![Nonuniform oscillator uncertainty and qualification](results/nonuniform_oscillator/state_uncertainty_qualification.png)
+
+## Goal-dependent qualification
+
+The goal-dependence test applies displacement, velocity, and support-force
+tolerances to the same reconstructed oscillator state and feasible uncertainty
+set. It verifies that each goal can qualify at a different persistent time,
+that joint qualification starts at the latest such time, and that one
+unqualified goal blocks the joint decision.
+
+```bash
+make goal-dependence-plots
+```
+
+![Goal-dependent engineering qualification](results/goal_dependence/goal_dependence_times.png)
+
+Read the [standalone goal-dependence experiment](docs/goal_dependence.md) for
+the uncertainty assumptions and full interpretation.
+
+The nonuniform oscillator case also plots analytical and reconstructed states,
+bounded uncertainty bands, whole-interval qualification bounds, and persistent
+qualification times for both theta values. See the
+[standalone experiment](docs/nonuniform_mesh.md) for the assumptions and
+interpretation.
+
+![Nonuniform oscillator uncertainty and qualification](results/nonuniform_oscillator/state_uncertainty_qualification.png)
+
+![Insulated thermal engineering decisions](results/insulated_thermal/qualification_verdict.png)
+
+## Transient amplification in two mixing tanks
+
+The next roadmap feature is implemented: recover two unknown initial tracer
+concentrations from downstream observations in a known two-tank flow system.
+Both decay rates are stable, yet the concentration perturbation norm grows by
+**22.19%** before decaying. The discrete tangent and adjoint recover its most
+amplified initial direction; independent analytical formulas validate the result.
+
+```bash
+make two-tank-plots
+make test
+```
+
+The refined midpoint case qualifies all three engineering goals from
+**2.515625 elapsed minutes** through the ten-minute horizon. Downstream
+concentration is initially within tolerance, subsequently exceeds it, and only
+then qualifies persistently. The coarse case remains unqualified. Adding an
+actual upstream observation makes all goals qualify from elapsed zero.
+The separate simultaneous 95% Gaussian noise-box case qualifies jointly from
+**8.8671875 minutes**. These are retrospective decisions under stated assumptions.
+
+Read [the standalone experiment and derivation](docs/two_tank.md), including
+why concentration amplification is compatible with decreasing tracer mass,
+and why a directly observed initial component has no measurable temporal order.
+Twelve non-roundoff-limited error measures converge at second order for
+midpoint and approximately first order for theta = 0.65. This example adds
+183 checks and reusable C++ amplification, polygon, defect, and interval tools.
+
+![Two-tank transient amplification](results/two_tank/amplification.png)
+
+![Two-tank qualification decisions](results/two_tank/qualification_verdict.png)
+
 ## Hidden-state oscillator example
 
 Recover **initial displacement and unmeasured initial velocity** from six noisy
@@ -23,8 +199,7 @@ It also demonstrates a measurement schedule that cannot identify velocity:
 sampling at integer half-periods eliminates that sensitivity. Genuine running
 cost, consistent quadrature, and costate comparisons use a separate analytical
 verification functional, without adding artificial information to the inverse
-problem. The oscillator adds **245 numerical and qualification checks**; `make test` runs all five
-suites (635 checks). It also reports engineering qualification for displacement
+problem. The hidden-state oscillator adds **245 numerical and qualification checks**. The matched sampling and nonuniform-mesh tests are separate suites in `make test`. It also reports engineering qualification for displacement
 (1 mm), velocity (2 mm/s), and support-force error (0.04 N), including numerical
 model error and whole-interval persistence. The coarse midpoint grid cannot
 establish the tolerances. The refined midpoint grid qualifies from elapsed zero
@@ -88,7 +263,61 @@ Read [docs/two_temperature.md](docs/two_temperature.md) for the complete derivat
 
 ![Two-temperature qualification verdict](results/two_temperature/qualification_verdict.png)
 
-`make test` runs the library validation plus the decay, two-temperature, gas-composition, and hidden-state oscillator suites. `make qualification-plots` draws the decay, thermal, gas, and oscillator examples; `make decay-plots` draws only decay and `make thermal-plots` only the thermal example.
+## Hidden motor winding temperature under weak thermal contact
+
+The winding is hidden, while the housing sensor is visible. We vary the known
+winding-to-housing conductance and reconstruct both initial temperatures using
+the same housing-only observations, prior, and noise model. The weak-contact
+case has a full-rank information matrix and a stationary optimizer, yet the
+winding temperature remains unqualified through ten hours. Moderate and strong
+contact allow it to qualify after 103.59 and 10.86 minutes. The strong-contact
+housing bound passes, later rises above tolerance, then qualifies persistently
+after 27.97 minutes.
+
+```bash
+make weak-coupling-plots
+```
+
+The example exercises the existing shared forward, nodal cost, tangent,
+discrete adjoint, incremental adjoint, theta running quadrature, and whole-
+interval qualification interfaces. It adds **174 checks**, including measured
+second-order convergence for midpoint and first-order convergence for
+$\theta=0.65$. No generic library API change was needed. Read
+[the full derivation and experiment](docs/weak_coupling.md).
+
+![Weak-contact reconstruction](results/weak_coupling/reconstruction.png)
+
+![Weak-contact qualification](results/weak_coupling/qualification.png)
+
+## Stiff chemical kinetics with an exact solution
+
+The consecutive first-order reaction $A\to B\to C$ supplies a closed-form stiff
+system with a fast-to-slow rate ratio of 1000. Product concentration alone is
+observed; the initial reactant and intermediate concentrations are inferred.
+The test compares the exact reaction solution with the library's theta forward,
+cost, tangent, discrete adjoint, incremental adjoint, optimizer, convergence,
+and bounded qualification calculations.
+
+```bash
+make stiff-reaction
+make stiff-reaction-plots
+```
+
+With a step ten times the fast reaction timescale, midpoint remains stable but
+leaves a large sign-alternating numerical fast mode and produces negative
+species concentrations. Backward Euler damps that mode more strongly. Once the
+fast mode is resolved, the full workflow converges at approximately second
+order for $\theta=0.5$ and first order for $\theta=0.65$. The bounded
+qualification test reports when each species becomes sufficiently determined.
+The reconstruction figure overlays the analytic trajectories and marks the
+persistent A/B qualification times: 0.0919 s with early samples and 0.1125 s
+with late samples; C qualifies from $t_0$. Read [the experiment and derivation](docs/stiff_reaction.md).
+
+![Stiff-reaction reconstruction with analytical states and qualification times](results/stiff_reaction/stiffness_and_reconstruction.png)
+
+![Stiff reaction convergence rates](results/stiff_reaction/convergence_orders.png)
+
+`make test` runs thirteen suites: the library validation plus twelve numerical examples, including both oscillator sampling designs and the nonuniform-mesh test. The state-qualification examples print their persistent qualification decisions, with `unqualified` where a goal does not meet tolerance over its horizon. `make qualification-plots` draws the decay, thermal, weak-coupling, gas, oscillator, nonuniform-mesh, two-tank, insulated-thermal, electrothermal, and stiff-reaction examples; `make decay-plots` draws only decay and `make thermal-plots` only the two-temperature example.
 
 ## State qualification in C++20
 

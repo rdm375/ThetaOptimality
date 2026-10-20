@@ -1,0 +1,7 @@
+case,theta,steps,uncertainty_model,goal,units,tolerance,qualified,persistent_time_s,joint_qualified,joint_time_s,blocking_goals
+different_goal_times,0.5,1024,simultaneous_gaussian_95,displacement,m,0.001,1,4.8203125,1,4.8203125,none
+different_goal_times,0.5,1024,simultaneous_gaussian_95,velocity,m/s,0.002,1,4.1484375,1,4.8203125,none
+different_goal_times,0.5,1024,simultaneous_gaussian_95,support_force,N,0.040000000000000001,1,4.765625,1,4.8203125,none
+displacement_blocker,0.65000000000000002,4096,bounded,displacement,m,0.001,0,,0,,displacement
+displacement_blocker,0.65000000000000002,4096,bounded,velocity,m/s,0.002,1,7.376953125,0,,displacement
+displacement_blocker,0.65000000000000002,4096,bounded,support_force,N,0.040000000000000001,1,7.9921875,0,,displacement

@@ -1,0 +1,5 @@
+stiff_reaction_checks_passed=76
+reaction=A->B->C
+k_fast_min^-1=1000
+k_slow_min^-1=1
+all forward, fit, derivative, and qualification calculations ran in C++20

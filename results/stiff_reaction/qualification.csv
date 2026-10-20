@@ -1,0 +1,7 @@
+schedule,goal,tolerance_mol_L,persistent_elapsed_min,decision,confidence_polygon_vertices
+early_sampled,A,0.0050000000000000001,0.0015312500000000001,qualified,6
+early_sampled,B,0.0050000000000000001,0.0015312500000000001,qualified,6
+early_sampled,C,0.0050000000000000001,0,qualified,6
+late_sampled,A,0.0050000000000000001,0.0018749999999999999,qualified,4
+late_sampled,B,0.0050000000000000001,0.0018749999999999999,qualified,4
+late_sampled,C,0.0050000000000000001,0,qualified,4

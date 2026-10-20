@@ -780,3 +780,134 @@ The new code is `examples/oscillator_qualification_model.hpp`, called from
 `qualification_polygons.csv`. Both qualification figures read their statuses and
 times directly from these C++ outputs. `make oscillator-plots` regenerates all
 oscillator figures; `make qualification-plots` now draws all four worked examples.
+
+## 15. Poorly timed sampling is a full inverse-problem test
+
+The diagnostic above now has its own complete reconstruction case. We keep the
+same damped oscillator and initial-state domain, but take only four displacement
+measurements, at
+
+$$
+\tau_j=j\frac{\pi}{\omega},\qquad j=1,2,3,4,
+$$
+
+with $\omega=2\,\mathrm{s}^{-1}$. Thus the samples occur at approximately
+1.571, 3.142, 4.712, and 6.283 elapsed seconds. Each observation has a bounded
+error of 0.5 mm. The true initial state remains inside
+$|q_0|\le 0.08$ m, $|v_0|\le 0.30$ m/s. There is no velocity sensor and no
+regularization that supplies a preferred velocity.
+
+For an exact sample, the observation row is
+
+$$
+\boldsymbol h_j^T=(1,0)\Phi(\tau_j)
+=\left((-1)^j e^{-a\tau_j},\;0\right).
+$$
+
+The four rows therefore have rank one. They constrain $q_0$, but every
+initial velocity in the stated prior produces the same exact sample sequence
+when $q_0$ is fixed. The analytic bounded-data set is a narrow strip in $q_0$
+and spans the entire prior range in $v_0$.
+
+The optimizer still uses the actual C++20 theta-discrete forward model and its
+matching nodal least-squares objective. This distinction matters: the numerical
+oscillator has a small phase error, so the discrete observation sensitivities
+are not exactly zero in the velocity direction. For $\theta=0.5$, the scaled
+discrete information matrix is formally rank two, but its small eigenvalue
+shrinks by roughly a factor of 16 on each mesh doubling. The fitted $v_0$ then
+changes from about $-0.032$ m/s at $N=64$ to $-0.145$ m/s at $N=128$,
+$-0.600$ m/s at $N=256$, and $-2.400$ m/s at $N=512$. These are phase-error
+artifacts, not information in the measurements. The fitted velocity is not
+converging to the true velocity; the forward state at fixed controls does
+converge at second order.
+
+For this diagnostic, the reported least-squares fit is unconstrained so the
+phase artifact is visible rather than hidden at a prior boundary. The stated
+prior is enforced in the exact and numerically enlarged physical feasible sets
+used for qualification. A constrained boundary optimizer would need a KKT
+solver, which is a separate library extension; these unconstrained fitted
+values are not used as evidence that the true state lies outside its prior.
+
+![Poorly timed oscillator reconstruction and retained feasible set](../results/oscillator_poor_timing/poor_timing_reconstruction.png)
+
+The first two panels compare the true analytical trajectory, the theta-discrete
+least-squares reconstruction, and the analytical trajectory from that same
+fitted initial state. The shaded bounds are computed around a separate explicit
+representative inside the exact feasible set; the discrete fit is shown for
+comparison but is not assumed to be physically admissible or identifiable. The
+phase-plane panel shows how the data constrain initial displacement while
+leaving the initial velocity across its full prior range. The qualification
+labels are computed from whole-interval bounds that include the theta-method
+state-reconstruction error. In this deliberately poor design the three stated
+goals remain **NOT QUALIFIED** through the eight-second horizon. That is the
+appropriate test result: small discrete gradients and a fitted trajectory do not
+establish that the data identify the hidden state.
+
+The fixed-state refinement study verifies second-order midpoint convergence
+while showing the shrinking spurious information eigenvalue alongside the
+drifting fitted velocity:
+
+![Poor-timing mesh refinement diagnostics](../results/oscillator_poor_timing/poor_timing_convergence.png)
+
+Run the standalone case with:
+
+```bash
+make poor-oscillator
+make poor-oscillator-plots          # run the matched comparison and make its plots
+make proper-oscillator              # run only the properly timed case
+```
+
+### Matched properly timed sampling
+
+To show that the negative result is caused by the observation schedule rather
+than by the model, optimizer, error budget, or prior, we repeat the experiment
+with the same four displacement measurements at elapsed times
+$0.3, 0.9, 1.8, 3.2$ seconds. The half-period case samples at
+$1.571, 3.142, 4.712, 6.283$ seconds. Both cases use the same synthetic initial
+state $(q_0,v_0)=(0.02,0.12)$, the same generated bounded-error measurements,
+the same prior, $θ=0.5$, mesh sizes, numerical-error allowance, and qualification
+tolerances. The only changed input is the measurement schedule.
+
+The exact scaled observation matrix for the proper schedule has rank two, and
+its smaller information eigenvalue stays near $1.66\times 10^3$ as the mesh is
+refined. Its analytical bounded-data fit is $(0.0203942,0.119279)$ in SI units.
+At $N=512$, the discrete fit is $(0.0204067,0.119262)$ and the fixed-control
+state error is about $9.75\times10^{-4}$ in the example's scaled norm. The
+numerically enlarged feasible initial-state set is small around the true state.
+Displacement, velocity, and support-force goals all qualify from elapsed time
+zero under the specified bounds.
+
+In contrast, the exact half-period observation map has rank one and its feasible
+set spans the entire prior in initial velocity. The proper design's information
+remains bounded away from zero under refinement, while the spurious small
+information eigenvalue in the poorly timed discrete fit vanishes. This paired
+result separates **identifiability** from **time-integration convergence**:
+midpoint converges at second order in both cases, but only the properly timed
+data determine the hidden velocity and support a qualification decision.
+
+![Matched comparison of poorly and properly timed sampling](../results/oscillator_poor_timing/sampling_comparison.png)
+
+The comparison is reproducible with `make sampling-comparison`. C++ computes the
+fits, feasible sets, information matrices, convergence quantities, and
+qualification decisions; Python only reads those outputs to draw the plots.
+The case is part of `make test` and CTest.
+
+The C++ example checks the exact rank-one information reference, discrete
+forward-state convergence, tangent–adjoint pairing, the discrete objective
+gradient, the incremental-adjoint Hessian, containment of the analytical
+feasible set by its numerically enlarged outer set, and persistent engineering
+qualification. It is also included in `make test` and CTest.
+
+### Other physical systems with the same sampling failure
+
+The closest practical analogue is a reciprocating machine—such as a compressor
+piston or engine crank—whose displacement is measured by a strobe at the same
+turning phases on every cycle. Position measurements at those phases reveal
+amplitude but can miss the velocity or phase component needed to reconstruct the
+motion between samples. A vibration monitor can have the same problem when its
+sampling clock is synchronized to a structural oscillation; a shaft-displacement
+probe can alias a rotating or vibrating mode if every sample is taken at the
+same phase. These would be physical wrappers around the same linear observability
+test. The piston/crank example is the most directly interpretable next
+implementation because its displacement and velocity have familiar engineering
+meaning and the same exact oscillator solution remains available.

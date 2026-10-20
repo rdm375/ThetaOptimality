@@ -1,0 +1,13 @@
+case,goal,units,tolerance,first_below_min,persistent_min,analytical_min,qualified,joint_qualified,joint_min,blocking_goals
+bounded_primary,downstream_concentration,mg/L,0.0050000000000000001,,,1.8457410289878675,0,0,,downstream_concentration+upstream_concentration+inventory
+bounded_primary,upstream_concentration,mg/L,0.012,,,0,0,0,,downstream_concentration+upstream_concentration+inventory
+bounded_primary,inventory,mg,0.040000000000000001,,,0,0,0,,downstream_concentration+upstream_concentration+inventory
+bounded_refined,downstream_concentration,mg/L,0.0050000000000000001,0,2.515625,1.8457410289878675,1,1,2.515625,none
+bounded_refined,upstream_concentration,mg/L,0.012,0,0,0,1,1,2.515625,none
+bounded_refined,inventory,mg,0.040000000000000001,0,0,0,1,1,2.515625,none
+added_upstream,downstream_concentration,mg/L,0.0050000000000000001,0,0,0,1,1,0,none
+added_upstream,upstream_concentration,mg/L,0.012,0,0,0,1,1,0,none
+added_upstream,inventory,mg,0.040000000000000001,0,0,0,1,1,0,none
+joint95_refined,downstream_concentration,mg/L,0.0050000000000000001,8.8671875,8.8671875,8.5299946124107855,1,1,8.8671875,none
+joint95_refined,upstream_concentration,mg/L,0.012,4.109375,4.109375,3.8961844537035852,1,1,8.8671875,none
+joint95_refined,inventory,mg,0.040000000000000001,6.4453125,6.4453125,6.1799764661620564,1,1,8.8671875,none

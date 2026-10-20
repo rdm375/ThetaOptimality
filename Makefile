@@ -1,10 +1,14 @@
 CXX ?= c++
+
 CPPFLAGS ?= -Iinclude
 CXXFLAGS ?= -std=c++20 -O2 -Wall -Wextra -Wpedantic -Werror
 HEADERS := $(wildcard include/theta_opt/*.hpp) $(wildcard examples/*_model.hpp)
 
+build/goal_dependence: examples/goal_dependence.cpp $(HEADERS) | build
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+
 .PHONY: all test validation example plots qualification qualification-plots decay-plots thermal thermal-plots clean
-all: build/theta_decay build/theta_validation build/decay_qualification build/two_temperature_qualification build/peng_robinson_inverse build/oscillator
+all: build/theta_decay build/theta_validation build/decay_qualification build/two_temperature_qualification build/weak_coupling build/peng_robinson_inverse build/oscillator build/oscillator_poor_timing build/nonuniform_oscillator build/goal_dependence build/two_tank build/insulated_thermal build/electrothermal build/stiff_reaction
 
 build:
 	mkdir -p build
@@ -21,7 +25,10 @@ build/decay_qualification: examples/decay_qualification.cpp $(HEADERS) | build
 build/two_temperature_qualification: examples/two_temperature_qualification.cpp $(HEADERS) | build
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
-test: validation qualification thermal gas oscillator
+build/weak_coupling: examples/weak_coupling.cpp examples/weak_coupling_model.hpp $(HEADERS) | build
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+
+test: validation qualification thermal weak-coupling gas oscillator poor-oscillator proper-oscillator nonuniform-oscillator goal-dependence two-tank insulated-thermal electrothermal stiff-reaction
 
 validation: build/theta_validation
 	./build/theta_validation
@@ -35,7 +42,7 @@ plots: example
 qualification: build/decay_qualification
 	./build/decay_qualification results/qualification
 
-qualification-plots: decay-plots thermal-plots gas-plots oscillator-plots
+qualification-plots: decay-plots thermal-plots weak-coupling-plots gas-plots oscillator-plots nonuniform-oscillator-plots goal-dependence-plots two-tank-plots insulated-thermal-plots electrothermal-plots stiff-reaction-plots
 
 decay-plots: qualification
 	python3 tools/plot_qualification.py
@@ -45,6 +52,23 @@ thermal: build/two_temperature_qualification
 
 thermal-plots: thermal
 	python3 tools/plot_two_temperature.py
+
+.PHONY: weak-coupling weak-coupling-plots
+weak-coupling: build/weak_coupling
+	./build/weak_coupling results/weak_coupling
+
+weak-coupling-plots: weak-coupling
+	python3 tools/plot_weak_coupling.py
+
+build/stiff_reaction: examples/stiff_reaction.cpp examples/stiff_reaction_model.hpp $(HEADERS) | build
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+
+.PHONY: stiff-reaction stiff-reaction-plots
+stiff-reaction: build/stiff_reaction
+	./build/stiff_reaction results/stiff_reaction
+
+stiff-reaction-plots: stiff-reaction
+	python3 tools/plot_stiff_reaction.py
 
 clean:
 	rm -rf build
@@ -64,9 +88,71 @@ gas-plots: gas
 build/oscillator: examples/oscillator.cpp $(HEADERS) | build
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
+build/oscillator_poor_timing: examples/oscillator_poor_timing.cpp examples/oscillator_model.hpp examples/oscillator_qualification_model.hpp $(HEADERS) | build
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+
+build/nonuniform_oscillator: examples/nonuniform_oscillator.cpp examples/oscillator_model.hpp examples/oscillator_qualification_model.hpp $(HEADERS) | build
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+
 .PHONY: oscillator oscillator-plots
 oscillator: build/oscillator
 	./build/oscillator results/oscillator
 
-oscillator-plots: oscillator
+oscillator-plots: oscillator poor-oscillator proper-oscillator
 	python3 tools/plot_oscillator.py
+
+.PHONY: poor-oscillator proper-oscillator poor-oscillator-plots sampling-comparison
+poor-oscillator: build/oscillator_poor_timing
+	./build/oscillator_poor_timing results/oscillator_poor_timing
+
+proper-oscillator: build/oscillator_poor_timing
+	./build/oscillator_poor_timing results/oscillator_proper_timing proper
+
+sampling-comparison: poor-oscillator proper-oscillator
+	python3 tools/plot_oscillator.py
+
+poor-oscillator-plots: sampling-comparison
+
+.PHONY: nonuniform-oscillator nonuniform-oscillator-plots
+nonuniform-oscillator: build/nonuniform_oscillator
+	./build/nonuniform_oscillator results/nonuniform_oscillator
+
+nonuniform-oscillator-plots: nonuniform-oscillator
+	python3 tools/plot_nonuniform_oscillator.py
+
+.PHONY: goal-dependence goal-dependence-plots
+goal-dependence: build/goal_dependence
+	./build/goal_dependence results/goal_dependence
+
+goal-dependence-plots: goal-dependence
+	python3 tools/plot_goal_dependence.py
+
+build/two_tank: examples/two_tank.cpp $(HEADERS) | build
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+
+.PHONY: two-tank two-tank-plots
+two-tank: build/two_tank
+	./build/two_tank results/two_tank
+
+two-tank-plots: two-tank
+	python3 tools/plot_two_tank.py
+
+build/insulated_thermal: examples/insulated_thermal.cpp $(HEADERS) | build
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+
+.PHONY: insulated-thermal insulated-thermal-plots
+insulated-thermal: build/insulated_thermal
+	./build/insulated_thermal results/insulated_thermal
+
+insulated-thermal-plots: insulated-thermal
+	python3 tools/plot_insulated_thermal.py
+
+build/electrothermal: examples/electrothermal.cpp $(HEADERS) | build
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+
+.PHONY: electrothermal electrothermal-plots
+electrothermal: build/electrothermal
+	./build/electrothermal results/electrothermal
+
+electrothermal-plots: electrothermal
+	python3 tools/plot_electrothermal.py

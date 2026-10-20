@@ -1,0 +1,4 @@
+goal,units,tolerance,persistent_time_s,qualified,joint_time_s,joint_qualified
+displacement,m,0.001,0,1,0,1
+velocity,m/s,0.002,0,1,0,1
+support_force,N,0.04,0,1,0,1

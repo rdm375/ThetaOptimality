@@ -1,0 +1,4 @@
+case,positive_boxes,negative_boxes,unresolved_boxes,visited,resolution_complete
+temperature_only,1008,1008,0,4847,1
+signed_voltage,620,0,0,1483,1
+weak_signed_voltage,1008,1008,0,4847,1

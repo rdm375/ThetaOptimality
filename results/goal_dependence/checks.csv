@@ -1,0 +1,39 @@
+check,error,tolerance,passed
+different_goal_times: analytical set contains synthetic truth,0,0,1
+different_goal_times: numerical set contains synthetic truth,0,0,1
+different_goal_times: corrected numerical set contains analytical vertex,0,0,1
+different_goal_times: corrected numerical set contains analytical vertex,0,0,1
+different_goal_times: corrected numerical set contains analytical vertex,0,0,1
+different_goal_times: corrected numerical set contains analytical vertex,0,0,1
+different_goal_times: corrected numerical set contains analytical vertex,0,0,1
+different_goal_times: corrected numerical set contains analytical vertex,0,0,1
+different_goal_times: corrected numerical set contains analytical vertex,0,0,1
+different_goal_times: uniform reconstruction allowance versus exact solution,0,2.0000000000000001e-13,1
+different_goal_times: goal pullback information equals incremental adjoint,3.0699543504183051e-15,2.0000000000000001e-13,1
+different_goal_times: goal adjoints equal analytical discrete tangents,5.6843418860808015e-14,1.9999999999999999e-11,1
+different_goal_times: prior box support encloses polygon projections,0,2e-12,1
+different_goal_times: qualified suffix covers every whole interval,0.99967413442997832,1,1
+different_goal_times: qualified suffix covers every whole interval,0.99356633320000731,1,1
+different_goal_times: qualified suffix covers every whole interval,0.99342631551382121,1,1
+different_goal_times: whole-interval envelopes enclose analytical physical-set probes,0,2e-12,1
+all three goals qualify in different_goal_times,0,0,1
+all-goals decision exists when every goal qualifies,0,0,1
+goal-specific persistent times are distinct,0,0,1
+joint time is the latest individual goal time,0,2e-14,1
+displacement_blocker: analytical set contains synthetic truth,0,0,1
+displacement_blocker: numerical set contains synthetic truth,0,0,1
+displacement_blocker: corrected numerical set contains analytical vertex,0,0,1
+displacement_blocker: corrected numerical set contains analytical vertex,0,0,1
+displacement_blocker: corrected numerical set contains analytical vertex,0,0,1
+displacement_blocker: corrected numerical set contains analytical vertex,0,0,1
+displacement_blocker: corrected numerical set contains analytical vertex,0,0,1
+displacement_blocker: uniform reconstruction allowance versus exact solution,0,2.0000000000000001e-13,1
+displacement_blocker: goal pullback information equals incremental adjoint,2.097195957452037e-15,2.0000000000000001e-13,1
+displacement_blocker: goal adjoints equal analytical discrete tangents,6.7501559897209518e-14,1.9999999999999999e-11,1
+displacement_blocker: prior box support encloses polygon projections,0,2e-12,1
+displacement_blocker: qualified suffix covers every whole interval,0.99979315798543167,1,1
+displacement_blocker: qualified suffix covers every whole interval,0.99993793924817198,1,1
+displacement_blocker: whole-interval envelopes enclose analytical physical-set probes,0,2e-12,1
+displacement is the sole unqualified goal,0,0,1
+one unqualified goal blocks joint qualification,0,0,1
+reported blocking goal is displacement,0,0,1

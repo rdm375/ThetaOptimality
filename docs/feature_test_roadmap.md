@@ -18,12 +18,12 @@ history belongs to the deferred time-dependent-control work.
 | Feature | Small engineering example | Question and required demonstration | Current coverage |
 |---|---|---|---|
 | **Hidden state** | Damped mechanical oscillator: observe displacement, infer initial velocity | Can the observations identify a state component that is never directly measured? Recover the full initial state and compare its sensitivities, errors, and engineering qualification with analytical references. | Implemented in [oscillator.md](oscillator.md). |
-| **Poor measurement timing / sampling blindness** | Observe the oscillator only at integer half-periods | Show a nonzero initial-state direction that leaves every observation unchanged. Contrast this with a well-spaced schedule. Do not interpret numerical phase error as genuine physical observability. | Analytical timing diagnostic implemented in the oscillator; a full ill-posed reconstruction and qualification case remains to be added. |
-| **Multiple decay timescales** | Two thermal masses with weak coupling | Separate fast and slow modes. Show that a state can look settled while uncertainty in a slow mode still prevents a selected goal from qualifying. Compare goal-specific qualification times with modal predictions. | Two-temperature model provides an analytical two-mode foundation; a dedicated weak-coupling / scale-separation sweep remains to be added. |
-| **Transient error amplification** | Two coupled storage states with one-way transfer, or a damped coupled mechanical system | Despite asymptotic stability, an initial perturbation can grow temporarily in a specified physical norm or engineering goal. Predict the largest gain and its initial direction, then verify the tangent, adjoint, uncertainty envelope, and delayed persistent qualification. | Proposed dedicated example. |
-| **Persistent unobservable mode** | Two insulated thermal masses; measure only their temperature difference | Recover or qualify the difference while a common temperature offset remains invisible and does not decay. With a prior domain broader than the absolute-temperature tolerance, correctly leave absolute-temperature goals unqualified. | Proposed dedicated example. |
-| **Nonlinear observation ambiguity** | Observe squared oscillator displacement, $y=q^2$, without a sign-sensitive measurement | Exhibit distinct initial states with identical observations; local derivative rank must not be mistaken for global uniqueness. Preserve both feasible branches in qualification, then test how an added signed observation changes the result. | Proposed dedicated example. Static PR composition inference provides related nonlinear inverse-problem experience, but does not establish this sign-ambiguity test. |
-| **Stiff dynamics** | Coupled fast and slow thermal relaxation | Distinguish stability from accuracy. Show how unresolved fast modes affect state reconstruction and qualification; test midpoint's weak damping of very stiff modes as well as theta values with stronger damping. Recover expected convergence once the relevant scales are resolved. | Proposed dedicated example. Existing theta comparisons are not a dedicated stiffness test. |
+| **Poor measurement timing / sampling blindness** | Compare four oscillator displacement samples at half-periods and at well-spaced times | Show how half-period samples leave initial velocity unobservable, while proper sampling restores rank, stable recovery, and engineering qualification. Do not interpret numerical phase error as physical information. | Implemented as matched theta-discrete inverse problems with exact rank-one/rank-two references, adjoint checks, phase-leakage refinement study, bounded feasible-state sets, and persistent qualification in [oscillator.md](oscillator.md). |
+| **Multiple decay timescales** | Motor winding and housing with variable thermal contact | Separate fast and slow modes. Show that the measured housing can look settled while uncertainty in the hidden winding state still prevents that goal from qualifying. Compare goal-specific qualification times with modal predictions. | Implemented in [weak_coupling.md](weak_coupling.md): three known contact conductances, housing-only sensing, exact modal reference, full discrete optimality validation, and bounded persistent qualification. |
+| **Transient error amplification** | Two coupled storage states with one-way transfer, or a damped coupled mechanical system | Despite asymptotic stability, an initial perturbation can grow temporarily in a specified physical norm or engineering goal. Predict the largest gain and its initial direction, then verify the tangent, adjoint, uncertainty envelope, and delayed persistent qualification. | Implemented in [two_tank.md](two_tank.md), including worst-direction tangent/adjoint checks, analytical convergence, and delayed persistent qualification. |
+| **Persistent unobservable mode** | Two insulated thermal masses; measure only their temperature difference | Recover or qualify the difference while a common temperature offset remains invisible and does not decay. With a prior domain broader than the absolute-temperature tolerance, correctly leave absolute-temperature goals unqualified. | Implemented in [insulated_thermal.md](insulated_thermal.md), including singular optimization, persistent feasible directions, and actual added absolute data. |
+| **Nonlinear observation ambiguity** | Infer RLC voltage/current from resistor temperature driven by Joule heating $Ri^2$ | Exhibit distinct initial states with identical observations; local derivative rank must not be mistaken for global uniqueness. Preserve both feasible branches in qualification, then test how an added signed observation changes the result. | Implemented in [electrothermal.md](electrothermal.md): nonlinear dynamics, two full-rank local optima, global bounded box covers, invariant/signed goals, and informative versus insufficient signed measurements. |
+| **Stiff dynamics** | Consecutive first-order reaction $A\to B\to C$, with $k_f/k_s=1000$ | Distinguish stability, damping, positivity, and accuracy. Show how an unresolved fast reaction mode affects concentrations, reconstruction, and qualification; compare midpoint, an intermediate theta, and backward Euler. Verify expected convergence after resolving both timescales. | Implemented in [stiff_reaction.md](stiff_reaction.md): exact solution, two product-observation schedules, discrete optimality checks, positivity diagnostic, bounded persistent qualification, and measured rates for eight workflow quantities. |
 
 For every proposed feature, choose physical units and scaling before assessing
 conditioning, perturbation size, amplification, or engineering tolerances.
@@ -65,17 +65,28 @@ information rather than evidence supplied by the measurements.
 
 ### Multiple decay timescales
 
-Vary a known physical coupling to create a controlled separation between fast and
-slow modes. Keep model parameters known during each state-finding experiment.
+Implemented in [the motor winding/housing example](weak_coupling.md). Vary a
+known physical contact conductance to create a controlled separation between
+fast and slow modes. Keep model parameters known during each state-finding
+experiment.
 
 Compare analytical modal decay, discrete modal behavior, and goal uncertainty.
-A temperature difference may qualify much earlier than a goal dominated by the
-slow mean-temperature mode. Include measurement schedules that poorly observe
-the slow direction, and an added measurement that targets it.
+The weak-contact case has a 423-minute slow-mode half-life. Housing-only data
+leave the winding-temperature bound above tolerance through the 600-minute
+horizon even though the housing and total stored-heat goals qualify at elapsed
+zero. At moderate contact, the winding goal qualifies after 103.59 minutes. At
+strong contact, the housing bound first passes and later fails before it
+qualifies persistently. The study reports goal-specific decisions, modal rates,
+the scaled information condition, exact references, and full observed rates.
+It exercises the existing library without requiring a new generic API; it
+also demonstrates that a full-rank Hessian can still correspond to weak
+practical information.
 
 ### Transient amplification
 
-This is a proposed next example, following the oscillator. Specify the physical
+Implemented in [the two-tank example](two_tank.md), following the oscillator. The concentration norm amplifies even though tracer inventory decreases. The refined bounded-data case initially meets the downstream tolerance, subsequently exceeds it, and qualifies persistently only from 2.515625 elapsed minutes. Shared library utilities now support tangent-map gains, polygon uncertainty sets, defect propagation, and whole-interval decisions.
+
+For further amplification examples, specify the physical
 state scaling and norm before computing a gain such as
 
 $$
@@ -100,6 +111,8 @@ assume that asymptotic decay implies monotonically decreasing error.
 
 ### Persistent unobservable mode
 
+Implemented in [the insulated thermal example](insulated_thermal.md). It uses the shared rank-aware quadratic optimizer and whole-interval qualification. Difference data alone qualify the difference on the refined midpoint grid while absolute temperatures remain unqualified. An actual added absolute datum restores rank and enables joint qualification.
+
 For two insulated thermal masses with internal heat exchange, adding the same
 constant to both initial temperatures leaves their temperature difference
 unchanged. That common offset persists because there is no heat exchange with an
@@ -113,31 +126,35 @@ information correctly, not forcing every goal to qualify.
 
 ### Nonlinear observation ambiguity
 
-For a homogeneous oscillator and observations $q(t)^2$, the initial states
-$\boldsymbol\xi$ and $-\boldsymbol\xi$ generate identical observation records.
-Their local sensitivity matrices can each have full rank away from degeneracies;
-that does not remove the global ambiguity.
+Implemented in [the electrothermal discharge example](electrothermal.md).
+Joule heating supplies the physical nonlinear observation mechanism: opposite
+initial capacitor voltages and inductor currents produce identical resistor
+temperatures. Each branch has full-rank local curvature, yet both must remain
+in qualification. Shared box-subdivision and union range routines search the
+stated prior rather than treating multistart optimization as a completeness proof.
 
-The test should retain both branches over the stated initial-state domain.
-Compare signed displacement/velocity goals with sign-invariant goals. A small
-local covariance around one optimum must not be used as a global uncertainty
-certificate. Add a sign-sensitive measurement and determine whether it actually
-separates the branches at the chosen measurement time and error level.
+Temperature and stored-energy goals qualify with both polarities retained;
+signed electrical goals remain unqualified on the stated horizon. An actual
+accurate signed datum removes the opposite region and enables joint
+qualification. A weak signed datum changes local cost preference while leaving
+both regions admissible. The original squared-displacement oscillator remains
+a possible alternative illustration, not an implemented separate example.
 
 ### Stiff dynamics
 
-Construct an exact linear reference with well-separated decay rates. Include
-initial conditions that excite the fast mode, rather than choosing an initial
-state that hides it from the experiment.
+Implemented in [the stiff consecutive-reaction example](stiff_reaction.md).
+The exact $A\to B\to C$ mechanism uses $k_f/k_s=1000$ and observes only product
+$C$. It tests the forward model, discrete optimality derivatives, reconstruction,
+and bounded qualification. On a step ten times larger than the fast timescale,
+midpoint is stable but leaves an alternating fast mode and produces negative
+species; backward Euler damps the same mode much more strongly. Refinement
+recovers the measured second-order rate for $\theta=0.5$ and first-order rates
+for $\theta=0.65$ throughout the state-finding workflow.
 
-For theta = 0.5, distinguish second-order convergence at resolved timesteps from
-poor damping of an unresolved fast mode. Compare against theta = 1 and an
-intermediate value such as 0.65 where useful. Stability, physical admissibility,
-observation fit, and engineering qualification are separate checks.
-
-Temporal-order claims should use a refinement range that reaches the asymptotic
-regime. A stable coarse calculation need not be accurate enough to reconstruct
-or qualify the state.
+The case also makes clear that numerical damping does not create measurement
+information. The prior and product data are retained in a bounded feasible set,
+and the species goals qualify only after the hidden fast-composition uncertainty
+has decayed below tolerance.
 
 ## 3. Shared test contract for every dynamic example
 
@@ -198,8 +215,8 @@ relevant input.
 
 | Feature | Required test |
 |---|---|
-| Variable timesteps and nonuniform schedules | Keep observation times fixed; verify the forward/cost/tangent/adjoint consistency on nonuniform meshes and define the refinement family explicitly. |
-| Goal dependence | On the same reconstructed state and uncertainty set, show goals that qualify at different times and cases where one blocked goal prevents joint qualification. |
+| Variable timesteps and nonuniform schedules | Keep observation times fixed; verify the forward/cost/tangent/adjoint consistency on nonuniform meshes and define the refinement family explicitly. Implemented in [nonuniform_mesh.md](nonuniform_mesh.md), with a nested graded oscillator mesh and observed orders for eleven optimality-system quantities. |
+| Goal dependence | On the same reconstructed state and uncertainty set, show goals that qualify at different times and cases where one blocked goal prevents joint qualification. Implemented as a dedicated two-case oscillator cross-cutting test in [goal_dependence.md](goal_dependence.md). |
 | Measurement quality versus numerical accuracy | Refine the mesh with data fixed, then separately change measurement bounds. Demonstrate which budget term limits qualification. |
 | Observation weighting and correlated errors | Specify measurement covariance independently of goal-adjoint sensitivity. A dedicated correlated-noise example needs an appropriate joint uncertainty construction; the independent-Gaussian noise-box formula must not be reused unchanged. |
 | Units and scaling | Verify consistent results under unit conversion and use physically stated scales for conditioning and gain comparisons. |
@@ -216,11 +233,13 @@ oscillator. The static EOS example does not count as a transient theta test.
 
 A proposed continuation is:
 
-1. Transient amplification with an exact linear reference.
-2. A persistent unobservable thermal mode with qualified and unqualified goals.
-3. Nonlinear observation ambiguity and branch-resolving measurements.
-4. A weak-coupling timescale sweep, followed by a deliberately stiff case.
-5. A complete poorly timed oscillator reconstruction/qualification experiment.
+1. **Completed:** transient amplification with an exact linear reference; see [two_tank.md](two_tank.md).
+2. **Completed:** persistent unobservable thermal mode with qualified and unqualified goals; see [insulated_thermal.md](insulated_thermal.md).
+3. **Completed:** nonlinear observation ambiguity and branch-resolving measurements in [electrothermal.md](electrothermal.md).
+4. **Completed:** a practical weak-coupling timescale sweep in the motor winding/housing example; see [weak_coupling.md](weak_coupling.md).
+5. **Completed:** a stiff, analytically solvable chemical reaction with bounded
+   species qualification; see [stiff_reaction.md](stiff_reaction.md).
+6. **Completed:** matched poorly and properly timed oscillator reconstruction and qualification experiments; see [oscillator.md](oscillator.md#15-poorly-timed-sampling-is-a-full-inverse-problem-test).
 
 The ordering can change as the series develops. For each new example, complete
 and record:

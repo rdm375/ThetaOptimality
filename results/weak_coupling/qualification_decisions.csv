@@ -1,0 +1,13 @@
+contact_kW_per_K,case,goal,tolerance,first_crossing_elapsed_min,persistent_elapsed_min,qualified
+0.029999999999999999,weak,winding_temperature,3,nan,nan,0
+0.029999999999999999,weak,housing_temperature,1,0,0,1
+0.029999999999999999,weak,winding_housing_difference,4,nan,nan,0
+0.029999999999999999,weak,stored_heat,1000,0,0,1
+0.29999999999999999,moderate,winding_temperature,3,103.59375,103.59375,1
+0.29999999999999999,moderate,housing_temperature,1,0,0,1
+0.29999999999999999,moderate,winding_housing_difference,4,72.890625,72.890625,1
+0.29999999999999999,moderate,stored_heat,1000,0,0,1
+3,strong,winding_temperature,3,10.859375,10.859375,1
+3,strong,housing_temperature,1,0,27.96875,1
+3,strong,winding_housing_difference,4,6.71875,6.71875,1
+3,strong,stored_heat,1000,0,0,1

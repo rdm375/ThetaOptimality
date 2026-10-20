@@ -3,41 +3,36 @@
 #include <optional>
 
 namespace oscillator::qualification {
-using Polygon=std::vector<Vec<2>>;
+using Polygon=ConvexPolygon2;
 inline constexpr std::array<Vec<2>,3> goals{{{1.,0.},{0.,1.},{stiffness,damping}}};
 inline constexpr std::array<double,3> tolerances{.001,.002,.04};
 inline constexpr std::array<const char*,3> names{"displacement","velocity","support_force"};
 inline constexpr std::array<const char*,3> units{"m","m/s","N"};
 inline constexpr Vec<2> prior_radii{.08,.30};
-inline Polygon prior(){return {{-.08,-.30},{.08,-.30},{.08,.30},{-.08,.30}};}
+inline Polygon prior(){return rectangle_polygon(-1.*prior_radii,prior_radii);}
 inline Vec<2> transform(const Vec<2>& x){return {frequency*x[0],x[1]+decay*x[0]};}
 inline double energy_norm(const Vec<2>& x){auto z=transform(x);return std::hypot(z[0],z[1]);}
 inline double goal_dual_norm(const Vec<2>& c){return std::hypot((c[0]-decay*c[1])/frequency,c[1]);}
-inline Polygon clip(Polygon p,const Vec<2>& normal,double bound){
-    Polygon result;if(p.empty())return result;auto previous=p.back();double fp=dot(normal,previous)-bound;
-    for(auto x:p){double fx=dot(normal,x)-bound;if((fx<=0)!=(fp<=0)){double alpha=fp/(fp-fx);result.push_back(previous+alpha*(x-previous));}if(fx<=0)result.push_back(x);previous=x;fp=fx;}return result;
-}
-inline bool contains(const Polygon& p,const Vec<2>& x,double tolerance=1e-13){if(p.size()<3)return false;for(std::size_t j=0;j<p.size();++j){auto a=p[j],b=p[(j+1)%p.size()];if((b[0]-a[0])*(x[1]-a[1])-(b[1]-a[1])*(x[0]-a[0])< -tolerance)return false;}return true;}
+inline Polygon clip(Polygon p,const Vec<2>& normal,double bound){return clip_halfspace(std::move(p),normal,bound);}
+inline bool contains(const Polygon& p,const Vec<2>& x,double tolerance=1e-13){return polygon_contains(p,x,tolerance);}
 struct Affine {std::array<std::vector<Vec<2>>,2> tangent;};
 inline Affine affine(const System<2,2>& sys){auto tr=sys.forward({0.,0.});return {{sys.tangent({0.,0.},tr,{1.,0.}),sys.tangent({0.,0.},tr,{0.,1.})}};}
 inline Vec<2> apply(const Affine& path,std::size_t node,const Vec<2>& xi){return xi[0]*path.tangent[0][node]+xi[1]*path.tangent[1][node];}
 inline Vec<2> goal_gradient(const Affine& path,std::size_t node,const Vec<2>& c){return {dot(c,path.tangent[0][node]),dot(c,path.tangent[1][node])};}
 // Quadratic reconstruction matches both state endpoints. At theta=.5 it also
 // matches the model derivative at both ends when the algebraic residual is zero.
-inline Vec<2> reconstruct(const Vec<2>& x,const Vec<2>& next,double h,double s){return x+h*s*mv(A,x)+s*s*(next-x-h*mv(A,x));}
-inline double quadratic_peak(double c0,double c1,double c2){double result=std::max(std::abs(c0),std::abs(c0+c1+c2));if(c2!=0){double s=-c1/(2*c2);if(s>0&&s<1)result=std::max(result,std::abs(c0+c1*s+c2*s*s));}return result;}
+inline Vec<2> reconstruct(const Vec<2>& x,const Vec<2>& next,double h,double s){return linear_quadratic_reconstruction(A,x,next,h,s);}
+inline double quadratic_peak(double c0,double c1,double c2){return quadratic_absolute_maximum(c0,c1,c2);}
 inline std::vector<double> allowance(const System<2,2>& sys){
     const auto& grid=sys.grid();std::vector<double> D(grid.steps()),E(grid.time.size());
     for(auto corner:prior()){auto tr=sys.forward(corner);
-        for(std::size_t n=0;n<grid.steps();++n){double h=grid.time[n+1]-grid.time[n],theta=grid.theta[n];auto x=tr.state[n],next=tr.state[n+1],delta=next-x;
-            auto r=delta-h*((1-theta)*mv(A,x)+theta*mv(A,next));
-            double roundoff=64*std::numeric_limits<double>::epsilon()*(energy_norm(x)+energy_norm(next)+h*(energy_norm(mv(A,x))+energy_norm(mv(A,next))));
-            double defect=std::abs(2*theta-1)*energy_norm(mv(A,delta))+h*theta*.25*energy_norm(mv(A,mv(A,delta)))+.25*energy_norm(mv(A,r))+2*(energy_norm(r)+roundoff)/h;
+        for(std::size_t n=0;n<grid.steps();++n){double h=grid.time[n+1]-grid.time[n],theta=grid.theta[n];auto x=tr.state[n],next=tr.state[n+1];
+            double defect=linear_theta_quadratic_defect_bound(A,x,next,h,theta,energy_norm);
             D[n]=std::max(D[n],defect);
         }
     }
     // In z=(omega*q,v+a*q), z'=(-a I+omega J)z and ||Phi||=exp(-a*t).
-    for(std::size_t n=0;n<grid.steps();++n){double h=grid.time[n+1]-grid.time[n];E[n+1]=std::exp(-decay*h)*E[n]-std::expm1(-decay*h)*D[n]/decay;}return E;
+    for(std::size_t n=0;n<grid.steps();++n){double h=grid.time[n+1]-grid.time[n];E[n+1]=propagate_defect_bound(E[n],D[n],h,-decay);}return E;
 }
 inline Polygon observation_set(const Grid& grid,const Affine& path,double radius,const std::vector<double>& E,bool analytical=false){
     auto p=prior();for(std::size_t j=0;j<elapsed.size();++j){auto n=node_at(grid,elapsed[j]);auto g=analytical?propagator(elapsed[j])[0]:goal_gradient(path,n,{1.,0.});double b=radius+(analytical?0.:goal_dual_norm({1.,0.})*E[n]);p=clip(std::move(p),g,observation(j)+b);p=clip(std::move(p),-1.*g,-observation(j)+b);}if(p.size()<3)throw std::runtime_error("Empty oscillator uncertainty polygon");return p;
@@ -81,12 +76,13 @@ template<class Check> Result experiment(const System<2,2>& sys,double radius,Che
     check("goal adjoints equal analytical discrete tangents",adjoint_error,2e-11);check("prior box support encloses polygon projections",prior_support_error,2e-12);
     for(std::size_t n=0;n<grid.steps();++n){double h=grid.time[n+1]-grid.time[n];for(std::size_t k=0;k<3;++k){double spread=0.;for(auto v:result.polygon){auto x=apply(path,n,v-result.center),next=apply(path,n+1,v-result.center);double c0=dot(goals[k],x),c1=h*dot(goals[k],mv(A,x)),c2=dot(goals[k],next-x-h*mv(A,x));spread=std::max(spread,quadratic_peak(c0,c1,c2));}result.intervals[n][k]=spread+goal_dual_norm(goals[k])*std::max(result.numerical[n],result.numerical[n+1]);}}
     std::vector<double> times;for(double time:grid.time)times.push_back(time-t0);
-    for(std::size_t k=0;k<3;++k){std::vector<double> node_ratio,interval_ratio;for(auto v:result.nodes)node_ratio.push_back(v[k]/tolerances[k]);for(auto v:result.intervals)interval_ratio.push_back(v[k]/tolerances[k]);for(std::size_t n=0;n<interval_ratio.size();++n)if(interval_ratio[n]<=1){result.first_interval_time[k]=times[n];break;}result.node_time[k]=persistent_node_qualification(times,node_ratio);result.continuous_time[k]=persistent_node_qualification(std::vector<double>(times.begin(),times.end()-1),interval_ratio);result.analytical_time[k]=analytical_persistent_time(result.reference_polygon,analytical_fit(),goals[k],tolerances[k]);
+    auto qualified=qualify_intervals(times,result.intervals,tolerances);result.first_interval_time=qualified.first_below;result.continuous_time=qualified.persistent;result.joint=qualified.joint;
+    for(std::size_t k=0;k<3;++k){std::vector<double> node_ratio;for(auto v:result.nodes)node_ratio.push_back(v[k]/tolerances[k]);result.node_time[k]=persistent_node_qualification(times,node_ratio);result.analytical_time[k]=analytical_persistent_time(result.reference_polygon,analytical_fit(),goals[k],tolerances[k]);
         if(result.continuous_time[k]){double last=0.;for(std::size_t n=0;n<grid.steps();++n)if(times[n]>=*result.continuous_time[k]-1e-12)last=std::max(last,result.intervals[n][k]/tolerances[k]);check("qualified suffix covers every whole interval",last,1.);}
     }
     double physical_violation=0.;
     for(std::size_t n=0;n<grid.steps();++n){double h=grid.time[n+1]-grid.time[n];for(double s:{0.,.25,.5,.75,1.}){auto center=reconstruct(tr.state[n],tr.state[n+1],h,s);double tau=grid.time[n]-t0+h*s;for(auto vertex:result.reference_polygon){auto error=exact(tau,vertex)-center;for(std::size_t k=0;k<3;++k)physical_violation=std::max(physical_violation,(std::abs(dot(goals[k],error))-result.intervals[n][k])/tolerances[k]);}}}
     check("whole-interval envelopes enclose analytical physical-set probes",physical_violation,2e-12);
-    result.joint=all_goals_qualification_time(result.continuous_time);return result;
+    return result;
 }
 }

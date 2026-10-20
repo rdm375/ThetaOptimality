@@ -2,7 +2,7 @@
 #include <iomanip>
 #include <iostream>
 #include <string>
-#include <theta_opt/qualification.hpp>
+#include <theta_opt/theta_opt.hpp>
 
 using namespace theta_opt;
 int checks=0;
@@ -28,6 +28,85 @@ Problem<2,2> coupled(){
 }
 
 int main(){try{
+    {
+        Box2 box{{-2.,-1.},{2.,1.}};Quadratic2 square{0.,{},{{{1.,0.},{0.,1.}}}};
+        auto range=quadratic_range(square,box);check(range.lower<=0&&range.upper>=5.,"quadratic box range encloses corners");
+        Quadratic2 linear{1.,{2.,-3.},{}};auto lr=quadratic_range(linear,box);check(lr.lower<=-6.&&lr.upper>=8.,"linear box range exact up to slack");
+        check(contains(box,{2.,1.})&&!contains(box,{3.,1.}),"box membership boundaries");
+        auto cover=subdivide_feasible_boxes(box,{.03,.03},[](const Box2& b){Quadratic2 q{0.,{},{{{1.,0.},{0.,0.}}}};auto r=quadratic_range(q,b);return r.lower<=1.01&&r.upper>=.99;});
+        check(cover.resolution_complete&&!cover.boxes.empty(),"disconnected feasible cover resolves");
+        check(cover_contains(cover,{1.,0.})&&cover_contains(cover,{-1.,0.}),"both solution branches retained");
+        auto union_range=cover_quadratic_range(cover,Quadratic2{0.,{1.,0.},{}});check(union_range.lower<=-1.&&union_range.upper>=1.,"union range retains opposite signs");
+        auto whole_union=cover_polynomial_quadratic_range(cover,{Quadratic2{0.,{1.,0.},{}},Quadratic2{1.,{},{}}});check(whole_union.lower<=-1.&&whole_union.upper>=2.,"whole interval union retains all branches");
+        auto limited=subdivide_feasible_boxes(box,{.001,.001},[](const Box2&){return true;},1);check(!limited.resolution_complete&&cover_contains(limited,{1.7,.8}),"budget preserves unresolved feasible cells");
+        auto empty=subdivide_feasible_boxes(box,{1.,1.},[](const Box2&){return false;});check(empty.boxes.empty(),"empty cover");
+        rejects([&]{cover_quadratic_range(empty,square);},"empty union has no goal enclosure");
+        auto pr=polynomial_quadratic_range({Quadratic2{1.,{},{}},Quadratic2{-2.,{},{}},Quadratic2{3.,{},{}}},box);check(pr.lower<=1&&pr.upper>=2.,"whole-time polynomial range");
+        rejects([&]{subdivide_feasible_boxes(box,{0.,1.},[](const Box2&){return true;});},"reject invalid subdivision resolution");
+        rejects([]{quadratic_range(Quadratic2{},Box2{{1.,0.},{0.,1.}});},"reject inverted box");
+        rejects([&]{polynomial_quadratic_range({},box);},"reject empty temporal polynomial");
+    }
+
+    {
+        auto rank1=psd_spectrum_2d(Mat<2,2>{{{2.,-2.},{-2.,2.}}});
+        check(rank1.rank==1,"rank-one PSD information");
+        close(rank1.eigenvalues[0],4.,1e-14,"nonzero information eigenvalue");
+        close(norm(rank1.solve_compatible({2.,-2.})-Vec<2>{.5,-.5}),0.,1e-14,"compatible pseudoinverse solve");
+        close(std::abs(dot(rank1.directions[1],Vec<2>{1.,1.})),std::sqrt(2.),1e-14,"missing common direction");
+        rejects([&]{rank1.solve_compatible({1.,1.});},"reject incompatible null-space right hand side");
+        auto full=psd_spectrum_2d(Mat<2,2>{{{3.,1.},{1.,2.}}});
+        check(full.rank==2,"full-rank information");
+        close(norm(mv(Mat<2,2>{{{3.,1.},{1.,2.}}},full.solve_compatible({2.,3.}))-Vec<2>{2.,3.}),0.,1e-14,"full rank spectral solve");
+        auto zero=psd_spectrum_2d(Mat<2,2>{});check(zero.rank==0,"zero information rank");
+        close(norm(zero.solve_compatible({0.,0.})),0.,1e-15,"zero compatible solve");
+        rejects([&]{zero.solve_compatible({1.,0.});},"zero incompatible solve");
+        rejects([]{psd_spectrum_2d(Mat<2,2>{{{1.,0.},{0.,-1.}}});},"reject indefinite spectrum");
+        rejects([]{psd_spectrum_2d(Mat<2,2>{{{1.,1.},{0.,1.}}});},"reject nonsymmetric spectrum");
+        rejects([]{psd_spectrum_2d(identity<2>(),0.);},"reject invalid rank cutoff");
+        auto small=psd_spectrum_2d(Mat<2,2>{{{1e-100,0.},{0.,1e-105}}});check(small.rank==2,"rank is relative to information scale");
+        auto weak=psd_spectrum_2d(Mat<2,2>{{{1.,0.},{0.,1e-14}}});check(weak.rank==1,"explicit numerical rank threshold");
+        rejects([]{psd_spectrum_2d(Mat<2,2>{{{NAN,0.},{0.,1.}}});},"reject nonfinite information");
+        auto quadratic_problem=[](){Problem<1,2> p;p.initial.value=[](auto){return Vec<1>{0.};};p.initial.jacobian=[](auto){return Mat<1,2>{};};p.initial.directional_jacobian=[](auto,auto){return Mat<1,2>{};};p.dynamics.value=[](double,auto,auto){return Vec<1>{};};p.dynamics.derivatives=[](double,auto,auto){return Derivatives<1,2>{};};p.dynamics.directional_derivatives=[](double,auto,auto,auto,auto){return Derivatives<1,2>{};};return p;};
+        auto empty_system=System<1,2>(quadratic_problem(),Grid::uniform(2.,3.,2,.5));
+        close(norm(minimize_quadratic_psd_2d(empty_system,{2.,3.}).optimum.control-Vec<2>{2.,3.}),0.,1e-15,"zero-information optimizer retains representative");
+        rejects([&]{minimize_quadratic_psd_2d(empty_system,{2.,3.},0.);},"reject invalid projected optimizer tolerance");
+        auto linear=quadratic_problem();linear.penalty.value=[](auto x){return x[0];};linear.penalty.gradient=[](auto){return Vec<2>{1.,0.};};
+        rejects([&]{minimize_quadratic_psd_2d(System<1,2>(linear,Grid::uniform(2.,3.,2,.5)),{2.,3.});},"reject unbounded null-direction linear cost");
+        auto nonlinear=quadratic_problem();nonlinear.penalty.value=[](auto x){return .25*std::pow(x[0],4)+.5*x[1]*x[1];};nonlinear.penalty.gradient=[](auto x){return Vec<2>{std::pow(x[0],3),x[1]};};nonlinear.penalty.hessian_vector=[](auto x,auto d){return Vec<2>{3*x[0]*x[0]*d[0],d[1]};};
+        rejects([&]{minimize_quadratic_psd_2d(System<1,2>(nonlinear,Grid::uniform(2.,3.,2,.5)),{2.,3.});},"reject changing Hessian in quadratic optimizer");
+
+    }
+
+    close(worst_amplification_2d(identity<2>()).gain,1.,1e-14,"identity amplification");
+    close(worst_amplification_2d(Mat<2,2>{}).gain,0.,1e-14,"zero amplification");
+    close(worst_amplification_2d(Mat<2,2>{{{1.,1.},{0.,1.}}}).gain,(1+std::sqrt(5.))/2,1e-14,"shear singular gain");
+    auto weighted=worst_amplification_2d(Mat<2,2>{{{2.,0.},{0.,3.}}},{3.,2.},{2.,3.});
+    close(weighted.gain,3.,1e-14,"weighted amplification");close(norm(weighted.input_direction-Vec<2>{3.,0.}),0.,1e-14,"physical worst direction");
+    close(std::hypot(weighted.state_response[0]/2,weighted.state_response[1]/3),3.,1e-14,"weighted gain attained");
+    rejects([]{worst_amplification_2d(identity<2>(),{0.,1.});},"zero amplification scale");
+    rejects([]{worst_amplification_2d(Mat<2,2>{{{std::nan(""),0.},{0.,1.}}});},"nonfinite amplification");
+    auto polygon=rectangle_polygon({-1.,-1.},{1.,1.});polygon=clip_halfspace(polygon,{1.,0.},.5);
+    check(polygon_contains(polygon,{0.,0.}),"polygon contains interior");check(!polygon_contains(polygon,{.75,0.}),"polygon excludes clipped point");
+    check(!polygon_contains({{0.,0.},{1.,0.},{2.,0.}},{3.,0.}),"degenerate polygon is not a full-dimensional set");
+    close(polygon_goal_bound(polygon,{1.,0.},{-.25,0.}),.75,1e-14,"polygon support about center");
+    check(clip_halfspace(polygon,{1.,0.},-2.).empty(),"empty polygon intersection");
+    rejects([]{rectangle_polygon({1.,0.},{0.,1.});},"invalid rectangle");rejects([]{polygon_goal_bound({}, {1.,0.},{0.,0.});},"empty polygon goal bound");
+    close(propagate_defect_bound(1.,2.,.5,0.),2.,1e-14,"neutral defect propagation");
+    close(propagate_defect_bound(1.,0.,1.,.2),std::exp(.2),1e-14,"amplifying defect propagation");
+    close(propagate_defect_bound(1.,0.,1.,-.2),std::exp(-.2),1e-14,"contracting defect propagation");
+    rejects([]{propagate_defect_bound(-1.,0.,1.,0.);},"negative error allowance");
+    close(quadratic_absolute_maximum(0.,4.,-4.),1.,1e-14,"interior quadratic peak");
+    close(quadratic_absolute_maximum(0.,-4.,4.),1.,1e-14,"interior absolute quadratic peak");
+    auto intervals=qualify_intervals<2>({2.,3.,4.,5.},{{{.5,.5}},{{1.5,.2}},{{.6,.2}}},{1.,1.});
+    check(intervals.first_below[0]==2.&&intervals.persistent[0]==4.&&intervals.persistent[1]==2.&&intervals.joint==4.,"whole-interval rebound and joint time");
+    auto failed=qualify_intervals<1>({0.,1.,2.},{{{.5}},{{2.}}},{1.});check(!failed.joint&&!failed.persistent[0],"whole-interval unqualified suffix");
+    rejects([]{qualify_intervals<1>({0.,0.},{{{1.}}},{1.});},"invalid interval edges");
+    rejects([]{qualify_intervals<1>({0.,1.},{{{1.}}},{0.});},"invalid goal tolerance");
+    rejects([]{qualify_intervals<1>({0.,1.},{{{-1.}}},{1.});},"negative interval bound");
+    close(norm(linear_quadratic_reconstruction(identity<2>(),Vec<2>{1.,2.},Vec<2>{2.,3.},.1,1.)-Vec<2>{2.,3.}),0.,1e-14,"quadratic reconstruction endpoint");
+    rejects([]{linear_quadratic_reconstruction(identity<2>(),Vec<2>{},Vec<2>{},.1,2.);},"invalid reconstruction fraction");
+    rejects([]{linear_theta_quadratic_defect_bound(identity<2>(),Vec<2>{},Vec<2>{},.1,2.,[](auto v){return norm(v);});},"invalid defect theta");
+
     rejects([]{Grid({0.,0.},{.5});},"duplicate times");
     rejects([]{Grid({0.,1.},{1.1});},"invalid theta");
     rejects([]{Grid({0.,1.},{std::nan("")});},"NaN theta");
@@ -44,7 +123,7 @@ int main(){try{
     close(ww.back(),.22,1e-14,"last quadrature endpoint");
     double sum=0;for(double w:ww)sum+=w;close(sum,.5,1e-14,"quadrature sum");
     auto cp=coupled();System<2,2> sys(cp,variable);Vec<2> xi{.6,.8},d{.3,-.4};double eps=1e-5;
-    auto e=sys.evaluate(xi),plus=sys.evaluate(xi+eps*d),minus=sys.evaluate(xi-eps*d);auto s=sys.tangent(xi,e.trajectory,d);auto hv=sys.hessian_vector(xi,d);
+    auto e=sys.evaluate(xi),plus=sys.evaluate(xi+eps*d),minus=sys.evaluate(xi-eps*d);auto s=sys.tangent(xi,e.trajectory,d);auto jacobians=control_to_state_jacobians(sys,xi,e.trajectory);for(std::size_t n=0;n<s.size();++n)close(norm(mv(jacobians[n],d)-s[n]),0.,1e-13,"assembled control-state Jacobian");auto hv=sys.hessian_vector(xi,d);
     for(std::size_t n=0;n<s.size();++n)close(norm(s[n]-(.5/eps)*(plus.trajectory.state[n]-minus.trajectory.state[n])),0.,2e-8,"coupled tangent FD");
     close(dot(e.gradient,d),(plus.cost-minus.cost)/(2*eps),2e-8,"coupled gradient directional FD");
     close(norm(hv-(.5/eps)*(plus.gradient-minus.gradient)),0.,2e-7,"coupled incremental adjoint FD");

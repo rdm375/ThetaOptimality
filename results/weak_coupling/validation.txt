@@ -1,0 +1,4 @@
+weak_coupling_checks_passed=174
+cases=3
+convergence_theta_values=0.5,0.65
+all forward, inverse, derivative, balance, and qualification decisions executed in C++20

@@ -143,3 +143,143 @@ fig.text(.5,.05,'Times are elapsed from t₀; every remaining whole interval mus
 fig.tight_layout(rect=(0,.08,1,1));fig.savefig(root/'qualification_verdict.png',dpi=180);plt.close(fig)
 
 print('Plotted C++ oscillator outputs; Python performs no simulation, fitting, or order estimation.')
+
+# The poor-timing experiment has its own data files and its own conclusion.
+# The C++ executable performs fitting, feasible-set propagation, and qualification.
+poor_root=Path(__file__).resolve().parents[1]/'results'/'oscillator_poor_timing'
+def poor_rows(name):
+    with (poor_root/name).open() as f:return list(csv.DictReader(f))
+pr=poor_rows('reconstruction.csv');pt=col(pr,'elapsed_s')
+fig,axes=plt.subplots(1,3,figsize=(15,4.8))
+for ax,truth_key,fit_key,analytic_key,bound_key,label,unit in [
+    (axes[0],'true_q_m','discrete_q_m','qualification_center_q_m','displacement_bound_m','Displacement','m'),
+    (axes[1],'true_v_m_s','discrete_v_m_s','qualification_center_v_m_s','velocity_bound_m_s','Velocity','m/s')]:
+    truth_values=col(pr,truth_key);fit_values=col(pr,fit_key);center=col(pr,analytic_key);bound=col(pr,bound_key)
+    ax.plot(pt,truth_values,color='black',lw=1.8,label='Synthetic truth')
+    ax.plot(pt,center,'--',color='#2876a5',lw=1.5,label='Theta trajectory from feasible representative')
+    ax.plot(pt,fit_values,color='#b45b27',lw=1.1,label='Theta discrete reconstruction')
+    ax.fill_between(pt,fit_values-bound,fit_values+bound,color='#b45b27',alpha=.17,label='Bounded feasible-state envelope')
+    ax.set_xlabel('Elapsed time from $t_0$ (s)');ax.set_ylabel(f'{label} ({unit})');ax.grid(alpha=.2)
+    ax.set_title(label+' reconstruction');ax.legend(fontsize=7)
+phase=poor_rows('feasible_sets.csv')
+for name,color,label in [('analytical','#2876a5','Exact physical feasible set'),('numerical_outer','#b45b27','Numerically enlarged outer set')]:
+    verts=[r for r in phase if r['set']==name]
+    q=np.array([float(x['q0_m']) for x in verts]);v=np.array([float(x['v0_m_s']) for x in verts])
+    axes[2].fill(np.r_[q,q[0]],np.r_[v,v[0]],alpha=.2,color=color,label=label)
+    axes[2].plot(np.r_[q,q[0]],np.r_[v,v[0]],color=color)
+axes[2].plot([.02],[.12],'ko',ms=4,label='Synthetic truth')
+axes[2].set_xlabel('Initial displacement $q_0$ (m)');axes[2].set_ylabel('Initial velocity $v_0$ (m/s)')
+axes[2].set_title('Retained initial-state uncertainty');axes[2].grid(alpha=.2);axes[2].legend(fontsize=7)
+qdec=poor_rows('qualification.csv')
+labels={'displacement':'q','velocity':'v','support_force':'force'}
+for j,d in enumerate(qdec):
+    if j==2:
+        axes[2].text(.03,.95,'Support force: NOT QUALIFIED',transform=axes[2].transAxes,va='top',fontsize=8,color='#9e3226',bbox={'facecolor':'white','alpha':.85,'edgecolor':'none'})
+        continue
+    msg=f"{labels[d['goal']]}: NOT QUALIFIED" if d['qualified']=='0' else f"{labels[d['goal']]}: qualified from {float(d['persistent_time_s']):.3g} s"
+    axes[j].text(.03,.04,msg,transform=axes[j].transAxes,fontsize=8,color='#9e3226' if d['qualified']=='0' else '#22713d',bbox={'facecolor':'white','alpha':.8,'edgecolor':'none'})
+fig.suptitle('Half-period-only displacement sampling | theta = 0.5, N = 128\nExact sensor map is blind to initial velocity; qualification retains that direction',fontsize=13)
+fig.tight_layout(rect=(0,0,1,.91));fig.savefig(poor_root/'poor_timing_reconstruction.png',dpi=180);plt.close(fig)
+
+convp=poor_rows('convergence.csv')
+fig,axes=plt.subplots(1,2,figsize=(10,4))
+axes[0].loglog(col(convp,'h_s'),col(convp,'fixed_state_error'),'o-',color='#2876a5')
+axes[0].invert_xaxis();axes[0].set_xlabel('Maximum nominal step $h$ (s)');axes[0].set_ylabel('Scaled fixed-state error')
+axes[0].set_title('Midpoint forward-state convergence');axes[0].grid(which='both',alpha=.2)
+axes[1].loglog(col(convp,'h_s'),np.abs(col(convp,'v0_fit_m_s')),'o-',color='#b45b27',label='Magnitude of fitted $v_0$')
+axes[1].loglog(col(convp,'h_s'),col(convp,'scaled_information_small_eigenvalue'),'s--',color='#2876a5',label='Small information eigenvalue')
+axes[1].invert_xaxis();axes[1].set_xlabel('Maximum nominal step $h$ (s)');axes[1].set_ylabel('Magnitude / scaled information')
+axes[1].set_title('Discrete phase leakage under refinement');axes[1].grid(which='both',alpha=.2);axes[1].legend(fontsize=8)
+fig.suptitle('The state solver converges; the velocity estimate does not become identifiable')
+fig.tight_layout();fig.savefig(poor_root/'poor_timing_convergence.png',dpi=180);plt.close(fig)
+print('Plotted the poorly timed oscillator reconstruction and refinement diagnostics.')
+
+# Direct matched comparison: same oscillator, four data, noise realization,
+# bounded error, prior, theta method, and qualification tolerances. Only times change.
+proper_root=Path(__file__).resolve().parents[1]/'results'/'oscillator_proper_timing'
+def proper_rows(name):
+    with (proper_root/name).open() as f:return list(csv.DictReader(f))
+
+fig,axes=plt.subplots(3,3,figsize=(15,12))
+designs=[
+    (poor_root,poor_rows,'Half-period only','#b45b27'),
+    (proper_root,proper_rows,'Properly spaced','#2876a5'),
+]
+for root_dir,reader,label,color in designs:
+    reconstruction=reader('reconstruction.csv')
+    tau=col(reconstruction,'elapsed_s')
+    observations=reader('observations.csv')
+    for row,truth_key,disc_key,center_key,bound_key,ylabel in [
+        (0,'true_q_m','discrete_q_m','qualification_center_q_m','displacement_bound_m','Displacement (m)'),
+        (1,'true_v_m_s','discrete_v_m_s','qualification_center_v_m_s','velocity_bound_m_s','Velocity (m/s)')]:
+        ax=axes[row,0 if root_dir==poor_root else 1]
+        truth_values=col(reconstruction,truth_key)
+        discrete_values=col(reconstruction,disc_key)
+        center=col(reconstruction,center_key)
+        bound=col(reconstruction,bound_key)
+        ax.plot(tau,truth_values,'k-',lw=1.7,label='Analytical truth')
+        ax.plot(tau,center,'--',color='#2876a5',lw=1.3,label='Feasible representative')
+        ax.plot(tau,discrete_values,color=color,lw=1.1,label='Discrete least-squares fit')
+        ax.fill_between(tau,center-bound,center+bound,color=color,alpha=.18,label='Physical feasible envelope')
+        if row==0:
+            ax.errorbar(col(observations,'elapsed_s'),col(observations,'observed_m'),
+                        yerr=col(observations,'measurement_bound_m'),fmt='o',ms=3,
+                        color=color,capsize=2,label='Samples ± bound')
+        ax.set_title(f'{label}: {"displacement" if row==0 else "velocity"}')
+        ax.set_xlabel('Elapsed time from $t_0$ (s)');ax.set_ylabel(ylabel);ax.grid(alpha=.2)
+        if row==0 and root_dir==poor_root:ax.legend(fontsize=7,loc='best')
+
+    phase_records=reader('feasible_sets.csv')
+    phase_ax=axes[2,0 if root_dir==poor_root else 1]
+    for set_name,linestyle,alpha,set_label in [
+        ('analytical','-',.18,'Exact physical feasible set'),
+        ('numerical_outer','--',.10,'Numerically enlarged outer set')]:
+        verts=[r for r in phase_records if r['set']==set_name]
+        q=np.array([float(r['q0_m']) for r in verts]);v=np.array([float(r['v0_m_s']) for r in verts])
+        phase_ax.fill(np.r_[q,q[0]],np.r_[v,v[0]],color=color,alpha=alpha)
+        phase_ax.plot(np.r_[q,q[0]],np.r_[v,v[0]],color=color,ls=linestyle,lw=1,
+                      label=f'{label}: {set_label}')
+    phase_ax.plot([.02],[.12],'ko',ms=4,label='Synthetic truth')
+    phase_ax.set_xlabel('Initial displacement $q_0$ (m)');phase_ax.set_ylabel('Initial velocity $v_0$ (m/s)')
+    phase_ax.set_title(f'{label}: retained initial states');phase_ax.grid(alpha=.2)
+    phase_ax.legend(fontsize=7)
+
+# Show rank loss under mesh refinement and distinguish it from forward-state convergence.
+for root_dir,reader,label,color in designs:
+    records=reader('convergence.csv')
+    axes[0,2].loglog(col(records,'h_s'),col(records,'scaled_information_small_eigenvalue'),
+                     'o-',color=color,label=label)
+axes[0,2].invert_xaxis();axes[0,2].set_xlabel('Nominal step $h$ (s)')
+axes[0,2].set_ylabel('Small scaled information eigenvalue')
+axes[0,2].set_title('Information under mesh refinement');axes[0,2].grid(which='both',alpha=.2)
+axes[0,2].legend(fontsize=8)
+
+proper_convergence=proper_rows('convergence.csv');poor_convergence=poor_rows('convergence.csv')
+axes[1,2].loglog(col(proper_convergence,'h_s'),col(proper_convergence,'scaled_control_error'),
+                 'o-',color='#2876a5',label='Proper: recovered-control error')
+axes[1,2].loglog(col(proper_convergence,'h_s'),col(proper_convergence,'fixed_state_error'),
+                 's--',color='0.4',label='Proper: fixed-state error')
+axes[1,2].loglog(col(poor_convergence,'h_s'),np.abs(col(poor_convergence,'v0_fit_m_s')),
+                 '^-',color='#b45b27',label='Poor: $|$fitted $v_0|$')
+axes[1,2].invert_xaxis();axes[1,2].set_xlabel('Nominal step $h$ (s)')
+axes[1,2].set_ylabel('Scaled error / fitted velocity magnitude')
+axes[1,2].set_title('Recovery vs. phase-error leakage');axes[1,2].grid(which='both',alpha=.2)
+axes[1,2].legend(fontsize=7)
+
+axes[2,2].axis('off');decision_text=[]
+for root_dir,reader,label,_ in designs:
+    qd=reader('qualification.csv')
+    joint=all(r['qualified']=='1' for r in qd)
+    times_qual=[float(r['persistent_time_s']) for r in qd if r['persistent_time_s']]
+    status=f'JOINTLY QUALIFIED from {max(times_qual):.3g} s' if joint and times_qual else 'NOT QUALIFIED'
+    decision_text.append(f'{label}: {status}')
+axes[2,2].text(.04,.88,'Engineering qualification',transform=axes[2,2].transAxes,
+               fontsize=13,weight='bold',va='top')
+axes[2,2].text(.04,.68,'\n\n'.join(decision_text),transform=axes[2,2].transAxes,
+               fontsize=11,va='top',color='#22713d')
+axes[2,2].text(.04,.28,'Same four displacement samples, noise bounds, prior,\nand tolerances. Only their times change.',
+               transform=axes[2,2].transAxes,fontsize=10,va='top',
+               bbox={'facecolor':'#f5f6f7','edgecolor':'0.8','boxstyle':'round,pad=.5'})
+fig.suptitle('Proper sampling restores hidden-state recovery in the discrete optimality system',fontsize=15)
+fig.tight_layout(rect=(0,0,1,.97));fig.savefig(poor_root/'sampling_comparison.png',dpi=180);plt.close(fig)
+print('Plotted the matched poor-versus-proper sampling comparison.')

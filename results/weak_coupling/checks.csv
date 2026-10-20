@@ -1,0 +1,175 @@
+name,error,tolerance,passed
+K=0.030000 forward state at t0,0,1e-13,1
+K=0.030000 discrete optimizer stationarity,3.6348701826227625e-13,2e-08,1
+K=0.030000 discrete fit versus analytical optimum,0.00043941021618820741,1.5,1
+K=0.030000 Hessian symmetry,0,2.0000000000000001e-09,1
+K=0.030000 information matrix is full rank,0,0,1
+K=0.030000 discrete adjoint objective gradient finite difference,2.3723842349999271e-10,1.9999999999999999e-07,1
+K=0.030000 tangent finite difference,1.5373435857668483e-09,2.9999999999999999e-07,1
+K=0.030000 tangent-adjoint pairing,1.2434497875801753e-14,2.0000000000000001e-09,1
+K=0.030000 incremental-adjoint Hessian finite difference,7.7334760817393544e-10,2.9999999999999999e-07,1
+K=0.030000 discrete Hessian symmetry,1.0824674490095276e-15,2.0000000000000001e-09,1
+K=0.030000 observation tangent-adjoint information action,0,2.0000000000000001e-09,1
+K=0.030000 bounded set contains synthetic truth,0,0,1
+K=0.030000 numerical set contains analytical set vertices,0,0,1
+K=0.030000 independent thermal balance,7.1054273576010019e-15,1.9999999999999999e-11,1
+K=0.030000 theta running quadrature versus analytic integral,0.030006676621269435,0.10000000000000001,1
+K=0.030000 running adjoint gradient versus analytic gradient,0.0016816271293009777,0.10000000000000001,1
+K=0.030000 theta running quadrature versus fine independent integral,1.6262129065580666e-07,5.0000000000000004e-06,1
+K=0.030000 running adjoint gradient finite difference,2.4639984985697083e-07,1.9999999999999999e-06,1
+K=0.030000 running Hessian-vector versus analytic Hessian,3.3177442816167968e-05,0.10000000000000001,1
+K=0.030000 running incremental-adjoint finite difference,1.3104035190281138e-08,1.9999999999999999e-06,1
+K=0.030000 convergence optimizer stationarity,1.1801670751765414e-13,2e-08,1
+K=0.030000 convergence optimizer stationarity,3.0753177782116836e-14,2e-08,1
+K=0.030000 convergence optimizer stationarity,5.8730798002670781e-14,2e-08,1
+K=0.030000 convergence optimizer stationarity,1.5665246877460959e-13,2e-08,1
+K=0.030000 convergence optimizer stationarity,2.26929586233382e-13,2e-08,1
+K=0.030000 convergence optimizer stationarity,4.2138514899647816e-13,2e-08,1
+K=0.030000 convergence optimizer stationarity,1.7014167852380524e-13,2e-08,1
+K=0.030000 convergence optimizer stationarity,6.7817973459227687e-13,2e-08,1
+K=0.030000 convergence optimizer stationarity,3.6348701826227625e-13,2e-08,1
+K=0.030000 convergence optimizer stationarity,1.6336931807359178e-12,2e-08,1
+K=0.030000 convergence optimizer stationarity,2.075950522595349e-12,2e-08,1
+K=0.030000 theta=0.500000 observed order state,1.28461581261341e-06,0.22,1
+K=0.030000 theta=0.500000 observed order tangent,1.1103300099346569e-06,0.22,1
+K=0.030000 theta=0.500000 observed order goal_adjoint,2.5524427346379497e-05,0.22,1
+K=0.030000 theta=0.500000 observed order initial_fit,1.7841968524834328e-07,0.22,1
+K=0.030000 theta=0.500000 observed order objective,7.3140413336947319e-05,0.22,1
+K=0.030000 theta=0.500000 observed order gradient,2.5020825478172526e-07,0.22,1
+K=0.030000 theta=0.500000 observed order hessian,9.0205513654240121e-06,0.22,1
+K=0.030000 theta=0.500000 observed order fitted_final_state,1.5460052837923399e-07,0.22,1
+K=0.030000 convergence optimizer stationarity,5.595524044110789e-14,2e-08,1
+K=0.030000 convergence optimizer stationarity,7.9936057773011271e-14,2e-08,1
+K=0.030000 convergence optimizer stationarity,7.127631818093505e-14,2e-08,1
+K=0.030000 convergence optimizer stationarity,6.794564910705958e-14,2e-08,1
+K=0.030000 convergence optimizer stationarity,2.6600943670018751e-13,2e-08,1
+K=0.030000 convergence optimizer stationarity,2.9531932455029164e-13,2e-08,1
+K=0.030000 convergence optimizer stationarity,3.3217872896784684e-13,2e-08,1
+K=0.030000 convergence optimizer stationarity,4.7917225742821756e-13,2e-08,1
+K=0.030000 convergence optimizer stationarity,1.0572653863505366e-12,2e-08,1
+K=0.030000 convergence optimizer stationarity,6.2261307220978779e-13,2e-08,1
+K=0.030000 convergence optimizer stationarity,1.0003664563384973e-12,2e-08,1
+K=0.030000 theta=0.650000 observed order state,0.00067509402328413959,0.22,1
+K=0.030000 theta=0.650000 observed order tangent,0.00067482142176600313,0.22,1
+K=0.030000 theta=0.650000 observed order goal_adjoint,0.00023880774405449223,0.22,1
+K=0.030000 theta=0.650000 observed order initial_fit,0.00074353927445081069,0.22,1
+K=0.030000 theta=0.650000 observed order objective,0.051606234473825174,0.22,1
+K=0.030000 theta=0.650000 observed order gradient,0.00043038294977038039,0.22,1
+K=0.030000 theta=0.650000 observed order hessian,0.00043142764307568804,0.22,1
+K=0.030000 theta=0.650000 observed order fitted_final_state,0.00070781611692849467,0.22,1
+K=0.300000 forward state at t0,0,1e-13,1
+K=0.300000 discrete optimizer stationarity,1.8790524691780774e-12,2e-08,1
+K=0.300000 discrete fit versus analytical optimum,6.9366956324756757e-05,1.5,1
+K=0.300000 Hessian symmetry,0,2.0000000000000001e-09,1
+K=0.300000 information matrix is full rank,0,0,1
+K=0.300000 discrete adjoint objective gradient finite difference,3.2683987166156692e-10,1.9999999999999999e-07,1
+K=0.300000 tangent finite difference,8.2203865936492093e-10,2.9999999999999999e-07,1
+K=0.300000 tangent-adjoint pairing,4.4408920985006262e-16,2.0000000000000001e-09,1
+K=0.300000 incremental-adjoint Hessian finite difference,2.790339626024263e-10,2.9999999999999999e-07,1
+K=0.300000 discrete Hessian symmetry,3.3306690738754696e-15,2.0000000000000001e-09,1
+K=0.300000 observation tangent-adjoint information action,0,2.0000000000000001e-09,1
+K=0.300000 bounded set contains synthetic truth,0,0,1
+K=0.300000 numerical set contains analytical set vertices,0,0,1
+K=0.300000 independent thermal balance,1.4210854715202004e-14,1.9999999999999999e-11,1
+K=0.300000 theta running quadrature versus analytic integral,0.032881925009860424,0.10000000000000001,1
+K=0.300000 running adjoint gradient versus analytic gradient,0.0016367686710054841,0.10000000000000001,1
+K=0.300000 theta running quadrature versus fine independent integral,1.2322198017500341e-07,5.0000000000000004e-06,1
+K=0.300000 running adjoint gradient finite difference,4.3148588702024426e-07,1.9999999999999999e-06,1
+K=0.300000 running Hessian-vector versus analytic Hessian,3.1056906372839421e-05,0.10000000000000001,1
+K=0.300000 running incremental-adjoint finite difference,4.9554280678876239e-09,1.9999999999999999e-06,1
+K=0.300000 convergence optimizer stationarity,4.3076653355456074e-14,2e-08,1
+K=0.300000 convergence optimizer stationarity,1.2567724638756772e-13,2e-08,1
+K=0.300000 convergence optimizer stationarity,2.5146551507759796e-13,2e-08,1
+K=0.300000 convergence optimizer stationarity,2.3392399128852048e-13,2e-08,1
+K=0.300000 convergence optimizer stationarity,1.0474954237338352e-13,2e-08,1
+K=0.300000 convergence optimizer stationarity,1.0502709812953981e-13,2e-08,1
+K=0.300000 convergence optimizer stationarity,2.616795669041494e-13,2e-08,1
+K=0.300000 convergence optimizer stationarity,5.340172748447003e-14,2e-08,1
+K=0.300000 convergence optimizer stationarity,1.8790524691780774e-12,2e-08,1
+K=0.300000 convergence optimizer stationarity,3.6493030819428895e-13,2e-08,1
+K=0.300000 convergence optimizer stationarity,3.5732528047560663e-13,2e-08,1
+K=0.300000 theta=0.500000 observed order state,3.0796690220213918e-07,0.22,1
+K=0.300000 theta=0.500000 observed order tangent,9.3672642353936908e-07,0.22,1
+K=0.300000 theta=0.500000 observed order goal_adjoint,3.7843470135356938e-07,0.22,1
+K=0.300000 theta=0.500000 observed order initial_fit,4.847140335773048e-07,0.22,1
+K=0.300000 theta=0.500000 observed order objective,9.694274539251424e-05,0.22,1
+K=0.300000 theta=0.500000 observed order gradient,1.0231997695786532e-06,0.22,1
+K=0.300000 theta=0.500000 observed order hessian,2.986518120806636e-06,0.22,1
+K=0.300000 theta=0.500000 observed order fitted_final_state,1.0481274987927947e-06,0.22,1
+K=0.300000 convergence optimizer stationarity,1.4210854715202004e-14,2e-08,1
+K=0.300000 convergence optimizer stationarity,5.773159728050814e-15,2e-08,1
+K=0.300000 convergence optimizer stationarity,2.7955415760061442e-13,2e-08,1
+K=0.300000 convergence optimizer stationarity,1.0464198951787296e-13,2e-08,1
+K=0.300000 convergence optimizer stationarity,1.7120528085501352e-14,2e-08,1
+K=0.300000 convergence optimizer stationarity,6.6058269965196814e-14,2e-08,1
+K=0.300000 convergence optimizer stationarity,7.3679951029248514e-13,2e-08,1
+K=0.300000 convergence optimizer stationarity,6.6585625901893764e-13,2e-08,1
+K=0.300000 convergence optimizer stationarity,4.322653346378047e-13,2e-08,1
+K=0.300000 convergence optimizer stationarity,1.875721800104202e-13,2e-08,1
+K=0.300000 convergence optimizer stationarity,2.1039281428159029e-12,2e-08,1
+K=0.300000 theta=0.650000 observed order state,0.00080384140775302537,0.22,1
+K=0.300000 theta=0.650000 observed order tangent,0.00075436224309777256,0.22,1
+K=0.300000 theta=0.650000 observed order goal_adjoint,0.00059776004165601471,0.22,1
+K=0.300000 theta=0.650000 observed order initial_fit,0.00032070067522449452,0.22,1
+K=0.300000 theta=0.650000 observed order objective,0.04833556553589835,0.22,1
+K=0.300000 theta=0.650000 observed order gradient,0.00016519094674238843,0.22,1
+K=0.300000 theta=0.650000 observed order hessian,0.00051593772913804958,0.22,1
+K=0.300000 theta=0.650000 observed order fitted_final_state,0.00082405942060304049,0.22,1
+K=3.000000 forward state at t0,0,1e-13,1
+K=3.000000 discrete optimizer stationarity,1.0840339043083347e-12,2e-08,1
+K=3.000000 discrete fit versus analytical optimum,6.6741273002435264e-05,1.5,1
+K=3.000000 Hessian symmetry,0,2.0000000000000001e-09,1
+K=3.000000 information matrix is full rank,0,0,1
+K=3.000000 discrete adjoint objective gradient finite difference,3.8785488360636384e-11,1.9999999999999999e-07,1
+K=3.000000 tangent finite difference,3.8561227821976019e-10,2.9999999999999999e-07,1
+K=3.000000 tangent-adjoint pairing,1.6653345369377348e-16,2.0000000000000001e-09,1
+K=3.000000 incremental-adjoint Hessian finite difference,1.4403234160909051e-09,2.9999999999999999e-07,1
+K=3.000000 discrete Hessian symmetry,3.5527136788005009e-15,2.0000000000000001e-09,1
+K=3.000000 observation tangent-adjoint information action,0,2.0000000000000001e-09,1
+K=3.000000 bounded set contains synthetic truth,0,0,1
+K=3.000000 numerical set contains analytical set vertices,0,0,1
+K=3.000000 independent thermal balance,2.8421709430404007e-14,1.9999999999999999e-11,1
+K=3.000000 theta running quadrature versus analytic integral,0.045335007886023959,0.10000000000000001,1
+K=3.000000 running adjoint gradient versus analytic gradient,0.0016541724703529326,0.10000000000000001,1
+K=3.000000 theta running quadrature versus fine independent integral,2.6220732252113521e-07,5.0000000000000004e-06,1
+K=3.000000 running adjoint gradient finite difference,3.3568483104318148e-07,1.9999999999999999e-06,1
+K=3.000000 running Hessian-vector versus analytic Hessian,3.0765293924872594e-05,0.10000000000000001,1
+K=3.000000 running incremental-adjoint finite difference,8.7707441309703427e-09,1.9999999999999999e-06,1
+K=3.000000 convergence optimizer stationarity,1.2434497875801753e-13,2e-08,1
+K=3.000000 convergence optimizer stationarity,8.2416170242571862e-14,2e-08,1
+K=3.000000 convergence optimizer stationarity,1.0461423394225733e-13,2e-08,1
+K=3.000000 convergence optimizer stationarity,1.8080675845411065e-13,2e-08,1
+K=3.000000 convergence optimizer stationarity,2.0978010994987528e-14,2e-08,1
+K=3.000000 convergence optimizer stationarity,5.9331706214749147e-13,2e-08,1
+K=3.000000 convergence optimizer stationarity,3.1794185340050518e-13,2e-08,1
+K=3.000000 convergence optimizer stationarity,9.6615423994528271e-14,2e-08,1
+K=3.000000 convergence optimizer stationarity,1.0840339043083347e-12,2e-08,1
+K=3.000000 convergence optimizer stationarity,2.119849434878418e-12,2e-08,1
+K=3.000000 convergence optimizer stationarity,1.117144571294304e-12,2e-08,1
+K=3.000000 theta=0.500000 observed order state,6.7276491164669494e-06,0.22,1
+K=3.000000 theta=0.500000 observed order tangent,6.7364729923191646e-06,0.22,1
+K=3.000000 theta=0.500000 observed order goal_adjoint,8.8980997325904809e-07,0.22,1
+K=3.000000 theta=0.500000 observed order initial_fit,8.6011604727431745e-07,0.22,1
+K=3.000000 theta=0.500000 observed order objective,7.6381864846819525e-05,0.22,1
+K=3.000000 theta=0.500000 observed order gradient,1.8581572533982182e-06,0.22,1
+K=3.000000 theta=0.500000 observed order hessian,3.2466070027936667e-06,0.22,1
+K=3.000000 theta=0.500000 observed order fitted_final_state,3.330810369517323e-06,0.22,1
+K=3.000000 convergence optimizer stationarity,8.1656903461180264e-14,2e-08,1
+K=3.000000 convergence optimizer stationarity,3.0600522116230877e-14,2e-08,1
+K=3.000000 convergence optimizer stationarity,1.5347445536662008e-13,2e-08,1
+K=3.000000 convergence optimizer stationarity,4.2417458434584887e-14,2e-08,1
+K=3.000000 convergence optimizer stationarity,3.1939381694989777e-13,2e-08,1
+K=3.000000 convergence optimizer stationarity,5.9423820031323515e-14,2e-08,1
+K=3.000000 convergence optimizer stationarity,3.0084441882127777e-14,2e-08,1
+K=3.000000 convergence optimizer stationarity,3.3676100102963957e-13,2e-08,1
+K=3.000000 convergence optimizer stationarity,5.2068419020834256e-13,2e-08,1
+K=3.000000 convergence optimizer stationarity,3.3400365806457444e-13,2e-08,1
+K=3.000000 convergence optimizer stationarity,6.3235180980392158e-13,2e-08,1
+K=3.000000 theta=0.650000 observed order state,0.0034151831463599125,0.22,1
+K=3.000000 theta=0.650000 observed order tangent,0.0035017080174769566,0.22,1
+K=3.000000 theta=0.650000 observed order goal_adjoint,0.00047438642227926042,0.22,1
+K=3.000000 theta=0.650000 observed order initial_fit,0.00083437637910122042,0.22,1
+K=3.000000 theta=0.650000 observed order objective,0.046459332856807589,0.22,1
+K=3.000000 theta=0.650000 observed order gradient,0.00075759953933807189,0.22,1
+K=3.000000 theta=0.650000 observed order hessian,0.00078099612857684964,0.22,1
+K=3.000000 theta=0.650000 observed order fitted_final_state,0.00050502340727143213,0.22,1

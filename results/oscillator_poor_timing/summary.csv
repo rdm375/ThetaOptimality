@@ -1,0 +1,17 @@
+quantity,value
+sampling_design,poor
+fixed_state_order_N_64_to_128,1.9650435455496349
+fixed_state_order_N_128_to_256,1.99298495418754
+fixed_state_order_N_256_to_512,1.9908556348416899
+discrete_rank_indicator,2
+discrete_small_information_eigenvalue,0.00084562378161840009
+exact_rank,1
+analytical_velocity_sensitivity_max,7.1579589695825326e-17
+analytical_fit_q0_m,0.019779958764706351
+analytical_fit_v0_m_s,0
+discrete_fit_q0_m,0.0192472671493857
+discrete_fit_v0_m_s,-2.4004357006716828
+qualification_representative_q0_m,0.020011766327544228
+qualification_representative_v0_m_s,0
+retained_velocity_half_width_m_s,0.29999999999999999
+checks_passed,18

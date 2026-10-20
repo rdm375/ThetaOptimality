@@ -1,0 +1,10 @@
+quantity,value
+analytical_positive_v0,1.2012873935127937
+analytical_positive_i0,0.69908456459055546
+temperature_only_positive_boxes,1008
+temperature_only_negative_boxes,1008
+signed_voltage_positive_boxes,620
+signed_voltage_negative_boxes,0
+weak_signed_voltage_positive_boxes,1008
+weak_signed_voltage_negative_boxes,1008
+checks_passed,349

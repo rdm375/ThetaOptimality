@@ -1,0 +1,77 @@
+name,error,tolerance,passed
+theta stiffness diagnostic mass balance theta=0.500000,0,2.0000000000000002e-15,1
+unresolved stiff step exposes negative species theta=0.500000,0,0,1
+theta stiffness diagnostic mass balance theta=0.650000,1.1102230246251565e-16,2.0000000000000002e-15,1
+unresolved stiff step exposes negative species theta=0.650000,0,0,1
+theta stiffness diagnostic mass balance theta=1.000000,0,2.0000000000000002e-15,1
+backward Euler coarse diagnostic remains nonnegative,0,0,1
+early_sampled confidence set retains truth,0,0,1
+early_sampled feasible-polygon reference lies in confidence set,0,0,1
+early_sampled tangent against state finite differences,1.8873791418627661e-14,2e-08,1
+early_sampled tangent-adjoint observation pairing,2.2204460492503131e-16,2e-08,1
+early_sampled discrete adjoint gradient directional difference,1.979743733351815e-14,1.9999999999999999e-06,1
+early_sampled incremental-adjoint Hessian finite difference,7.4004658219041778e-15,1.9999999999999999e-06,1
+early_sampled discrete Hessian symmetry,1.5688795032852123e-15,9.9999999999999998e-13,1
+early_sampled Hessian versus analytical information column 0,7.3917296060362148e-06,0.080000000000000002,1
+early_sampled Hessian versus analytical information column 1,7.4077366604383665e-06,0.080000000000000002,1
+early_sampled initial A is not qualified at t0,0,0,1
+early_sampled initial B is not qualified at t0,0,0,1
+early_sampled A and B eventually qualify after fast transient,0,0,1
+early_sampled discrete gradient stationarity,8.6290259787347168e-05,0.00020000000000000001,1
+early_sampled discrete estimate versus analytical estimate,0.0076472739518711752,0.080000000000000002,1
+early_sampled exact data are inside declared prior,0,0,1
+late_sampled confidence set retains truth,0,0,1
+late_sampled feasible-polygon reference lies in confidence set,0,0,1
+late_sampled tangent against state finite differences,3.5471625636773751e-14,2e-08,1
+late_sampled tangent-adjoint observation pairing,3.3306690738754696e-16,2e-08,1
+late_sampled discrete adjoint gradient directional difference,2.4975888046750018e-14,1.9999999999999999e-06,1
+late_sampled incremental-adjoint Hessian finite difference,5.5879252984428933e-14,1.9999999999999999e-06,1
+late_sampled discrete Hessian symmetry,1.9495703977792188e-16,9.9999999999999998e-13,1
+late_sampled Hessian versus analytical information column 0,8.4186482541029646e-06,0.080000000000000002,1
+late_sampled Hessian versus analytical information column 1,8.4164959190896414e-06,0.080000000000000002,1
+late_sampled initial A is not qualified at t0,0,0,1
+late_sampled initial B is not qualified at t0,0,0,1
+late_sampled A and B eventually qualify after fast transient,0,0,1
+late_sampled discrete gradient stationarity,3.1441954746145749e-05,0.00020000000000000001,1
+late_sampled discrete estimate versus analytical estimate,0.0045215329131817195,0.080000000000000002,1
+late_sampled exact data are inside declared prior,0,0,1
+early-sampled and late-sampled information matrices are full rank,0,0,1
+fast-transient samples increase the weakest information eigenvalue,0,0,1
+convergence optimizer stationarity theta=0.500000 sub=1,7.2263181209564209e-05,0.001,1
+convergence optimizer stationarity theta=0.500000 sub=2,2.6314519345760345e-05,0.001,1
+convergence optimizer stationarity theta=0.500000 sub=4,7.2816852480173111e-05,0.001,1
+convergence optimizer stationarity theta=0.500000 sub=8,1.6514735762029886e-05,0.001,1
+convergence optimizer stationarity theta=0.500000 sub=16,8.6290259787347168e-05,0.001,1
+convergence optimizer stationarity theta=0.500000 sub=32,1.191515548271127e-05,0.001,1
+convergence optimizer stationarity theta=0.500000 sub=64,3.1285930162994191e-05,0.001,1
+convergence optimizer stationarity theta=0.500000 sub=128,7.0296555350068957e-05,0.001,1
+convergence optimizer stationarity theta=0.500000 sub=256,0.00013557311103795655,0.001,1
+convergence optimizer stationarity theta=0.500000 sub=512,0.00035977307197754271,0.001,1
+convergence optimizer stationarity theta=0.500000 sub=1024,0.0001240234705619514,0.001,1
+theta=0.500000 observed order state,2.7803852943986129e-05,0.29999999999999999,1
+theta=0.500000 observed order tangent,2.853582603901117e-05,0.29999999999999999,1
+theta=0.500000 observed order goal_adjoint,4.874168156043801e-05,0.29999999999999999,1
+theta=0.500000 observed order initial_fit,9.1491830729317769e-05,0.29999999999999999,1
+theta=0.500000 observed order objective,2.108043613890942e-06,0.29999999999999999,1
+theta=0.500000 observed order gradient,3.5060432779232542e-07,0.29999999999999999,1
+theta=0.500000 observed order hessian,0.00027379875938193798,0.29999999999999999,1
+theta=0.500000 observed order fitted_final_state,3.6812124615259734e-07,0.29999999999999999,1
+convergence optimizer stationarity theta=0.650000 sub=1,0.00027045607566833496,0.001,1
+convergence optimizer stationarity theta=0.650000 sub=2,0.00041474401950836182,0.001,1
+convergence optimizer stationarity theta=0.650000 sub=4,0.00020155683159828186,0.001,1
+convergence optimizer stationarity theta=0.650000 sub=8,3.9266422390937805e-05,0.001,1
+convergence optimizer stationarity theta=0.650000 sub=16,1.8632039427757263e-05,0.001,1
+convergence optimizer stationarity theta=0.650000 sub=32,0.0003750133328139782,0.001,1
+convergence optimizer stationarity theta=0.650000 sub=64,7.4877636507153511e-05,0.001,1
+convergence optimizer stationarity theta=0.650000 sub=128,0.00022150157019495964,0.001,1
+convergence optimizer stationarity theta=0.650000 sub=256,0.00016478804172948003,0.001,1
+convergence optimizer stationarity theta=0.650000 sub=512,0.00062830426031723619,0.001,1
+convergence optimizer stationarity theta=0.650000 sub=1024,0.00051527988398447633,0.001,1
+theta=0.650000 observed order state,0.0057699296766288155,0.29999999999999999,1
+theta=0.650000 observed order tangent,0.0057698856513491714,0.29999999999999999,1
+theta=0.650000 observed order goal_adjoint,0.00095634332340410744,0.29999999999999999,1
+theta=0.650000 observed order initial_fit,0.00029160437356579028,0.29999999999999999,1
+theta=0.650000 observed order objective,0.00041917375115985145,0.29999999999999999,1
+theta=0.650000 observed order gradient,0.00029550245720366686,0.29999999999999999,1
+theta=0.650000 observed order hessian,0.00037347054307279581,0.29999999999999999,1
+theta=0.650000 observed order fitted_final_state,0.00070656071227148676,0.29999999999999999,1

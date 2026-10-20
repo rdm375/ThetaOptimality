@@ -63,3 +63,104 @@ Use `running` for a continuous cost density and `nodal` for isolated measurement
 `qualification.hpp` supplies `local_goal_variance(gradient,covariance)`, `box_support(gradient,radii)`, `independent_gaussian_box_radius(sd,count,joint_probability)`, and `persistent_node_qualification(times,ratios)`. The last method returns an optional earliest sampled time after which all remaining ratios are at most one. It makes no between-node claim by itself. The decay example separately constructs whole-step physical envelopes and applies the suffix criterion to their interval start times, which yields a finite-horizon continuous-time statement under its stated model assumptions.
 
 `all_goals_qualification_time(times)` combines individual persistent qualification times under a common horizon and criterion. It returns the latest time if every requested goal qualifies, including a valid zero time; it returns no time if any goal is unqualified. It does not combine node-only indicators with continuous physical envelopes or otherwise strengthen the input criterion.
+
+
+## Amplification and bounded two-state qualification (0.7.0)
+
+Include `<theta_opt/theta_opt.hpp>` or the individual headers.
+
+- `control_to_state_jacobians(system, xi, trajectory)` assembles the state/control
+  Jacobian at every node using the actual tangent solver. It includes nonlinear
+  initial-condition maps and direct control dependence of the dynamics.
+- `worst_amplification_2d(J, input_scales, output_scales)` computes the largest
+  singular value of `Dout^-1 J Din` and returns the normalized scaled input,
+  physical input direction, and physical response. Scales must be positive and
+  finite. This is a two-dimensional utility, not a general SVD implementation.
+- `ConvexPolygon2`, `rectangle_polygon`, `clip_halfspace`, `polygon_contains`,
+  and `polygon_goal_bound` support a convex, counterclockwise two-dimensional
+  initial-state domain. Containment requires a nondegenerate polygon; support
+  takes the largest absolute linear goal deviation from a supplied center.
+- `linear_quadratic_reconstruction(A,x,next,h,s)` reconstructs a constant-linear
+  step at fraction `s` in [0,1], matching both endpoints and the left derivative.
+- `linear_theta_quadratic_defect_bound(A,x,next,h,theta,norm)` bounds that
+  reconstruction's residual in a caller-supplied physical norm, including the
+  computed step residual and a floating-point allowance. Its contract is a
+  constant linear system; it does not certify nonlinear dynamics.
+- `propagate_defect_bound(E,D,h,mu)` applies the scalar comparison
+  `exp(mu*h)*E + expm1(mu*h)/mu*D`, using `E+h*D` at zero. The caller must
+  establish the logarithmic-norm upper bound; positive `mu` is supported.
+- `quadratic_absolute_maximum(c0,c1,c2)` checks endpoints and an interior
+  stationary point on [0,1].
+- `qualify_intervals(edges,bounds,tolerances)` returns first-below, persistent,
+  and joint times. Each supplied bound must cover its **entire interval**.
+  A missing persistent time means qualification was not established through the
+  final edge. The function cannot turn node samples into interval certificates.
+
+These utilities use ordinary double precision. Conservative analytical bounds
+and validation probes are not a formal outward-rounded interval proof. The
+oscillator and two-tank examples share these geometry and qualification tools.
+
+
+## Rank-deficient quadratic inverse problems (0.8.0)
+
+`identifiability.hpp` supplies a deliberately small two-control PSD path:
+
+- `psd_spectrum_2d(H, relative_cutoff=1e-12)` returns descending eigenvalues,
+  orthonormal directions, numerical rank, and the absolute cutoff. It rejects
+  nonfinite, nonsymmetric, and materially indefinite matrices. Coordinate
+  scaling is the caller's responsibility; rank is relative to the largest
+  information eigenvalue. A zero matrix has rank zero.
+- `PsdSpectrum2::solve_compatible(rhs, relative_tolerance=1e-10)` applies the
+  inverse on retained directions. It rejects right-hand sides with unresolved
+  null components instead of silently discarding them. This operation does not
+  turn the pseudoinverse into a covariance with known zero null uncertainty.
+- `minimize_quadratic_psd_2d(system, seed, gradient_tolerance=1e-8,
+  relative_cutoff=1e-12)` returns `QuadraticOptimum2`, containing an ordinary
+  `Optimum<2>` plus spectral diagnostics. Its contract is an unconstrained convex
+  quadratic reduced objective. It uses the system adjoint gradient and exact
+  incremental-adjoint Hessian columns, takes a compatible pseudoinverse Newton
+  correction, and preserves the seed's Euclidean null component. It verifies
+  stationarity, nonincreasing cost within roundoff, and endpoint Hessian
+  agreement. Those checks do not establish global quadratic structure for an
+  arbitrary supplied function. Admissibility is governed by the forward model;
+  this routine does not solve boundary KKT conditions.
+
+No null-space penalty is added. A representative selected by the seed is not
+additional measurement information. Use bounded feasible sets or an explicitly
+stated prior to qualify goals affected by missing directions. See
+[the insulated thermal experiment](insulated_thermal.md).
+
+
+## Disconnected bounded feasible sets (0.9.0)
+
+`bounded_sets.hpp` adds ordinary double-precision conservative range tools for
+small two-control problems. These are not outward-rounded interval arithmetic.
+
+- `Box2 {lower,upper}` describes a closed finite box; `validate_box` and
+  `contains` check its ordering and membership.
+- `Quadratic2 {constant,linear,quadratic}` represents `c+bᵀx+xᵀQx`.
+  `evaluate` evaluates it. `quadratic_range(q,box)` uses a centered expansion
+  and absolute coefficient bounds, with roundoff padding. Convexity is not
+  required; ranges can overestimate the actual image.
+- `polynomial_quadratic_range(coefficients,box)` bounds the full polynomial
+  `sum s^j*q_j(x)` for `s` in [0,1], not just its values at time nodes.
+- `subdivide_feasible_boxes(prior,target_width,possibly_feasible,budget)` returns
+  `BoxCover2`, including boxes, visitation/rejection counts, and a
+  `resolution_complete` flag. The callback must return true for any box that
+  may contain an admissible point. Rejection soundness is the caller's
+  responsibility. Unresolved boxes at a budget or floating-point split limit
+  are retained and flagged incomplete. Empty output means every box was
+  rejected under that callback's range argument, not that Newton failed.
+- `cover_contains` tests membership in the retained union.
+  `cover_quadratic_range` and `cover_polynomial_quadratic_range` bound goals
+  over **all** retained boxes, without choosing an optimizer branch. Empty
+  covers have no goal enclosure and cause these union range functions to throw.
+- `absolute_bound` converts an ordered range to a worst absolute magnitude.
+
+Model-specific numerical allowances and observation construction remain the
+caller's responsibility. The electrothermal example supplies electrical and
+thermal defect propagation, widens observation bounds, then uses the shared
+union/time-polynomial bounds for persistent qualification. A selected-region
+calculation is retained only as a diagnostic of the error caused by dropping a
+feasible polarity. Full-rank local information does not establish a single
+feasible region. See [electrothermal.md](electrothermal.md).

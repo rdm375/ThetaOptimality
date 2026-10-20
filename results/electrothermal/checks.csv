@@ -1,0 +1,350 @@
+name,error,tolerance,passed
+analytical equal-cost polarity branches,0,1e-10,1
+exact initial temperature rise,0,1e-14,1
+analytical tangent finite difference,2.3935575743649906e-12,1e-10,1
+analytical thermal solution satisfies heat ODE,1.4025725025845759e-12,2.0000000000000001e-10,1
+analytical electrical energy dissipation,1.528444038001453e-12,2.0000000000000001e-10,1
+inverse stationarity,2.6435034716776329e-12,9.9999999999999995e-08,1
+forward Newton residual,6.2450045135165055e-17,2e-12,1
+Hessian symmetry,9.0949470177292824e-13,2.0000000000000001e-09,1
+nonlinear residual curvature differs from Gauss Newton,0,0,1
+discrete electrothermal sign symmetry,0,2e-12,1
+independent theta electrical energy identity,5.5511151231257827e-17,1e-13,1
+theta resistor thermal balance,2.7321894746634712e-17,9.9999999999999998e-13,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+inverse stationarity,2.376179114582655e-12,9.9999999999999995e-08,1
+forward Newton residual,5.5511151231257827e-17,2e-12,1
+Hessian symmetry,4.5474735088646412e-13,2.0000000000000001e-09,1
+nonlinear residual curvature differs from Gauss Newton,0,0,1
+discrete electrothermal sign symmetry,0,2e-12,1
+independent theta electrical energy identity,9.0205620750793969e-17,1e-13,1
+theta resistor thermal balance,2.7213474529386161e-17,9.9999999999999998e-13,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+inverse stationarity,1.1864450394361015e-12,9.9999999999999995e-08,1
+forward Newton residual,5.5511151231257827e-17,2e-12,1
+Hessian symmetry,6.8212102632969618e-13,2.0000000000000001e-09,1
+nonlinear residual curvature differs from Gauss Newton,0,0,1
+discrete electrothermal sign symmetry,0,2e-12,1
+independent theta electrical energy identity,9.3675067702747583e-17,1e-13,1
+theta resistor thermal balance,2.7755575615628914e-17,9.9999999999999998e-13,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+adjoint cost finite difference,3.0586929540277197e-06,3.0000000000000001e-05,1
+incremental adjoint gradient finite difference,4.5499138963123187e-06,3.0000000000000001e-05,1
+tangent adjoint duality,0,1.0000000000000001e-09,1
+inverse stationarity,1.9025642606501636e-12,9.9999999999999995e-08,1
+forward Newton residual,5.2041704279304213e-17,2e-12,1
+Hessian symmetry,2.7284841053187847e-12,2.0000000000000001e-09,1
+nonlinear residual curvature differs from Gauss Newton,0,0,1
+discrete electrothermal sign symmetry,0,2e-12,1
+independent theta electrical energy identity,9.1940344226770776e-17,1e-13,1
+theta resistor thermal balance,2.7755575615628914e-17,9.9999999999999998e-13,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+inverse stationarity,2.2324689297713307e-12,9.9999999999999995e-08,1
+forward Newton residual,8.4164934136682357e-14,2e-12,1
+Hessian symmetry,4.5474735088646412e-12,2.0000000000000001e-09,1
+nonlinear residual curvature differs from Gauss Newton,0,0,1
+discrete electrothermal sign symmetry,0,2e-12,1
+independent theta electrical energy identity,1.222980050563649e-16,1e-13,1
+theta resistor thermal balance,1.6832990046061671e-13,9.9999999999999998e-13,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+inverse stationarity,2.8159119458935622e-12,9.9999999999999995e-08,1
+forward Newton residual,1.0672663924501946e-13,2e-12,1
+Hessian symmetry,3.865352482534945e-12,2.0000000000000001e-09,1
+nonlinear residual curvature differs from Gauss Newton,0,0,1
+discrete electrothermal sign symmetry,0,2e-12,1
+independent theta electrical energy identity,1.2880321809127793e-16,1e-13,1
+theta resistor thermal balance,2.1345326493751177e-13,9.9999999999999998e-13,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+temporal convergence electrical_state,3.8699570956701734e-06,0.080000000000000002,1
+temporal convergence temperature_state,9.2271154250589404e-06,0.080000000000000002,1
+temporal convergence tangent,2.6171522784501633e-06,0.080000000000000002,1
+temporal convergence observation_adjoint,1.77262929734745e-05,0.080000000000000002,1
+temporal convergence observation_cost,9.0451924964707331e-05,0.080000000000000002,1
+temporal convergence observation_gradient,0.00011225889341703876,0.080000000000000002,1
+temporal convergence observation_hessian,6.7287079996702914e-07,0.080000000000000002,1
+temporal convergence initial_control,2.1792223711347702e-05,0.080000000000000002,1
+temporal convergence running_cost,1.0576577940124565e-06,0.080000000000000002,1
+temporal convergence running_gradient,1.1038485416836608e-06,0.080000000000000002,1
+temporal convergence running_costate,1.9361583468935351e-05,0.080000000000000002,1
+temporal convergence running_hessian,1.8088375863811734e-07,0.080000000000000002,1
+temporal convergence fitted_energy,3.8998353573349576e-05,0.080000000000000002,1
+inverse stationarity,1.4911613610557595e-12,9.9999999999999995e-08,1
+forward Newton residual,5.5511151231257827e-17,2e-12,1
+Hessian symmetry,2.2737367544323206e-13,2.0000000000000001e-09,1
+nonlinear residual curvature differs from Gauss Newton,0,0,1
+discrete electrothermal sign symmetry,0,2e-12,1
+independent theta electrical energy identity,9.1072982488782372e-17,1e-13,1
+theta resistor thermal balance,3.0899761915836876e-17,9.9999999999999998e-13,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+inverse stationarity,1.5883344444377057e-12,9.9999999999999995e-08,1
+forward Newton residual,5.5511151231257827e-17,2e-12,1
+Hessian symmetry,6.8212102632969618e-13,2.0000000000000001e-09,1
+nonlinear residual curvature differs from Gauss Newton,0,0,1
+discrete electrothermal sign symmetry,0,2e-12,1
+independent theta electrical energy identity,1.1438332919722072e-16,1e-13,1
+theta resistor thermal balance,2.8189256484623115e-17,9.9999999999999998e-13,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+inverse stationarity,4.9013048827872829e-10,9.9999999999999995e-08,1
+forward Newton residual,5.5511151231257827e-17,2e-12,1
+Hessian symmetry,2.0463630789890885e-12,2.0000000000000001e-09,1
+nonlinear residual curvature differs from Gauss Newton,0,0,1
+discrete electrothermal sign symmetry,0,2e-12,1
+independent theta electrical energy identity,8.25891004890833e-17,1e-13,1
+theta resistor thermal balance,2.7755575615628914e-17,9.9999999999999998e-13,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+inverse stationarity,4.2927408676340928e-09,9.9999999999999995e-08,1
+forward Newton residual,5.5511151231257827e-17,2e-12,1
+Hessian symmetry,9.0949470177292824e-13,2.0000000000000001e-09,1
+nonlinear residual curvature differs from Gauss Newton,0,0,1
+discrete electrothermal sign symmetry,0,2e-12,1
+independent theta electrical energy identity,8.1775948859719172e-17,1e-13,1
+theta resistor thermal balance,2.7809785724253189e-17,9.9999999999999998e-13,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+inverse stationarity,4.2732500751905406e-12,9.9999999999999995e-08,1
+forward Newton residual,1.0149525534255965e-13,2e-12,1
+Hessian symmetry,2.0463630789890885e-12,2.0000000000000001e-09,1
+nonlinear residual curvature differs from Gauss Newton,0,0,1
+discrete electrothermal sign symmetry,0,2e-12,1
+independent theta electrical energy identity,1.4292664545379613e-16,1e-13,1
+theta resistor thermal balance,2.0299047595676847e-13,9.9999999999999998e-13,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+inverse stationarity,5.8555881226728806e-12,9.9999999999999995e-08,1
+forward Newton residual,1.0571933411161749e-13,2e-12,1
+Hessian symmetry,0,2.0000000000000001e-09,1
+nonlinear residual curvature differs from Gauss Newton,0,0,1
+discrete electrothermal sign symmetry,0,2e-12,1
+independent theta electrical energy identity,1.1313564966591513e-16,1e-13,1
+theta resistor thermal balance,2.1143869702235519e-13,9.9999999999999998e-13,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+temporal convergence electrical_state,0.0045770040529685696,0.20000000000000001,1
+temporal convergence temperature_state,0.0053888959524950319,0.20000000000000001,1
+temporal convergence tangent,0.0061389815052738106,0.20000000000000001,1
+temporal convergence observation_adjoint,0.0047376215618440964,0.20000000000000001,1
+temporal convergence observation_cost,0.0038289761664608291,0.20000000000000001,1
+temporal convergence observation_gradient,0.021442056374549989,0.20000000000000001,1
+temporal convergence observation_hessian,0.0073098122084098716,0.20000000000000001,1
+temporal convergence initial_control,0.010466336927160369,0.20000000000000001,1
+temporal convergence running_cost,0.0080086515747795906,0.20000000000000001,1
+temporal convergence running_gradient,0.0091115669481993677,0.20000000000000001,1
+temporal convergence running_costate,0.013370202339147652,0.20000000000000001,1
+temporal convergence running_hessian,0.014906499216829294,0.20000000000000001,1
+temporal convergence fitted_energy,0.0043962388649718687,0.20000000000000001,1
+inverse stationarity,4.2361797403245305e-10,9.9999999999999995e-08,1
+forward Newton residual,6.2450045135165055e-17,2e-12,1
+Hessian symmetry,9.0949470177292824e-13,2.0000000000000001e-09,1
+nonlinear residual curvature differs from Gauss Newton,0,0,1
+discrete electrothermal sign symmetry,0,2e-12,1
+independent theta electrical energy identity,5.5511151231257827e-17,1e-13,1
+theta resistor thermal balance,2.7321894746634712e-17,9.9999999999999998e-13,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+inverse stationarity,1.2145200123381272e-10,9.9999999999999995e-08,1
+forward Newton residual,5.5511151231257827e-17,2e-12,1
+Hessian symmetry,4.5474735088646412e-13,2.0000000000000001e-09,1
+nonlinear residual curvature differs from Gauss Newton,0,0,1
+discrete electrothermal sign symmetry,0,2e-12,1
+independent theta electrical energy identity,9.0205620750793969e-17,1e-13,1
+theta resistor thermal balance,2.7213474529386161e-17,9.9999999999999998e-13,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+inverse stationarity,8.7607615606444256e-11,9.9999999999999995e-08,1
+forward Newton residual,5.5511151231257827e-17,2e-12,1
+Hessian symmetry,6.8212102632969618e-13,2.0000000000000001e-09,1
+nonlinear residual curvature differs from Gauss Newton,0,0,1
+discrete electrothermal sign symmetry,0,2e-12,1
+independent theta electrical energy identity,9.3675067702747583e-17,1e-13,1
+theta resistor thermal balance,2.7755575615628914e-17,9.9999999999999998e-13,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+adjoint cost finite difference,3.0589897050958825e-06,3.0000000000000001e-05,1
+incremental adjoint gradient finite difference,4.5505959178626654e-06,3.0000000000000001e-05,1
+tangent adjoint duality,1.1368683772161603e-13,1.0000000000000001e-09,1
+inverse stationarity,8.4421740431661618e-11,9.9999999999999995e-08,1
+forward Newton residual,5.2041704279304213e-17,2e-12,1
+Hessian symmetry,2.7284841053187847e-12,2.0000000000000001e-09,1
+nonlinear residual curvature differs from Gauss Newton,0,0,1
+discrete electrothermal sign symmetry,0,2e-12,1
+independent theta electrical energy identity,9.1940344226770776e-17,1e-13,1
+theta resistor thermal balance,2.7755575615628914e-17,9.9999999999999998e-13,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+inverse stationarity,8.1171964982917899e-11,9.9999999999999995e-08,1
+forward Newton residual,8.4164934136682357e-14,2e-12,1
+Hessian symmetry,4.5474735088646412e-12,2.0000000000000001e-09,1
+nonlinear residual curvature differs from Gauss Newton,0,0,1
+discrete electrothermal sign symmetry,0,2e-12,1
+independent theta electrical energy identity,1.222980050563649e-16,1e-13,1
+theta resistor thermal balance,1.6832990046061671e-13,9.9999999999999998e-13,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+inverse stationarity,8.3548010523792904e-11,9.9999999999999995e-08,1
+forward Newton residual,1.0672663924501946e-13,2e-12,1
+Hessian symmetry,3.865352482534945e-12,2.0000000000000001e-09,1
+nonlinear residual curvature differs from Gauss Newton,0,0,1
+discrete electrothermal sign symmetry,0,2e-12,1
+independent theta electrical energy identity,1.2880321809127793e-16,1e-13,1
+theta resistor thermal balance,2.1345326493751177e-13,9.9999999999999998e-13,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+temporal convergence electrical_state,3.8699570956701734e-06,0.080000000000000002,1
+temporal convergence temperature_state,9.2271154250589404e-06,0.080000000000000002,1
+temporal convergence tangent,2.6171522784501633e-06,0.080000000000000002,1
+temporal convergence observation_adjoint,1.77262929734745e-05,0.080000000000000002,1
+temporal convergence observation_cost,9.0451918641543116e-05,0.080000000000000002,1
+temporal convergence observation_gradient,0.00011225877386200622,0.080000000000000002,1
+temporal convergence observation_hessian,6.7287079974498454e-07,0.080000000000000002,1
+temporal convergence initial_control,3.5452990045925503e-06,0.080000000000000002,1
+temporal convergence running_cost,1.0576577940124565e-06,0.080000000000000002,1
+temporal convergence running_gradient,1.1038485416836608e-06,0.080000000000000002,1
+temporal convergence running_costate,1.9361583468935351e-05,0.080000000000000002,1
+temporal convergence running_hessian,1.8088375863811734e-07,0.080000000000000002,1
+temporal convergence fitted_energy,4.1913995891373901e-05,0.080000000000000002,1
+inverse stationarity,4.7961634663806763e-13,9.9999999999999995e-08,1
+forward Newton residual,5.5511151231257827e-17,2e-12,1
+Hessian symmetry,2.2737367544323206e-13,2.0000000000000001e-09,1
+nonlinear residual curvature differs from Gauss Newton,0,0,1
+discrete electrothermal sign symmetry,0,2e-12,1
+independent theta electrical energy identity,9.1072982488782372e-17,1e-13,1
+theta resistor thermal balance,3.0899761915836876e-17,9.9999999999999998e-13,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+inverse stationarity,5.0888279735927799e-09,9.9999999999999995e-08,1
+forward Newton residual,5.5511151231257827e-17,2e-12,1
+Hessian symmetry,6.8212102632969618e-13,2.0000000000000001e-09,1
+nonlinear residual curvature differs from Gauss Newton,0,0,1
+discrete electrothermal sign symmetry,0,2e-12,1
+independent theta electrical energy identity,1.1438332919722072e-16,1e-13,1
+theta resistor thermal balance,2.8189256484623115e-17,9.9999999999999998e-13,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+inverse stationarity,6.100023472455085e-10,9.9999999999999995e-08,1
+forward Newton residual,5.5511151231257827e-17,2e-12,1
+Hessian symmetry,2.0463630789890885e-12,2.0000000000000001e-09,1
+nonlinear residual curvature differs from Gauss Newton,0,0,1
+discrete electrothermal sign symmetry,0,2e-12,1
+independent theta electrical energy identity,8.25891004890833e-17,1e-13,1
+theta resistor thermal balance,2.7755575615628914e-17,9.9999999999999998e-13,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+inverse stationarity,2.1884380765890832e-10,9.9999999999999995e-08,1
+forward Newton residual,5.5511151231257827e-17,2e-12,1
+Hessian symmetry,9.0949470177292824e-13,2.0000000000000001e-09,1
+nonlinear residual curvature differs from Gauss Newton,0,0,1
+discrete electrothermal sign symmetry,0,2e-12,1
+independent theta electrical energy identity,8.1775948859719172e-17,1e-13,1
+theta resistor thermal balance,2.7809785724253189e-17,9.9999999999999998e-13,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+inverse stationarity,1.3119529247707096e-10,9.9999999999999995e-08,1
+forward Newton residual,1.0149525534255965e-13,2e-12,1
+Hessian symmetry,2.0463630789890885e-12,2.0000000000000001e-09,1
+nonlinear residual curvature differs from Gauss Newton,0,0,1
+discrete electrothermal sign symmetry,0,2e-12,1
+independent theta electrical energy identity,1.4292664545379613e-16,1e-13,1
+theta resistor thermal balance,2.0299047595676847e-13,9.9999999999999998e-13,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+inverse stationarity,1.0739823180089259e-10,9.9999999999999995e-08,1
+forward Newton residual,1.0571933411161749e-13,2e-12,1
+Hessian symmetry,0,2.0000000000000001e-09,1
+nonlinear residual curvature differs from Gauss Newton,0,0,1
+discrete electrothermal sign symmetry,0,2e-12,1
+independent theta electrical energy identity,1.1313564966591513e-16,1e-13,1
+theta resistor thermal balance,2.1143869702235519e-13,9.9999999999999998e-13,1
+terminal observation adjoint zero,0,1.0000000000000001e-15,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+temporal convergence electrical_state,0.0045770040529685696,0.20000000000000001,1
+temporal convergence temperature_state,0.0053888959524950319,0.20000000000000001,1
+temporal convergence tangent,0.0061389815052738106,0.20000000000000001,1
+temporal convergence observation_adjoint,0.0047376215618440964,0.20000000000000001,1
+temporal convergence observation_cost,0.0038289761664329625,0.20000000000000001,1
+temporal convergence observation_gradient,0.021442056374262997,0.20000000000000001,1
+temporal convergence observation_hessian,0.0073098122084763739,0.20000000000000001,1
+temporal convergence initial_control,0.0087679490161891582,0.20000000000000001,1
+temporal convergence running_cost,0.0080086515747795906,0.20000000000000001,1
+temporal convergence running_gradient,0.0091115669481993677,0.20000000000000001,1
+temporal convergence running_costate,0.013370202339147652,0.20000000000000001,1
+temporal convergence running_hessian,0.014906499216829294,0.20000000000000001,1
+temporal convergence fitted_energy,0.0033516169398724038,0.20000000000000001,1
+two discrete optimized polarities,0,2.0000000000000001e-09,1
+two discrete equal optimized costs,0,2.0000000000000001e-10,1
+full rank local Hessian despite global ambiguity,0,0,1
+full rank local Hessian despite global ambiguity,0,0,1
+reoptimized branch is a full-rank stationary local minimum,0,0,1
+reoptimized branch is a full-rank stationary local minimum,0,0,1
+reoptimized branch is a full-rank stationary local minimum,0,0,1
+reoptimized branch is a full-rank stationary local minimum,0,0,1
+reoptimized branch is a full-rank stationary local minimum,0,0,1
+temperature_only: numerical global cover resolves requested boxes,0,0,1
+temperature_only: analytical global cover resolves requested boxes,0,0,1
+temperature_only: cover contains physical truth,0,0,1
+temperature_only: opposite physical truth remains feasible,0,0,1
+temperature_only: discrete coefficient maps match nonlinear forward solves,1.1939893518331246e-12,3e-11,1
+temperature_only: computable defect allowance versus exact state probes,0,3e-10,1
+temperature_only: global cover has no unresolved sign-crossing boxes,0,0,1
+temperature_only: analytically feasible reference probes retained by numerical cover,0,0,1
+temperature_only: nonempty analytical feasible probe population,0,0,1
+temperature_only: physical envelopes enclose exact feasible branch witnesses,0,3e-09,1
+temperature_only expected physical goal verdict,0,0,1
+temperature_only selected branch alone would incorrectly qualify,0,0,1
+temperature_only expected physical goal verdict,0,0,1
+temperature_only selected branch alone would incorrectly qualify,0,0,1
+temperature_only expected physical goal verdict,0,0,1
+temperature_only sign-invariant goal qualifies from start,0,0,1
+temperature_only expected physical goal verdict,0,0,1
+temperature_only sign-invariant goal qualifies from start,0,0,1
+temperature_only expected joint engineering verdict,0,0,1
+temperature_only retained positive branch,0,0,1
+temperature_only negative branch matches measurement sufficiency,0,0,1
+signed_voltage: numerical global cover resolves requested boxes,0,0,1
+signed_voltage: analytical global cover resolves requested boxes,0,0,1
+signed_voltage: cover contains physical truth,0,0,1
+signed_voltage: informative signed datum excludes opposite truth,0,0,1
+signed_voltage: discrete coefficient maps match nonlinear forward solves,1.1939893518331246e-12,3e-11,1
+signed_voltage: computable defect allowance versus exact state probes,0,3e-10,1
+signed_voltage: global cover has no unresolved sign-crossing boxes,0,0,1
+signed_voltage: analytically feasible reference probes retained by numerical cover,0,0,1
+signed_voltage: nonempty analytical feasible probe population,0,0,1
+signed_voltage: physical envelopes enclose exact feasible branch witnesses,0,3e-09,1
+signed_voltage expected physical goal verdict,0,0,1
+signed_voltage expected physical goal verdict,0,0,1
+signed_voltage expected physical goal verdict,0,0,1
+signed_voltage sign-invariant goal qualifies from start,0,0,1
+signed_voltage expected physical goal verdict,0,0,1
+signed_voltage sign-invariant goal qualifies from start,0,0,1
+signed_voltage expected joint engineering verdict,0,0,1
+signed_voltage retained positive branch,0,0,1
+signed_voltage negative branch matches measurement sufficiency,0,0,1
+weak_signed_voltage: numerical global cover resolves requested boxes,0,0,1
+weak_signed_voltage: analytical global cover resolves requested boxes,0,0,1
+weak_signed_voltage: cover contains physical truth,0,0,1
+weak_signed_voltage: opposite physical truth remains feasible,0,0,1
+weak_signed_voltage: discrete coefficient maps match nonlinear forward solves,1.1939893518331246e-12,3e-11,1
+weak_signed_voltage: computable defect allowance versus exact state probes,0,3e-10,1
+weak_signed_voltage: global cover has no unresolved sign-crossing boxes,0,0,1
+weak_signed_voltage: analytically feasible reference probes retained by numerical cover,0,0,1
+weak_signed_voltage: nonempty analytical feasible probe population,0,0,1
+weak_signed_voltage: physical envelopes enclose exact feasible branch witnesses,0,3e-09,1
+weak_signed_voltage expected physical goal verdict,0,0,1
+weak_signed_voltage selected branch alone would incorrectly qualify,0,0,1
+weak_signed_voltage expected physical goal verdict,0,0,1
+weak_signed_voltage selected branch alone would incorrectly qualify,0,0,1
+weak_signed_voltage expected physical goal verdict,0,0,1
+weak_signed_voltage sign-invariant goal qualifies from start,0,0,1
+weak_signed_voltage expected physical goal verdict,0,0,1
+weak_signed_voltage sign-invariant goal qualifies from start,0,0,1
+weak_signed_voltage expected joint engineering verdict,0,0,1
+weak_signed_voltage retained positive branch,0,0,1
+weak_signed_voltage negative branch matches measurement sufficiency,0,0,1

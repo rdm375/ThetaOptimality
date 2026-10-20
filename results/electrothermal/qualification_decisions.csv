@@ -1,0 +1,13 @@
+case,goal,units,tolerance,qualified,persistent_s,local_only_s,joint_qualified,joint_s
+temperature_only,voltage,V,0.01,0,,4.859375,0,
+temperature_only,current,A,0.01,0,,3.609375,0,
+temperature_only,temperature_rise,K_rise,0.02,1,0,0,0,
+temperature_only,stored_energy,J,0.050000000000000003,1,0,0,0,
+signed_voltage,voltage,V,0.01,1,2.53125,2.53125,1,3.296875
+signed_voltage,current,A,0.01,1,3.296875,3.296875,1,3.296875
+signed_voltage,temperature_rise,K_rise,0.02,1,0,0,1,3.296875
+signed_voltage,stored_energy,J,0.050000000000000003,1,0,0,1,3.296875
+weak_signed_voltage,voltage,V,0.01,0,,4.859375,0,
+weak_signed_voltage,current,A,0.01,0,,3.609375,0,
+weak_signed_voltage,temperature_rise,K_rise,0.02,1,0,0,0,
+weak_signed_voltage,stored_energy,J,0.050000000000000003,1,0,0,0,

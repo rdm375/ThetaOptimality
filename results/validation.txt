@@ -1,12 +1,16 @@
-ThetaOptimality 0.6.2 validation
+ThetaOptimality 0.9.0 validation
 
 Compiler: GCC 13.3.0; C++20; -O2 -Wall -Wextra -Wpedantic -Werror
-Library suite: 124 checks passed
+Library suite: 192 checks passed
 Nonlinear decay qualification: 120 checks passed
 Two-temperature qualification: 90 checks passed
 Peng–Robinson inverse composition: 56 checks passed
 Hidden-state oscillator: 245 checks passed
-Total: 635 checks passed
+Two-tank transient amplification: 183 checks passed
+Insulated thermal unobservable mode: 381 checks passed
+Electrothermal nonlinear polarity ambiguity: 349 checks passed
+Weak-coupling winding/housing qualification: 174 checks passed
+Current total: 1790 checks passed across nine suites
 
 The new two-temperature executable also passed AddressSanitizer and UndefinedBehaviorSanitizer:
 -O1 -g -fsanitize=address,undefined -fno-omit-frame-pointer
@@ -60,7 +64,7 @@ Analytical uncertainty polygons, physical trajectories, and persistent crossings
 independently validate numerical outer sets and bounds. First-crossing rebound is tested.
 Ordinary floating-point conservative model analysis, not an interval-arithmetic certificate.
 The extended oscillator suite passes AddressSanitizer/UndefinedBehaviorSanitizer
-with leak inspection disabled as above. No shared library headers were modified.
+with leak inspection disabled as above. At that version no shared library headers were modified; version 0.7.0 now shares the geometry, reconstruction, defect propagation, and interval decisions with the two-tank example.
 
 Added bounded-data theta=0.65, N=1024 qualification experiment.
 All three engineering goals remain NOT QUALIFIED under the computed error budget.
@@ -72,3 +76,74 @@ At N8192, persistent displacement qualification begins at 3.3837890625 s,
 velocity at 4.029296875 s, and support force at 3.3037109375 s.
 ALL GOALS qualify from elapsed 4.029296875 s through 8 s.
 N8192 is the first fully qualifying grid of a doubling probe, not a minimal-N proof.
+
+Version 0.7.0: transient amplification in two mixing tanks.
+Full make test: 852 checks passed (six suites).
+Peak analytical concentration gain 1.22188938733 at elapsed 0.592017683933 min.
+Twelve resolved quantities show order 2.0000--2.0005 for theta=0.5 and
+0.960--0.999 for theta=0.65. Directly observed initial C1 is roundoff-limited;
+its temporal order is deliberately undefined.
+Bounded midpoint N80: all goals NOT QUALIFIED.
+Bounded midpoint N1280: joint persistent qualification from 2.515625 min.
+Actual added upstream measurement: joint qualification from elapsed zero.
+Joint95 Gaussian midpoint N1280: joint qualification from 8.8671875 min.
+The downstream initial-pass/later-fail transient is an explicit regression.
+All 21 previous oscillator goal decisions and times agree with version 0.6.2
+after its refactor to the shared geometry and qualification routines.
+Six new plots render C++ outputs only. CMake configuration supplied but not run.
+New shared-library validation, two-tank executable, and refactored oscillator
+all passed AddressSanitizer and UndefinedBehaviorSanitizer with leak detection
+disabled (ASAN_OPTIONS=detect_leaks=0).
+
+Version 0.8.0: persistent unobservable mode in insulated thermal masses.
+Full make test: 1253 checks passed (seven suites).
+Shared two-control PSD spectrum and compatible pseudoinverse solve, plus an
+explicit unconstrained convex-quadratic rank-aware optimizer. The previous
+nonlinear optimizer is unchanged. Endpoint Hessian checks are not a proof
+that an arbitrary supplied objective is globally quadratic.
+The difference-only Hessian has rank one; a common temperature offset persists.
+Distinct seed representatives fit the same data equally well. An actual added
+absolute-temperature observation restores rank two and seed independence.
+Twelve temporal errors in both measurement designs converge near order 2 for
+theta=0.5 and order 1 for theta=0.65. Conserved heat and neutral tangent are
+separately checked at floating-point accuracy, with no fabricated order.
+Difference-only midpoint N512: difference qualifies from 1.515625 min;
+absolute temperatures and weighted mean remain NOT QUALIFIED.
+Added absolute datum midpoint N512: absolute goals qualify from zero;
+joint qualification begins at 1.515625 min due to the tighter difference goal.
+Coarse midpoint N32 and theta=0.65 N512: no goals qualify under this budget.
+Analytical difference reference time: 1.49229418728 min.
+Whole-interval finite-horizon decisions through 8 elapsed minutes, retrospective.
+Prior [10,40] degC squared; deterministic measurement error bounds stated in tutorial.
+Seven figures rendered from C++ results; no numerical inference runs in Python.
+Make integration tested; CMake integration supplied, not run (CMake unavailable).
+New library validation and insulated thermal executable passed AddressSanitizer
+and UndefinedBehaviorSanitizer with ASAN_OPTIONS=detect_leaks=0 (leak inspection
+unavailable). The full previous Make suites also pass after header integration.
+
+Version 0.9.0: nonlinear electrothermal state reconstruction and global ambiguity.
+Full make test: 1616 checks across eight suites.
+The RLC/resistor model has exact electrical and thermal state references.
+Thirteen error quantities converge near order 2 for midpoint and order 1 for
+ theta=0.65 in both temperature-only and informative signed-data designs.
+Exact residual Hessian curvature is checked away from the optimum, along with
+nonlinear tangent/adjoint pairing, finite differences, and physical balances.
+Opposite temperature-only fits have identical costs and full-rank local Hessians.
+Global bounded covers retain 1008 boxes per polarity at the requested resolution.
+The ±0.02 V datum retains 620 positive boxes and excludes negative polarity;
+the ±3 V datum retains both 1008-box regions despite a local cost preference.
+Temperature rise (0.02 K) and stored energy (0.05 J) qualify from zero in all cases.
+Voltage (0.01 V) and current (0.01 A) remain unqualified without informative
+polarity data. Informative voltage data qualify voltage from 2.53125 s and
+current/all goals from 3.296875 s, retrospectively through the 8-second horizon.
+A selected-positive-region diagnostic would falsely qualify signed goals; its
+contrast with the full-union verdict is explicitly tested.
+Shared bounded_sets.hpp supports quadratic ranges, time-polynomial ranges,
+adaptive feasible covers, and conservative budget exhaustion. No changes to
+optimize.hpp or the existing forward/tangent/adjoint/HVP implementation.
+All inference, reference, model-error, and qualification logic is C++20.
+Python renders seven figures. Make tested; CMake supplied but unavailable here.
+Ordinary double-precision conservative ranges, not formal interval certificates.
+New library validation and electrothermal executable passed AddressSanitizer
+and UndefinedBehaviorSanitizer with ASAN_OPTIONS=detect_leaks=0 (leak inspection
+unavailable). Previous example retained outputs agree byte-for-byte with 0.8.0.

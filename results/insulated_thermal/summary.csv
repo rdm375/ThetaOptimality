@@ -1,0 +1,6 @@
+quantity,value
+difference_decay_rate_per_min,0.49999999999999994
+true_weighted_mean_degC,24.800000000000001
+analytical_baseline_t10_degC,29.995016233198839
+analytical_baseline_t20_degC,18.004983766801161
+checks_passed,381

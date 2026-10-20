@@ -1,0 +1,184 @@
+name,error,tolerance,passed
+analytical noiseless recovery,3.3306690738754696e-16,2e-14,1
+analytical semigroup,8.6736173798840355e-19,1.0000000000000001e-15,1
+optimized discrete stationarity,1.3975731952317669e-12,1e-08,1
+one Newton correction for quadratic objective,0,0,1
+forward residual,1.1102230246251565e-16,4.9999999999999999e-13,1
+nodal Hessian symmetry,2.3822801641527198e-28,5.0000000000000002e-14,1
+Newton versus explicit rational theta map,6.6613381477509392e-16,2e-12,1
+theta tracer mass balance,5.2735593669694936e-16,2e-14,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+optimized discrete stationarity,1.4152260628554834e-11,1e-08,1
+one Newton correction for quadratic objective,0,0,1
+forward residual,5.5511151231257827e-17,4.9999999999999999e-13,1
+nodal Hessian symmetry,4.7645603283054397e-27,5.0000000000000002e-14,1
+Newton versus explicit rational theta map,3.3306690738754696e-16,2e-12,1
+theta tracer mass balance,6.106226635438361e-16,2e-14,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+optimized discrete stationarity,3.8853873247759237e-11,1e-08,1
+one Newton correction for quadratic objective,0,0,1
+forward residual,5.5511151231257827e-17,4.9999999999999999e-13,1
+nodal Hessian symmetry,1.1434944787933054e-26,5.0000000000000002e-14,1
+Newton versus explicit rational theta map,1.2212453270876722e-15,2e-12,1
+theta tracer mass balance,7.3552275381416621e-16,2e-14,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+adjoint cost directional difference,4.5099568524165079e-10,1.9999999999999999e-06,1
+incremental adjoint directional difference,1.4435386219702195e-08,5.0000000000000004e-06,1
+tangent-adjoint duality,0,2.0000000000000001e-09,1
+optimized discrete stationarity,8.6631795199325167e-11,1e-08,1
+one Newton correction for quadratic objective,0,0,1
+forward residual,5.5511151231257827e-17,4.9999999999999999e-13,1
+nodal Hessian symmetry,2.2869889575866108e-26,5.0000000000000002e-14,1
+Newton versus explicit rational theta map,4.3853809472693683e-15,2e-12,1
+theta tracer mass balance,1.0824674490095276e-15,2e-14,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+optimized discrete stationarity,9.3656715726768046e-11,1e-08,1
+one Newton correction for quadratic objective,0,0,1
+forward residual,5.5511151231257827e-17,4.9999999999999999e-13,1
+nodal Hessian symmetry,1.7152417181899583e-26,5.0000000000000002e-14,1
+Newton versus explicit rational theta map,1.2823075934420558e-14,2e-12,1
+theta tracer mass balance,1.2351231148954867e-15,2e-14,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+optimized discrete stationarity,3.2574074886969051e-10,1e-08,1
+one Newton correction for quadratic objective,0,0,1
+forward residual,5.7245874707234634e-17,4.9999999999999999e-13,1
+nodal Hessian symmetry,9.3385382434786609e-26,5.0000000000000002e-14,1
+Newton versus explicit rational theta map,2.2204460492503131e-15,2e-12,1
+theta tracer mass balance,1.0061396160665481e-15,2e-14,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+temporal order state_c1,0.00045828912076206763,0.070000000000000007,1
+temporal order state_c2,1.1430285669078444e-06,0.070000000000000007,1
+temporal order tangent,0.0004610539171756578,0.070000000000000007,1
+temporal order nodal_adjoint,0.00043184181257860388,0.070000000000000007,1
+direct initial observation control remains at roundoff scale,8.3266726846886741e-17,2.0000000000000001e-10,1
+temporal order control_c2,2.2220472506440103e-06,0.070000000000000007,1
+temporal order running_cost,6.4757332829401548e-09,0.070000000000000007,1
+temporal order running_gradient,6.7015770710554534e-10,0.070000000000000007,1
+temporal order running_costate,6.7015770710554534e-10,0.070000000000000007,1
+temporal order running_hessian,3.2818192607919627e-13,0.070000000000000007,1
+temporal order nodal_cost,4.5206438290534834e-06,0.070000000000000007,1
+temporal order nodal_gradient,6.8235260863858116e-07,0.070000000000000007,1
+temporal order nodal_hessian,6.65182219972138e-07,0.070000000000000007,1
+optimized discrete stationarity,9.5202500003390006e-12,1e-08,1
+one Newton correction for quadratic objective,0,0,1
+forward residual,9.540979117872439e-17,4.9999999999999999e-13,1
+nodal Hessian symmetry,1.5246593050577406e-26,5.0000000000000002e-14,1
+Newton versus explicit rational theta map,3.3306690738754696e-16,2e-12,1
+theta tracer mass balance,5.5511151231257827e-16,2e-14,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+optimized discrete stationarity,5.3388910425541683e-12,1e-08,1
+one Newton correction for quadratic objective,0,0,1
+forward residual,7.6327832942979512e-17,4.9999999999999999e-13,1
+nodal Hessian symmetry,2.2869889575866108e-26,5.0000000000000002e-14,1
+Newton versus explicit rational theta map,2.1094237467877974e-15,2e-12,1
+theta tracer mass balance,9.9920072216264089e-16,2e-14,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+optimized discrete stationarity,7.0894509321948658e-12,1e-08,1
+one Newton correction for quadratic objective,0,0,1
+forward residual,7.2858385991025898e-17,4.9999999999999999e-13,1
+nodal Hessian symmetry,3.8116482626443518e-26,5.0000000000000002e-14,1
+Newton versus explicit rational theta map,1.1102230246251565e-15,2e-12,1
+theta tracer mass balance,8.3960616237277463e-16,2e-14,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+optimized discrete stationarity,4.1071945261673079e-11,1e-08,1
+one Newton correction for quadratic objective,0,0,1
+forward residual,6.2450045135165055e-17,4.9999999999999999e-13,1
+nodal Hessian symmetry,7.6232965252887032e-27,5.0000000000000002e-14,1
+Newton versus explicit rational theta map,1.6653345369377348e-15,2e-12,1
+theta tracer mass balance,1.1553258350005535e-15,2e-14,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+optimized discrete stationarity,9.7245900081007076e-11,1e-08,1
+one Newton correction for quadratic objective,0,0,1
+forward residual,5.9631119486702744e-17,4.9999999999999999e-13,1
+nodal Hessian symmetry,5.908054807098745e-26,5.0000000000000002e-14,1
+Newton versus explicit rational theta map,1.4099832412739488e-14,2e-12,1
+theta tracer mass balance,1.5369649997154511e-15,2e-14,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+optimized discrete stationarity,3.1715467061311625e-10,1e-08,1
+one Newton correction for quadratic objective,0,0,1
+forward residual,5.7245874707234634e-17,4.9999999999999999e-13,1
+nodal Hessian symmetry,9.1479558303464433e-26,5.0000000000000002e-14,1
+Newton versus explicit rational theta map,1.099120794378905e-14,2e-12,1
+theta tracer mass balance,1.1765761975812694e-15,2e-14,1
+terminal running costate zero,0,1.0000000000000001e-15,1
+temporal order state_c1,0.028820297882168777,0.22,1
+temporal order state_c2,0.0014217077871560013,0.22,1
+temporal order tangent,0.0014217120282488116,0.22,1
+temporal order nodal_adjoint,0.013025592581908385,0.22,1
+direct initial observation control remains at roundoff scale,4.2188474935755949e-15,2.0000000000000001e-10,1
+temporal order control_c2,0.0018054258485770136,0.22,1
+temporal order running_cost,0.025585407294837825,0.22,1
+temporal order running_gradient,0.03234304939498267,0.22,1
+temporal order running_costate,0.03232393543617873,0.22,1
+temporal order running_hessian,0.039789298251474592,0.22,1
+temporal order nodal_cost,0.0027164487989314035,0.22,1
+temporal order nodal_gradient,0.00075146433798867207,0.22,1
+temporal order nodal_hessian,0.0011017919255020825,0.22,1
+analytical gain stationary at peak,2.9490299091605721e-16,2.0000000000000001e-13,1
+transient gain exceeds unity,0,0,1
+closed analytical gain versus library SVD,4.4408920985006262e-16,5.0000000000000002e-14,1
+discrete peak time versus analytical,0.0017323160667335191,0.0078125,1
+discrete peak gain versus analytical,1.1013171372198372e-05,3.0000000000000001e-05,1
+tangent-adjoint worst direction,1.1102230246251565e-16,1.9999999999999999e-11,1
+worst direction attains discrete gain,1.7763568394002505e-15,2e-12,1
+gain tangent-adjoint pairing,3.3306690738754696e-15,2e-12,1
+positive worst perturbation loses total mass while concentration norm grows,0,1e-13,1
+bounded_primary: reference set contains truth,0,0,1
+bounded_primary: numerical set contains truth,0,0,1
+bounded_primary: outer set contains analytical vertex,0,0,1
+bounded_primary: outer set contains analytical vertex,0,0,1
+bounded_primary: outer set contains analytical vertex,0,0,1
+bounded_primary: outer set contains analytical vertex,0,0,1
+bounded_primary: information equals incremental adjoint,1.1434944787933054e-26,2e-12,1
+bounded_primary: information equals incremental adjoint,4.2564352042973041e-16,2e-12,1
+bounded_primary: goal adjoints match tangent maps,1.7763568394002505e-15,1.9999999999999999e-11,1
+bounded_primary: uniform defect allowance versus exact corners,0,2e-12,1
+bounded_primary: physical goal envelopes enclose exact feasible probes,0,2e-12,1
+bounded_primary expected engineering verdict,0,0,1
+bounded_refined: reference set contains truth,0,0,1
+bounded_refined: numerical set contains truth,0,0,1
+bounded_refined: outer set contains analytical vertex,0,0,1
+bounded_refined: outer set contains analytical vertex,0,0,1
+bounded_refined: outer set contains analytical vertex,0,0,1
+bounded_refined: outer set contains analytical vertex,0,0,1
+bounded_refined: information equals incremental adjoint,1.0672615135404184e-25,2e-12,1
+bounded_refined: information equals incremental adjoint,7.2031980380415922e-16,2e-12,1
+bounded_refined: goal adjoints match tangent maps,3.7747582837255322e-15,1.9999999999999999e-11,1
+bounded_refined: uniform defect allowance versus exact corners,0,2e-12,1
+bounded_refined: physical goal envelopes enclose exact feasible probes,0,2e-12,1
+bounded_refined: qualified whole-interval suffix,0.99864187059589438,1,1
+bounded_refined: qualified whole-interval suffix,0.62743372507246697,1,1
+bounded_refined: qualified whole-interval suffix,0.96046743692177539,1,1
+bounded_refined expected engineering verdict,0,0,1
+initially acceptable downstream goal subsequently amplifies beyond tolerance,0,0,1
+added_upstream: reference set contains truth,0,0,1
+added_upstream: numerical set contains truth,0,0,1
+added_upstream: outer set contains analytical vertex,0,0,1
+added_upstream: outer set contains analytical vertex,0,0,1
+added_upstream: outer set contains analytical vertex,0,0,1
+added_upstream: outer set contains analytical vertex,0,0,1
+added_upstream: information equals incremental adjoint,1.4146151113367351e-26,2e-12,1
+added_upstream: information equals incremental adjoint,2.2219796624891156e-15,2e-12,1
+added_upstream: goal adjoints match tangent maps,3.7747582837255322e-15,1.9999999999999999e-11,1
+added_upstream: uniform defect allowance versus exact corners,0,2e-12,1
+added_upstream: physical goal envelopes enclose exact feasible probes,0,2e-12,1
+added_upstream: qualified whole-interval suffix,0.60126502172220408,1,1
+added_upstream: qualified whole-interval suffix,0.1178049573194707,1,1
+added_upstream: qualified whole-interval suffix,0.18998856546768442,1,1
+added_upstream expected engineering verdict,0,0,1
+actual added measurement restores whole-horizon qualification,0,0,1
+joint95_refined: reference set contains truth,0,0,1
+joint95_refined: numerical set contains truth,0,0,1
+joint95_refined: outer set contains analytical vertex,0,0,1
+joint95_refined: outer set contains analytical vertex,0,0,1
+joint95_refined: outer set contains analytical vertex,0,0,1
+joint95_refined: outer set contains analytical vertex,0,0,1
+joint95_refined: information equals incremental adjoint,1.0672615135404184e-25,2e-12,1
+joint95_refined: information equals incremental adjoint,7.2031980380415922e-16,2e-12,1
+joint95_refined: goal adjoints match tangent maps,3.7747582837255322e-15,1.9999999999999999e-11,1
+joint95_refined: uniform defect allowance versus exact corners,0,2e-12,1
+joint95_refined: physical goal envelopes enclose exact feasible probes,0,2e-12,1
+joint95_refined: qualified whole-interval suffix,0.9990764554339131,1,1
+joint95_refined: qualified whole-interval suffix,0.99913093938974573,1,1
+joint95_refined: qualified whole-interval suffix,0.99879960933636491,1,1
+joint95_refined expected engineering verdict,0,0,1
