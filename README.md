@@ -287,6 +287,8 @@ On the refined grid, the physical analysis qualifies both goals jointly after **
 
 Read [docs/two_temperature.md](docs/two_temperature.md) for the complete derivation, assumptions, reference comparisons, and figures. All thermal inference and qualification computations are C++20; Python only renders their outputs.
 
+The follow-on [time-varying two-temperature case](docs/time_varying_thermal.md) uses one fluid thermometer to estimate both initial temperatures and a three-knot heater schedule. It compares the fitted theta-method trajectory with an exact forced solution and reports the expected second-order convergence for $\theta=0.5$.
+
 ![Two-temperature qualification verdict](results/two_temperature/qualification_verdict.png)
 
 ## Hidden motor winding temperature under weak thermal contact
@@ -343,7 +345,7 @@ with late samples; C qualifies from $t_0$. Read [the experiment and derivation](
 
 ![Stiff reaction convergence rates](results/stiff_reaction/convergence_orders.png)
 
-`make test` runs the library validation and numerical examples, including both oscillator sampling designs, the weak-information sweep, bounded initial-state washout, the nonuniform-mesh test, the drug-washout accuracy experiments, and nonlinear logistic growth. State-qualification examples print persistent qualification decisions, with `unqualified` where a goal does not meet tolerance over its horizon. `make qualification-plots` draws the decay, thermal, weak-coupling, gas, oscillator, weak-information, bounded-washout, nonuniform-mesh, goal-dependence, two-tank, insulated-thermal, electrothermal, stiff-reaction, drug-washout, and logistic-growth examples; `make decay-plots` draws only decay and `make thermal-plots` only the two-temperature example.
+`make test` runs the library validation and numerical examples, including both oscillator sampling designs, the weak-information sweep, bounded initial-state washout, the nonuniform-mesh test, the drug-washout accuracy experiments, nonlinear logistic growth, and the staged predator–prey case. State-qualification examples print persistent qualification decisions, with `unqualified` where a goal does not meet tolerance over its horizon. `make qualification-plots` draws the decay, thermal, time-varying thermal, weak-coupling, gas, oscillator, weak-information, bounded-washout, nonuniform-mesh, goal-dependence, two-tank, insulated-thermal, electrothermal, stiff-reaction, drug-washout, logistic-growth, and predator–prey examples; `make decay-plots` draws only decay and `make thermal-plots` only the original two-temperature example.
 
 ## State constraints and boundary optima
 
@@ -728,3 +730,17 @@ This is a small dense ODE library with prescribed time grids, explicit analytica
 It currently uses identity mass matrices, stores complete trajectories, and refactors dense step matrices during derivative sweeps. It has no sparse backend, DAE solver, mesh-adaptation derivatives, Enzyme binding, GPU execution, or general nonlinear-constraint optimizer. Callback interfaces allow future derivative adapters without changing the mathematical contract. For componentwise bounds on finite-dimensional controls, `minimize_box_constrained` uses an active-set Newton step and reports KKT multipliers; general coupled constraints remain outside scope. Sampled observations use explicit `Problem::nodal` costs; their values and derivative sources are not multiplied by running-cost quadrature weights. `goal_gradient` and `state_pullback` expose the same discrete adjoint for prediction goals and information actions. `qualification.hpp` contains local goal variance, box support, independent-Gaussian noise-box calibration, and persistent node criteria. Decay-specific nonlinear set construction and physical error bounds remain in the example model.
 
 `include/theta_opt/` is the reusable library. `examples/` contains problem definitions, `tests/` verification, `docs/` derivations and callback contracts, and `results/` reproducible outputs. C++ produces all numerical results; Python is used only for figures.
+## Time-varying gas-composition reconstruction
+
+The dynamic Peng–Robinson example estimates a changing ethane feed schedule
+and initial vessel composition from density observations of a well-mixed gas
+vessel. It uses the existing ThermoGPU EOS inside the C++20 discrete theta
+optimality system and compares the discrete states with an analytical mixing
+solution. It includes adjoint-gradient checks and the expected theta-method
+convergence rates.
+
+Run the example and render its results with:
+
+    make time-varying-gas-plots
+
+See docs/time_varying_gas.md for the model, equations, experiment, and limits.

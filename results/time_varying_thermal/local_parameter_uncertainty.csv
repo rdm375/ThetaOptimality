@@ -1,0 +1,11 @@
+theta,steps,parameter,local_standard_deviation
+0.5,640,fluid_initial,0.0785473
+0.5,640,wall_initial,0.787886
+0.5,640,heater_knot_0,3.85016
+0.5,640,heater_knot_5,0.470609
+0.5,640,heater_knot_10,0.677388
+0.65,640,fluid_initial,0.0785328
+0.65,640,wall_initial,0.791364
+0.65,640,heater_knot_0,3.86638
+0.65,640,heater_knot_5,0.471242
+0.65,640,heater_knot_10,0.677356

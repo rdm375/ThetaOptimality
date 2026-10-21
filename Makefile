@@ -4,8 +4,8 @@ CPPFLAGS ?= -Iinclude
 CXXFLAGS ?= -std=c++20 -O2 -Wall -Wextra -Wpedantic -Werror
 HEADERS := $(wildcard include/theta_opt/*.hpp) $(wildcard examples/*_model.hpp)
 
-.PHONY: all test validation example plots qualification qualification-plots decay-plots thermal thermal-plots clean logistic-growth logistic-growth-plots
-all: build/theta_decay build/theta_validation build/decay_qualification build/two_temperature_qualification build/weak_coupling build/peng_robinson_inverse build/oscillator build/oscillator_poor_timing build/oscillator_information_sweep build/bounded_washout build/nonuniform_oscillator build/goal_dependence build/two_tank build/insulated_thermal build/electrothermal build/stiff_reaction build/drug_washout build/drug_washout_correlated build/unit_scaling build/logistic_growth
+.PHONY: all test validation example plots qualification qualification-plots decay-plots thermal thermal-plots time-varying-thermal time-varying-thermal-plots time-varying-gas time-varying-gas-plots clean logistic-growth logistic-growth-plots predator-prey predator-prey-plots
+all: build/theta_decay build/theta_validation build/decay_qualification build/two_temperature_qualification build/time_varying_thermal build/time_varying_gas build/weak_coupling build/peng_robinson_inverse build/oscillator build/oscillator_poor_timing build/oscillator_information_sweep build/bounded_washout build/nonuniform_oscillator build/goal_dependence build/two_tank build/insulated_thermal build/electrothermal build/stiff_reaction build/drug_washout build/drug_washout_correlated build/unit_scaling build/logistic_growth build/predator_prey
 
 build:
 	mkdir -p build
@@ -25,7 +25,7 @@ build/two_temperature_qualification: examples/two_temperature_qualification.cpp 
 build/weak_coupling: examples/weak_coupling.cpp examples/weak_coupling_model.hpp $(HEADERS) | build
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
-test: validation qualification thermal weak-coupling gas oscillator poor-oscillator proper-oscillator information-sweep bounded-washout nonuniform-oscillator goal-dependence two-tank insulated-thermal electrothermal stiff-reaction drug-washout correlated-washout unit-scaling logistic-growth predator-prey
+test: validation qualification thermal time-varying-thermal time-varying-gas weak-coupling gas oscillator poor-oscillator proper-oscillator information-sweep bounded-washout nonuniform-oscillator goal-dependence two-tank insulated-thermal electrothermal stiff-reaction drug-washout correlated-washout unit-scaling logistic-growth predator-prey
 
 validation: build/theta_validation
 	./build/theta_validation
@@ -39,7 +39,7 @@ plots: example
 qualification: build/decay_qualification
 	./build/decay_qualification results/qualification
 
-qualification-plots: decay-plots thermal-plots weak-coupling-plots gas-plots oscillator-plots information-sweep-plots bounded-washout-plots nonuniform-oscillator-plots goal-dependence-plots two-tank-plots insulated-thermal-plots electrothermal-plots stiff-reaction-plots drug-washout-plots correlated-washout-plots unit-scaling-plots logistic-growth-plots predator-prey-plots
+qualification-plots: decay-plots thermal-plots time-varying-thermal-plots time-varying-gas-plots weak-coupling-plots gas-plots oscillator-plots information-sweep-plots bounded-washout-plots nonuniform-oscillator-plots goal-dependence-plots two-tank-plots insulated-thermal-plots electrothermal-plots stiff-reaction-plots drug-washout-plots correlated-washout-plots unit-scaling-plots logistic-growth-plots predator-prey-plots
 
 decay-plots: qualification
 	python3 tools/plot_qualification.py
@@ -49,6 +49,27 @@ thermal: build/two_temperature_qualification
 
 thermal-plots: thermal
 	python3 tools/plot_two_temperature.py
+
+build/time_varying_thermal: examples/time_varying_thermal.cpp $(HEADERS) | build
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+
+time-varying-thermal: build/time_varying_thermal
+	./build/time_varying_thermal results/time_varying_thermal
+
+time-varying-thermal-plots: time-varying-thermal
+	python3 tools/plot_time_varying_thermal.py
+
+# Dynamic Peng-Robinson gas mixture: C++ performs all model and inference work.
+THERMOGPU_ROOT ?= third_party/ThermoGPU
+build/time_varying_gas: examples/time_varying_gas.cpp examples/peng_robinson_model.hpp $(HEADERS) $(THERMOGPU_ROOT)/src/cpu/pr_scalar.cpp $(wildcard $(THERMOGPU_ROOT)/include/thermogpu/*.hpp) | build
+	$(CXX) $(CPPFLAGS) -I$(THERMOGPU_ROOT)/include $(CXXFLAGS) $< $(THERMOGPU_ROOT)/src/cpu/pr_scalar.cpp -o $@
+
+.PHONY: time-varying-gas time-varying-gas-plots
+time-varying-gas: build/time_varying_gas
+	./build/time_varying_gas results/time_varying_gas
+
+time-varying-gas-plots: time-varying-gas
+	python3 tools/plot_time_varying_gas.py
 
 .PHONY: weak-coupling weak-coupling-plots
 weak-coupling: build/weak_coupling
@@ -101,7 +122,6 @@ clean:
 	rm -rf build
 
 # Pinned unmodified ThermoGPU scalar CPU backend (no CUDA required).
-THERMOGPU_ROOT ?= third_party/ThermoGPU
 build/peng_robinson_inverse: examples/peng_robinson_inverse.cpp examples/peng_robinson_model.hpp examples/peng_robinson_bounds.hpp $(HEADERS) $(THERMOGPU_ROOT)/src/cpu/pr_scalar.cpp $(wildcard $(THERMOGPU_ROOT)/include/thermogpu/*.hpp) | build
 	$(CXX) $(CPPFLAGS) -I$(THERMOGPU_ROOT)/include $(CXXFLAGS) $< $(THERMOGPU_ROOT)/src/cpu/pr_scalar.cpp -o $@
 
@@ -133,9 +153,6 @@ logistic-growth: build/logistic_growth
 logistic-growth-plots: logistic-growth
 	python3 tools/plot_logistic_growth.py
 
-build/nonuniform_oscillator: examples/nonuniform_oscillator.cpp examples/oscillator_model.hpp examples/oscillator_qualification_model.hpp $(HEADERS) | build
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
-
 build/predator_prey: examples/predator_prey.cpp $(HEADERS) | build
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
@@ -144,6 +161,9 @@ predator-prey: build/predator_prey
 
 predator-prey-plots: predator-prey
 	python3 tools/plot_predator_prey.py
+
+build/nonuniform_oscillator: examples/nonuniform_oscillator.cpp examples/oscillator_model.hpp examples/oscillator_qualification_model.hpp $(HEADERS) | build
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 build/goal_dependence: examples/goal_dependence.cpp examples/oscillator_model.hpp examples/oscillator_qualification_model.hpp $(HEADERS) | build
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $< -o $@
