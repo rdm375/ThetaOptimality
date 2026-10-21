@@ -8,10 +8,12 @@ approach: an unmeasured state is recoverable through dynamics, but particular
 measurement times can remove the information needed to recover it.
 
 This is a test roadmap, not a claim that all proposed features are implemented.
-Current coverage refers to the examples shipped with this repository. New examples
-should estimate initial states under known inputs and known model parameters.
-Identification of an arbitrary time-dependent forcing or inlet-composition
-history belongs to the deferred time-dependent-control work.
+Current coverage refers to the examples shipped with this repository. New
+examples should state which inputs and model parameters are known. The library
+now supports finite-dimensional time-varying control bases, including
+piecewise-linear schedules and softmax composition schedules. Inferring an
+arbitrary unrestricted function of time remains outside the scope of a
+finite-dimensional reconstruction.
 
 ## 1. Features to test
 
@@ -24,6 +26,8 @@ history belongs to the deferred time-dependent-control work.
 | **Persistent unobservable mode** | Two insulated thermal masses; measure only their temperature difference | Recover or qualify the difference while a common temperature offset remains invisible and does not decay. With a prior domain broader than the absolute-temperature tolerance, correctly leave absolute-temperature goals unqualified. | Implemented in [insulated_thermal.md](insulated_thermal.md), including singular optimization, persistent feasible directions, and actual added absolute data. |
 | **Nonlinear observation ambiguity** | Infer RLC voltage/current from resistor temperature driven by Joule heating $Ri^2$ | Exhibit distinct initial states with identical observations; local derivative rank must not be mistaken for global uniqueness. Preserve both feasible branches in qualification, then test how an added signed observation changes the result. | Implemented in [electrothermal.md](electrothermal.md): nonlinear dynamics, two full-rank local optima, global bounded box covers, invariant/signed goals, and informative versus insufficient signed measurements. |
 | **Stiff dynamics** | Consecutive first-order reaction $A\to B\to C$, with $k_f/k_s=1000$ | Distinguish stability, damping, positivity, and accuracy. Show how an unresolved fast reaction mode affects concentrations, reconstruction, and qualification; compare midpoint, an intermediate theta, and backward Euler. Verify expected convergence after resolving both timescales. | Implemented in [stiff_reaction.md](stiff_reaction.md): exact solution, two product-observation schedules, discrete optimality checks, positivity diagnostic, bounded persistent qualification, and measured rates for eight workflow quantities. |
+| **Active trajectory inequalities** | A state or scheduled-control limit at selected mesh nodes | Verify primal feasibility, nonnegative multipliers, complementarity, and reduced stationarity, including the state-dependent constraint's discrete-adjoint gradient and incremental-adjoint curvature. Do not treat node checks as a continuous-time certificate. | Library support and an analytic dynamic test are implemented in [time_varying_controls_path_constraints.md](time_varying_controls_path_constraints.md). |
+| **Time-varying controls** | Piecewise-linear control coefficients or a changing gas composition | Verify chain-rule propagation through the theta forward, tangent, adjoint, and Hessian. For mixture fractions, preserve positivity and the sum-to-one constraint while fitting a finite-dimensional schedule. | Piecewise-linear and softmax schedule mappings are implemented and derivative-tested. A transient gas-mixture inverse experiment remains future work; see [time_varying_controls_path_constraints.md](time_varying_controls_path_constraints.md). |
 
 For every proposed feature, choose physical units and scaling before assessing
 conditioning, perturbation size, amplification, or engineering tolerances.
@@ -223,6 +227,7 @@ relevant input.
 | State constraints and boundary optima | Implemented in [bounded_washout.md](bounded_washout.md): a nonnegative, stock-limited initial drug concentration produces lower-bound, interior, and upper-bound least-squares optima. The reusable box active-set Newton method reports KKT multipliers and includes forward-error-aware qualification. |
 | Weak information and near singularity | Implemented as a 21-point oscillator sampling-time sweep in [weak_information.md](weak_information.md): exact physical information, midpoint discrete Hessian phase leakage, bounded-state uncertainty, goal diagnostics, and optimizer stationarity are compared. |
 | Nonlinear dynamics | Retain exact or independently verified references; test state-dependent Jacobians and second-order terms required by the incremental adjoint. Implemented first as logistic biomass growth with exact references and midpoint/first-order convergence in [logistic_growth.md](logistic_growth.md), then as staged Lotka–Volterra initial-state, rate, and joint recovery checked against its conserved quantity in [predator_prey.md](predator_prey.md). The joint six-control case motivated general-dimensional local information-spectrum diagnostics. |
+| Time-varying controls and path-constraint KKT | Parameterize a control history with a finite-dimensional basis, propagate its derivatives through the discrete optimality system, and impose state/control inequalities at mesh nodes with KKT multipliers. Implemented as reusable piecewise-linear and softmax schedules plus an analytic dynamic state-constraint test. A transient gas-composition experiment and between-node path certificates remain future work; see [time_varying_controls_path_constraints.md](time_varying_controls_path_constraints.md). |
 | Added measurement experiments | Implemented across the two-temperature case (added wall sensor), two-tank case (added upstream concentration sensor), electrothermal case (signed voltage observation), and decay qualification case (added exposure observation). Each reruns the inverse solve and recomputes the data-consistent set or qualification; see the corresponding example documents. |
 
 ## 5. Suggested sequence and completion checklist
@@ -245,6 +250,7 @@ A proposed continuation is:
 9. **Completed:** unit and scaling invariance of the drug-washout discrete optimality system; see [unit_scaling.md](unit_scaling.md).
 10. **Completed:** nonlinear logistic-growth state finding with exact references for the full discrete optimality workflow; see [logistic_growth.md](logistic_growth.md).
 11. **Completed:** coupled nonlinear predator–prey recovery in three stages (initial populations, rates, and joint estimation), with derivative checks, an invariant reference, and midpoint/first-order refinement; see [predator_prey.md](predator_prey.md).
+12. **Completed, first library layer:** discrete nodal path-inequality KKT conditions and finite-dimensional time-varying control schedules, including softmax gas-composition parameterization. Next, build a transient gas-mixture inverse example and test observation timing, parameter/control identifiability, and between-node constraint certification.
 
 The predator–prey case extends logistic growth from a scalar nonlinear equation
 to coupled populations. It first isolates initial-state recovery, then rate

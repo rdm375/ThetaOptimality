@@ -15,6 +15,7 @@ Include `<theta_opt/theta_opt.hpp>` and link no compiled library. Public symbols
 - `running.directional_gradient(t,x,xi,s,v)` and the terminal equivalent return `ScalarDirection<N,P>{delta_x_gradient, delta_control_gradient}`.
 - `penalty.value(xi)`, `penalty.gradient(xi)`, and `penalty.hessian_vector(xi,v)` depend directly on controls.
 - `nodal` is a vector of `(node, ScalarFunction<N,P>)` pairs for isolated measurements or other discrete costs. They use the same scalar-function callbacks, and are added without time weights. Multiple costs may share a node, including the initial and final node. First- and second-order sources accumulate in the appropriate sweeps.
+- `path_inequalities` is a vector of `PathInequality<N,P>{node,function}` entries, each imposing `function(t_node,x_node,xi) <= 0` at that mesh node. Add one entry for every constrained node and inequality component. These are discretized path constraints; node feasibility alone is not a certificate between nodes.
 
 The defaults for `Problem::running`, `terminal`, and `penalty` are mathematically zero and include zero second derivatives. A newly constructed generic `ScalarFunction` or `Penalty` does not silently assume second derivatives when nonzero first-order callbacks have been assigned. Prefer defining the complete callback group before constructing a `System`. Missing first-order callbacks are rejected by its constructor; missing second-order callbacks are rejected by `hessian_vector`.
 
@@ -71,16 +72,47 @@ $$
 At a lower-bound optimum, the raw gradient can be positive and is balanced by
 the lower multiplier; at an upper-bound optimum, the raw gradient can be
 negative and is balanced by the upper multiplier. The trace's `gradient_norm`
-is the projected-gradient norm for this solver. This API covers box constraints
-only; it is not a general solver for coupled linear/nonlinear inequalities,
-equalities, or state constraints that activate between nodes. See
+is the projected-gradient norm for this solver. See
 [the bounded washout case](bounded_washout.md).
+
+`minimize_path_constrained(system,guess,lower,upper,optimizer_options,
+path_options)` handles a finite set of the system's nodal path inequalities and
+control box bounds. It uses an augmented-Lagrangian outer iteration. Each path
+term is inserted as a nodal cost, so the existing discrete adjoint computes its
+reduced gradient and the incremental adjoint computes its exact Hessian action;
+the path callback must provide `directional_gradient`. `PathConstrainedOptimum<P>`
+returns nonnegative path multipliers, path values, box-bound multipliers, and
+primal-feasibility, stationarity, complementarity, and combined KKT residuals.
+This is a dense small-problem solver. A node-constrained result does not enforce
+the inequality between nodes; refine the mesh and/or provide an interval
+certificate for a continuous-time guarantee.
+
+## Time-varying controls
+
+The optimizer controls remain a fixed-size vector `Vec<P>`, but its entries can
+represent coefficients of a prescribed temporal basis rather than constant
+physical controls. `PiecewiseLinearControl<C,K>` interpolates `C` channels at
+`K` strictly increasing times. `SoftmaxCompositionControl<S,K>` interpolates
+`S-1` log-ratios at each knot and maps them through a stable softmax, so every
+composition is positive and sums to one. It uses `P=(S-1)*K` optimized
+coefficients.
+
+`compose_dynamics(model,schedule.parameterization())` chains the instantaneous
+control Jacobian and directional second derivatives through the schedule.
+`compose_scalar_function` does the same for a running/terminal term, observation,
+or path function that depends on the instantaneous control. Model callbacks
+differentiate with respect to the instantaneous control; the schedule applies
+the chain rule to the finite coefficient vector. Knot times and the time grid
+are fixed during differentiation. A scheduled gas composition can therefore
+use the same theta forward, tangent, discrete adjoint, and incremental-adjoint
+machinery. Thermodynamic property callbacks still need accurate derivatives
+with respect to state and instantaneous composition.
 
 ## Failure reporting and scope
 
 Invalid grids, options, callback requirements, or trajectory sizes throw `std::invalid_argument`. Inadmissible initial/converged states and controls throw `std::domain_error`. Singular/poorly scaled linear systems, nonfinite numerical results, or failed iterations throw `std::runtime_error`. User callbacks may propagate their own exceptions. There is no global mutable solver state; callback thread safety remains the caller's responsibility.
 
-Use `running` for a continuous cost density and `nodal` for isolated measurements. `cost_to_go_adjoint` removes only the preceding running-cost endpoint term; nodal sources remain, as appropriate for costs with observation jumps. General coupled inequality constraints, general mass matrices, and DAEs remain extensions rather than implicit capabilities.
+Use `running` for a continuous cost density and `nodal` for isolated measurements. `cost_to_go_adjoint` removes only the preceding running-cost endpoint term; nodal sources remain, as appropriate for costs with observation jumps. General coupled equality constraints, general mass matrices, and DAEs remain extensions rather than implicit capabilities.
 
 `qualification.hpp` supplies `local_goal_variance(gradient,covariance)`, `box_support(gradient,radii)`, `independent_gaussian_box_radius(sd,count,joint_probability)`, and `persistent_node_qualification(times,ratios)`. The last method returns an optional earliest sampled time after which all remaining ratios are at most one. It makes no between-node claim by itself. The decay example separately constructs whole-step physical envelopes and applies the suffix criterion to their interval start times, which yields a finite-horizon continuous-time statement under its stated model assumptions.
 

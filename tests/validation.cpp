@@ -105,6 +105,108 @@ int main(){try{
         auto interior=minimize_box_constrained(System<1,1>(bounded_quadratic(.25),grid),{.5},{0.},{1.});close(interior.control[0],.25,1e-14,"box optimizer interior solution");check(!interior.active_lower[0]&&!interior.active_upper[0]&&interior.kkt_residual<1e-14,"interior KKT stationarity");
         rejects([&]{minimize_box_constrained(System<1,1>(bounded_quadratic(.25),grid),{1.5},{0.},{1.});},"reject box optimizer start outside bounds");
         rejects([&]{minimize_box_constrained(System<1,1>(bounded_quadratic(.25),grid),{.5},{1.},{0.});},"reject inverted optimizer bounds");
+
+        Problem<1,1> path_problem;
+        path_problem.initial.value=[](const Vec<1>&){return Vec<1>{0.};};
+        path_problem.initial.jacobian=[](const Vec<1>&){return Mat<1,1>{};};
+        path_problem.initial.directional_jacobian=[](const Vec<1>&,const Vec<1>&){return Mat<1,1>{};};
+        path_problem.dynamics.value=[](double,const Vec<1>&,const Vec<1>& z){return Vec<1>{z[0]};};
+        path_problem.dynamics.derivatives=[](double,const Vec<1>&,const Vec<1>&){
+            Derivatives<1,1> d;d.control[0][0]=1.;return d;};
+        path_problem.dynamics.directional_derivatives=[](double,const Vec<1>&,const Vec<1>&,
+                                                          const Vec<1>&,const Vec<1>&){return Derivatives<1,1>{};};
+        path_problem.terminal.evaluate=[](double,const Vec<1>& x,const Vec<1>&){
+            const double r=x[0]-1.;return ScalarValue<1,1>{.5*r*r,Vec<1>{r},{}};};
+        path_problem.terminal.directional_gradient=[](double,const Vec<1>&,const Vec<1>&,
+                                                       const Vec<1>& dx,const Vec<1>&){
+            return ScalarDirection<1,1>{Vec<1>{dx[0]}, {}};};
+        auto path=ScalarFunction<1,1>::zero();
+        path.evaluate=[](double,const Vec<1>& x,const Vec<1>&){return ScalarValue<1,1>{x[0]-.4,Vec<1>{1.},{}};};
+        path.directional_gradient=[](double,const Vec<1>&,const Vec<1>&,const Vec<1>&,const Vec<1>&){return ScalarDirection<1,1>{};};
+        path_problem.path_inequalities.push_back({1,path});
+        auto path_system=System<1,1>(path_problem,grid);
+        const auto path_result=minimize_path_constrained(path_system,{.2},{-1.},{2.});
+        close(path_result.control[0],.8,2e-8,"path KKT constrained optimum");
+        close(path_result.path_multiplier[0],.4,2e-7,"path KKT multiplier");
+        check(path_result.path_value[0]<=1e-9&&path_result.kkt_residual<1e-8,
+              "path KKT primal feasibility, stationarity, and complementarity");
+        auto path_augmented=path_system.with_path_lagrangian({.4},12.);
+        const auto aug_e=path_augmented.evaluate({.7});
+        const auto aug_p=path_augmented.evaluate({.7+1e-5});
+        const auto aug_m=path_augmented.evaluate({.7-1e-5});
+        close(aug_e.gradient[0],(aug_p.cost-aug_m.cost)/2e-5,2e-8,
+              "augmented path cost uses discrete adjoint gradient");
+        close(path_augmented.hessian_vector({.7},{1.})[0],
+              (aug_p.gradient[0]-aug_m.gradient[0])/2e-5,2e-8,
+              "augmented path cost uses incremental-adjoint Hessian");
+
+        SoftmaxCompositionControl<3,3> composition({0.,.4,1.});
+        Vec<6> logits{-.4,.1,.6,.3,-.2,.2},direction{.2,-.1,.3,.1,.2,-.2};
+        const double time=.63,step=1e-5;const auto fraction=composition.value(time,logits);
+        close(fraction[0]+fraction[1]+fraction[2],1.,2e-15,"scheduled composition sums to one");
+        check(fraction[0]>0.&&fraction[1]>0.&&fraction[2]>0.,"scheduled composition remains positive");
+        const auto J=composition.jacobian(time,logits),dJ=composition.directional_jacobian(time,logits,direction);
+        const auto Jp=composition.jacobian(time,logits+step*direction);
+        const auto Jm=composition.jacobian(time,logits-step*direction);
+        const auto yp=composition.value(time,logits+step*direction),ym=composition.value(time,logits-step*direction);
+        close(norm(mv(J,direction)-(.5/step)*(yp-ym)),0.,2e-9,"softmax schedule Jacobian");
+        for(std::size_t i=0;i<3;++i)for(std::size_t j=0;j<6;++j)
+            close(dJ[i][j],(Jp[i][j]-Jm[i][j])/(2.*step),2e-9,
+                  "softmax schedule directional Jacobian");
+        auto raw_observation=ScalarFunction<1,3>::zero();
+        raw_observation.evaluate=[](double,const Vec<1>&,const Vec<3>& u){
+            const double r=u[1]-.35;return ScalarValue<1,3>{.5*r*r,{},Vec<3>{0.,r,0.}};};
+        raw_observation.directional_gradient=[](double,const Vec<1>&,const Vec<3>&,
+                                                  const Vec<1>&,const Vec<3>& du){
+            return ScalarDirection<1,3>{{},{0.,du[1]}};};
+        const auto scheduled_observation=compose_scalar_function(raw_observation,composition.parameterization());
+        const auto ov=scheduled_observation.evaluate(time,Vec<1>{},logits);
+        const auto od=scheduled_observation.directional_gradient(time,Vec<1>{},logits,Vec<1>{},direction);
+        const auto ovp=scheduled_observation.evaluate(time,Vec<1>{},logits+step*direction);
+        const auto ovm=scheduled_observation.evaluate(time,Vec<1>{},logits-step*direction);
+        close(dot(ov.control,direction),(ovp.value-ovm.value)/(2.*step),2e-9,
+              "scheduled scalar gradient chain rule");
+        for(std::size_t j=0;j<6;++j)
+            close(od.control[j],(ovp.control[j]-ovm.control[j])/(2.*step),2e-8,
+                  "scheduled scalar Hessian chain rule");
+        PiecewiseLinearControl<2,3> linear_schedule({0.,.5,1.});
+        const Vec<6> control_knots{1.,2.,3.,4.,5.,6.};
+        const auto scheduled_value=linear_schedule.value(.25,control_knots);
+        close(scheduled_value[0],1.5,1e-15,"piecewise-linear control interpolation channel one");
+        close(scheduled_value[1],4.5,1e-15,"piecewise-linear control interpolation channel two");
+        close(norm(mv(linear_schedule.jacobian(.25,control_knots),direction)-
+                   (.5/step)*(linear_schedule.value(.25,control_knots+step*direction)-
+                              linear_schedule.value(.25,control_knots-step*direction))),0.,2e-10,
+              "piecewise-linear schedule Jacobian");
+        Dynamics<1,3> mixture_model;
+        mixture_model.value=[](double,const Vec<1>&,const Vec<3>& u){return Vec<1>{u[0]+2.*u[1]-u[2]};};
+        mixture_model.derivatives=[](double,const Vec<1>&,const Vec<3>&){
+            Derivatives<1,3> d;d.control[0]={1.,2.,-1.};return d;};
+        mixture_model.directional_derivatives=[](double,const Vec<1>&,const Vec<3>&,
+                                                  const Vec<1>&,const Vec<3>&){return Derivatives<1,3>{};};
+        const auto scheduled_dynamics=compose_dynamics(mixture_model,composition.parameterization());
+        Problem<1,6> scheduled_problem;scheduled_problem.dynamics=scheduled_dynamics;
+        scheduled_problem.initial.value=[](const Vec<6>&){return Vec<1>{0.};};
+        scheduled_problem.initial.jacobian=[](const Vec<6>&){return Mat<1,6>{};};
+        scheduled_problem.initial.directional_jacobian=[](const Vec<6>&,const Vec<6>&){return Mat<1,6>{};};
+        scheduled_problem.terminal.evaluate=[](double,const Vec<1>& x,const Vec<6>&){
+            const double r=x[0]-.25;return ScalarValue<1,6>{.5*r*r,Vec<1>{r},{}};};
+        scheduled_problem.terminal.directional_gradient=[](double,const Vec<1>&,const Vec<6>&,
+                                                             const Vec<1>& dx,const Vec<6>&){
+            return ScalarDirection<1,6>{Vec<1>{dx[0]},{}};};
+        System<1,6> scheduled_system(scheduled_problem,Grid::uniform(0.,1.,12,.5));
+        const auto se=scheduled_system.evaluate(logits);
+        const auto st=scheduled_system.tangent(logits,se.trajectory,direction);
+        const auto sep=scheduled_system.evaluate(logits+step*direction);
+        const auto sem=scheduled_system.evaluate(logits-step*direction);
+        for(std::size_t n=0;n<st.size();++n)
+            close(st[n][0],(sep.trajectory.state[n][0]-sem.trajectory.state[n][0])/(2.*step),2e-8,
+                  "scheduled dynamics tangent finite difference");
+        close(dot(se.gradient,direction),(sep.cost-sem.cost)/(2.*step),2e-8,
+              "scheduled dynamics adjoint gradient finite difference");
+        close(scheduled_system.hessian_vector(logits,direction)[0],
+              (sep.gradient[0]-sem.gradient[0])/(2.*step),2e-7,
+              "scheduled dynamics incremental-adjoint Hessian");
     }
 
     close(worst_amplification_2d(identity<2>()).gain,1.,1e-14,"identity amplification");

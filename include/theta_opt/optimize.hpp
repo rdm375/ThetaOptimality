@@ -99,4 +99,88 @@ BoxOptimum<P> minimize_box_constrained(const System<N,P>& system,Vec<P> p,
     }
     throw std::runtime_error("Box optimizer failed to converge");
 }
+
+struct PathConstraintOptions {
+    double feasibility_tolerance=1e-9;
+    double complementarity_tolerance=1e-8;
+    double initial_penalty=10.;
+    double penalty_growth=10.;
+    std::size_t max_outer_iterations=20;
+};
+template<std::size_t P> struct PathConstrainedOptimum {
+    Vec<P> control{},gradient{},lower_multiplier{},upper_multiplier{};
+    std::array<bool,P> active_lower{},active_upper{};
+    std::vector<double> path_multiplier,path_value;
+    std::vector<Iteration<P>> trace;
+    double objective{},stationarity_residual{},feasibility_residual{},complementarity_residual{},kkt_residual{};
+    std::size_t outer_iterations{};
+};
+
+// Augmented-Lagrangian solve for nodal path inequalities g_i(x_{n_i},p)<=0,
+// combined with the existing simple control bounds. Each path term is inserted
+// as a nodal cost, so state dependence is differentiated by the discrete
+// adjoint and its Hessian by the incremental adjoint. The constraints are only
+// enforced at the selected transcription nodes.
+template<std::size_t N,std::size_t P>
+PathConstrainedOptimum<P> minimize_path_constrained(const System<N,P>& system,Vec<P> p,
+        const Vec<P>& lower,const Vec<P>& upper,OptimizeOptions optimize_options={},
+        PathConstraintOptions constraint_options={}) {
+    const std::size_t count=system.path_inequality_count();
+    if(!count)throw std::invalid_argument("Path-constrained optimizer needs at least one path inequality");
+    if(!std::isfinite(constraint_options.feasibility_tolerance)||constraint_options.feasibility_tolerance<=0.||
+       !std::isfinite(constraint_options.complementarity_tolerance)||constraint_options.complementarity_tolerance<=0.||
+       !std::isfinite(constraint_options.initial_penalty)||constraint_options.initial_penalty<=0.||
+       !std::isfinite(constraint_options.penalty_growth)||constraint_options.penalty_growth<=1.||
+       !constraint_options.max_outer_iterations)
+        throw std::invalid_argument("Path-constraint optimizer options");
+    std::vector<double> multiplier(count,0.);double penalty=constraint_options.initial_penalty;
+    double previous_feasibility=std::numeric_limits<double>::infinity();
+    PathConstrainedOptimum<P> result;
+    for(std::size_t outer=0;outer<constraint_options.max_outer_iterations;++outer){
+        auto augmented=system.with_path_lagrangian(multiplier,penalty);
+        auto inner=minimize_box_constrained(augmented,p,lower,upper,optimize_options);
+        p=inner.control;auto trajectory=system.forward(p);
+        auto value=system.path_inequality_values(p,trajectory);
+        double feasibility=0.;
+        std::vector<double> updated(count);
+        for(std::size_t i=0;i<count;++i){
+            feasibility=std::max(feasibility,std::max(0.,value[i]));
+            updated[i]=std::max(0.,multiplier[i]+penalty*value[i]);
+        }
+        auto lagrangian=system.with_path_lagrangian(updated,0.);
+        auto evaluation=lagrangian.evaluate(p);
+        Vec<P> projected{};
+        for(std::size_t j=0;j<P;++j)
+            projected[j]=p[j]-std::clamp(p[j]-evaluation.gradient[j],lower[j],upper[j]);
+        double complementarity=0.;
+        for(std::size_t i=0;i<count;++i)complementarity=std::max(complementarity,std::abs(updated[i]*value[i]));
+        result.control=p;result.gradient=evaluation.gradient;result.path_multiplier=updated;
+        result.path_value=value;result.objective=system.cost(p,evaluation.trajectory);
+        result.stationarity_residual=norm(projected);result.feasibility_residual=feasibility;
+        result.complementarity_residual=complementarity;
+        result.kkt_residual=std::max({result.stationarity_residual,feasibility,complementarity});
+        result.trace.insert(result.trace.end(),inner.trace.begin(),inner.trace.end());
+        result.outer_iterations=outer+1;
+        for(std::size_t j=0;j<P;++j){
+            const double tol=32*std::numeric_limits<double>::epsilon()*std::max({1.,std::abs(lower[j]),std::abs(upper[j])});
+            result.active_lower[j]=p[j]-lower[j]<=tol;result.active_upper[j]=upper[j]-p[j]<=tol;
+            if(result.active_lower[j])result.lower_multiplier[j]=std::max(0.,evaluation.gradient[j]);
+            if(result.active_upper[j])result.upper_multiplier[j]=std::max(0.,-evaluation.gradient[j]);
+            complementarity=std::max(complementarity,std::max(
+                std::abs(result.lower_multiplier[j]*(p[j]-lower[j])),
+                std::abs(result.upper_multiplier[j]*(upper[j]-p[j]))));
+        }
+        result.complementarity_residual=complementarity;
+        result.kkt_residual=std::max({result.stationarity_residual,result.feasibility_residual,complementarity});
+        if(result.stationarity_residual<=optimize_options.gradient_tolerance&&
+           feasibility<=constraint_options.feasibility_tolerance&&
+           complementarity<=constraint_options.complementarity_tolerance)return result;
+        multiplier=std::move(updated);
+        if(feasibility>.5*previous_feasibility)penalty*=constraint_options.penalty_growth;
+        previous_feasibility=feasibility;
+        if(!std::isfinite(penalty)||penalty>1e14)break;
+    }
+    throw std::runtime_error("Path-constrained optimizer failed to satisfy discrete KKT tolerances; residual="+
+                             std::to_string(result.kkt_residual));
+}
 }

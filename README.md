@@ -414,6 +414,17 @@ make predator-prey-plots
 
 ![Predator–prey convergence and derivative checks](results/predator_prey/convergence_and_derivatives.png)
 
+## Time-varying controls and path constraints
+
+The library now supports finite-dimensional piecewise-linear controls and
+softmax parameterizations for time-varying gas compositions. Scheduled-control
+derivatives are chained through the theta forward, tangent, adjoint, and
+incremental adjoint. Nodal path inequalities can be solved with an
+augmented-Lagrangian method that reports discrete KKT residuals. See the
+[API guide](docs/api.md) and [implementation note](docs/time_varying_controls_path_constraints.md).
+The current path constraints apply at mesh nodes; a transient gas-mixture
+experiment and between-node constraint certification are follow-on work.
+
 ## Measurement accuracy versus numerical accuracy: drug washout
 
 The one-compartment IV-bolus example infers an unknown initial plasma

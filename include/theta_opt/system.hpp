@@ -59,6 +59,13 @@ template<std::size_t N,std::size_t P> struct CorrelatedObservationTerm {
     std::vector<ScalarFunction<N,P>> residual;
     std::vector<std::vector<double>> precision;
 };
+// A discrete path inequality g(t_n,x_n,p) <= 0 at one selected grid node.
+// Add one entry per constrained node/component. These are mesh constraints;
+// continuous-time enforcement requires an interval/collocation certificate.
+template<std::size_t N,std::size_t P> struct PathInequality {
+    std::size_t node{};
+    ScalarFunction<N,P> function;
+};
 template<std::size_t N,std::size_t P> struct Problem {
     Dynamics<N,P> dynamics;InitialCondition<N,P> initial;
     ScalarFunction<N,P> running=ScalarFunction<N,P>::zero(),terminal=ScalarFunction<N,P>::zero();
@@ -68,6 +75,7 @@ template<std::size_t N,std::size_t P> struct Problem {
     // A group of residuals coupled by a dense precision matrix W contributes
     // 0.5 r^T W r. This supports correlated observations at different nodes.
     std::vector<CorrelatedObservationTerm<N,P>> correlated_observations;
+    std::vector<PathInequality<N,P>> path_inequalities;
 };
 template<std::size_t N> struct Trajectory {std::vector<Vec<N>> state;double max_residual{};std::size_t newton_updates{};};
 template<std::size_t N,std::size_t P> struct Evaluation {
@@ -127,6 +135,9 @@ public:
         if(!std::isfinite(options_.absolute_tolerance)||!std::isfinite(options_.relative_tolerance)||options_.absolute_tolerance<=0||options_.relative_tolerance<0||!options_.max_iterations||!options_.max_backtracks)throw std::invalid_argument("Newton options");
         for(const auto& [node,cost]:problem_.nodal)
             if(node>=grid_.time.size()||!cost.evaluate)throw std::invalid_argument("Invalid nodal cost");
+        for(const auto& constraint:problem_.path_inequalities)
+            if(constraint.node>=grid_.time.size()||!constraint.function.evaluate)
+                throw std::invalid_argument("Invalid path inequality");
         for(const auto& term:problem_.correlated_observations){
             const auto count=term.node.size();
             if(count==0||term.residual.size()!=count||term.precision.size()!=count)
@@ -162,6 +173,54 @@ public:
         }
     }
     const Grid& grid() const{return grid_;}
+    std::size_t path_inequality_count() const{return problem_.path_inequalities.size();}
+    std::vector<double> path_inequality_values(const Vec<P>& p,const Trajectory<N>& trajectory) const{
+        if(trajectory.state.size()!=grid_.time.size())throw std::invalid_argument("Trajectory size");
+        std::vector<double> value;value.reserve(problem_.path_inequalities.size());
+        for(const auto& constraint:problem_.path_inequalities){
+            const auto result=constraint.function.evaluate(grid_.time[constraint.node],
+                                                            trajectory.state[constraint.node],p);
+            if(!std::isfinite(result.value))throw std::runtime_error("Nonfinite path inequality");
+            value.push_back(result.value);
+        }
+        return value;
+    }
+    // Return a copy whose objective is augmented by either
+    // (max(0,lambda+rho*g)^2-lambda^2)/(2*rho), or lambda*g when rho==0.
+    // The same nodal discrete-adjoint and incremental-adjoint machinery then
+    // differentiates the path terms exactly.
+    System with_path_lagrangian(const std::vector<double>& multiplier,double rho=0.) const{
+        if(multiplier.size()!=problem_.path_inequalities.size()||!std::isfinite(rho)||rho<0.)
+            throw std::invalid_argument("Path Lagrangian dimensions or penalty");
+        Problem<N,P> augmented=problem_;
+        for(std::size_t i=0;i<problem_.path_inequalities.size();++i){
+            const auto path=problem_.path_inequalities[i];const double lambda=multiplier[i];
+            if(!std::isfinite(lambda)||lambda<0.)throw std::invalid_argument("Path multiplier must be nonnegative");
+            if(!path.function.directional_gradient)
+                throw std::invalid_argument("Path inequality needs a second-order callback");
+            ScalarFunction<N,P> term;
+            term.evaluate=[path,lambda,rho](double t,const Vec<N>& x,const Vec<P>& p){
+                auto g=path.function.evaluate(t,x,p);const double shifted=lambda+rho*g.value;
+                const double q=rho==0.?lambda:std::max(0.,shifted);
+                const double value=rho==0.?lambda*g.value:
+                    (q*q-lambda*lambda)/(2.*rho);
+                return ScalarValue<N,P>{value,q*g.x,q*g.control};
+            };
+            term.directional_gradient=[path,lambda,rho](double t,const Vec<N>& x,const Vec<P>& p,
+                                                         const Vec<N>& dx,const Vec<P>& dp){
+                const auto g=path.function.evaluate(t,x,p);
+                const double shifted=lambda+rho*g.value;
+                const double q=rho==0.?lambda:std::max(0.,shifted);
+                const double curvature=(rho>0.&&shifted>0.)?rho:0.;
+                const double dg=dot(g.x,dx)+dot(g.control,dp);
+                const auto dg_gradient=path.function.directional_gradient(t,x,p,dx,dp);
+                return ScalarDirection<N,P>{curvature*dg*g.x+q*dg_gradient.x,
+                                            curvature*dg*g.control+q*dg_gradient.control};
+            };
+            augmented.nodal.emplace_back(path.node,std::move(term));
+        }
+        return System(std::move(augmented),grid_,options_);
+    }
     Trajectory<N> forward(const Vec<P>& p) const{
         (void)norm(p);Trajectory<N> out;out.state.resize(grid_.time.size());out.state[0]=problem_.initial.value(p);(void)norm(out.state[0]);
         if(!problem_.dynamics.admissible(grid_.time[0],out.state[0],p))throw std::domain_error("Inadmissible initial state");
