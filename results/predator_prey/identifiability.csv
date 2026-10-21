@@ -1,0 +1,4 @@
+case,rank,controls,smallest_retained_eigenvalue,largest_eigenvalue,condition_number
+initial_state,2,2,37342.6,177614,4.75634
+parameters,4,4,4599.44,777713,169.089
+joint,6,6,2558.88,810545,316.758

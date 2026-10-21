@@ -93,6 +93,8 @@ propagation, qualification-time calculation, and assertions. It writes:
 
 - `decisions.csv`: each goal's persistent time and the joint decision;
 - `envelopes.csv`: nodal and whole-interval uncertainty bounds;
+- `state_reconstruction.csv`: analytic truth, analytic least-squares fit,
+  theta-discrete fit, and nodal uncertainty bound for each physical goal;
 - `checks.csv`: validation checks, including distinct goal times, the joint-time
   maximum rule, and the single-blocker result.
 
@@ -107,6 +109,13 @@ The whole-interval bound divided by tolerance is plotted below. A curve must
 stay at or below one through the end of the horizon to qualify. Vertical dashed
 lines mark individual persistent qualification times; the black dash-dot line
 marks joint qualification when it exists.
+
+The state figure compares the truth, continuous analytical fit, and theta-
+discrete fit for the same data. Shading shows the observation-consistent set
+with its numerical-model allowance. A vertical marker appears at a goal's
+persistent qualification time; `NOT QUALIFIED` is shown when no such time exists.
+
+![Goal-dependent state reconstruction and uncertainty](../results/goal_dependence/goal_dependence_reconstruction.png)
 
 ![Goal-specific uncertainty bounds and decisions](../results/goal_dependence/goal_dependence_bounds.png)
 

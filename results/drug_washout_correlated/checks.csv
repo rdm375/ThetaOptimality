@@ -1,0 +1,56 @@
+check,error,tolerance,passed
+fixed standardized innovation vector is inside 95% chi-square-6 ellipsoid,0,9.9999999999999998e-13,1
+correlated theta=0.500000 state order,2.3194905097057017e-05,0.29999999999999999,1
+correlated theta=0.500000 tangent order,2.319866465949616e-05,0.29999999999999999,1
+correlated theta=0.500000 cost order,6.0663577944097824e-05,0.29999999999999999,1
+correlated theta=0.500000 gradient order,1.9625825833369248e-05,0.29999999999999999,1
+correlated theta=0.500000 hessian order,2.6761458859159148e-05,0.29999999999999999,1
+correlated theta=0.500000 fit order,2.598873751891162e-05,0.29999999999999999,1
+correlated theta=0.500000 auc order,4.1262837591204971e-09,0.29999999999999999,1
+correlated theta=0.650000 state order,0.0064038058259073827,0.34999999999999998,1
+correlated theta=0.650000 tangent order,0.0064038058122997121,0.34999999999999998,1
+correlated theta=0.650000 cost order,0.00060479585733830277,0.34999999999999998,1
+correlated theta=0.650000 gradient order,0.0061024399274585139,0.34999999999999998,1
+correlated theta=0.650000 hessian order,0.0067029578779960186,0.34999999999999998,1
+correlated theta=0.650000 fit order,0.0066375347573429666,0.34999999999999998,1
+correlated theta=0.650000 auc order,0.0044514740387910923,0.34999999999999998,1
+diagonal_assumption theta=0.500000 state order,2.3194905097057017e-05,0.29999999999999999,1
+diagonal_assumption theta=0.500000 tangent order,2.319866465949616e-05,0.29999999999999999,1
+diagonal_assumption theta=0.500000 cost order,4.4384700134125765e-05,0.29999999999999999,1
+diagonal_assumption theta=0.500000 gradient order,1.4298157036130021e-05,0.29999999999999999,1
+diagonal_assumption theta=0.500000 hessian order,1.9547330617708525e-05,0.29999999999999999,1
+diagonal_assumption theta=0.500000 fit order,2.874982945089144e-05,0.29999999999999999,1
+diagonal_assumption theta=0.500000 auc order,4.1262837591204971e-09,0.29999999999999999,1
+diagonal_assumption theta=0.650000 state order,0.0064038058259073827,0.34999999999999998,1
+diagonal_assumption theta=0.650000 tangent order,0.0064038058122997121,0.34999999999999998,1
+diagonal_assumption theta=0.650000 cost order,0.00074343940870214009,0.34999999999999998,1
+diagonal_assumption theta=0.650000 gradient order,0.0056540898660565331,0.34999999999999998,1
+diagonal_assumption theta=0.650000 hessian order,0.0060955853816544447,0.34999999999999998,1
+diagonal_assumption theta=0.650000 fit order,0.0068700974914258639,0.34999999999999998,1
+diagonal_assumption theta=0.650000 auc order,0.0044514740387910923,0.34999999999999998,1
+correlated discrete fit equals closed form,1.7763568394002505e-15,2e-08,1
+correlated discrete adjoint stationarity,2.0392458345452695e-12,2e-08,1
+correlated exact state lies in 95% joint ellipsoid,0,9.9999999999999998e-13,1
+correlated theta-quadrature exposure gradient,0.00023054378918008211,0.02,1
+diagonal_assumption discrete fit equals closed form,5.3290705182007514e-15,2e-08,1
+diagonal_assumption discrete adjoint stationarity,1.8046811569929372e-12,2e-08,1
+diagonal_assumption exact state lies in 95% joint ellipsoid,0,9.9999999999999998e-13,1
+diagonal_assumption theta-quadrature exposure gradient,0.00023054378918008211,0.02,1
+correlated discrete fit equals closed form,3.5527136788005009e-15,2e-08,1
+correlated discrete adjoint stationarity,3.8013889332227285e-13,2e-08,1
+correlated exact state lies in 95% joint ellipsoid,0,9.9999999999999998e-13,1
+correlated theta-quadrature exposure gradient,1.4408994224890392e-05,0.02,1
+diagonal_assumption discrete fit equals closed form,1.7763568394002505e-15,2e-08,1
+diagonal_assumption discrete adjoint stationarity,1.180912819535292e-11,2e-08,1
+diagonal_assumption exact state lies in 95% joint ellipsoid,0,9.9999999999999998e-13,1
+diagonal_assumption theta-quadrature exposure gradient,1.4408994224890392e-05,0.02,1
+correlated discrete fit equals closed form,1.0658141036401503e-14,2e-08,1
+correlated discrete adjoint stationarity,6.0709592876490765e-12,2e-08,1
+correlated exact state lies in 95% joint ellipsoid,0,9.9999999999999998e-13,1
+correlated theta-quadrature exposure gradient,9.0056215817924112e-07,2.0000000000000002e-05,1
+diagonal_assumption discrete fit equals closed form,8.8817841970012523e-15,2e-08,1
+diagonal_assumption discrete adjoint stationarity,2.2536308682749671e-11,2e-08,1
+diagonal_assumption exact state lies in 95% joint ellipsoid,0,9.9999999999999998e-13,1
+diagonal_assumption theta-quadrature exposure gradient,9.0056215817924112e-07,2.0000000000000002e-05,1
+correct correlated model has lower information than diagonal approximation,0,9.9999999999999998e-13,1
+correlated confidence interval is wider than diagonal approximation,0,9.9999999999999998e-13,1

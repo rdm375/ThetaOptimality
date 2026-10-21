@@ -1,0 +1,7 @@
+steps,goal,mg_L_hour_time_h,ug_L_min_time_min,converted_time_h,difference_h
+32,concentration,4.25,255,4.25,0
+32,remaining_auc,3,180,3,0
+128,concentration,3.75,225,3.75,0
+128,remaining_auc,2.6875,161.25,2.6875,0
+512,concentration,3.71875,223.125,3.71875,0
+512,remaining_auc,2.609375,156.5625,2.609375,0

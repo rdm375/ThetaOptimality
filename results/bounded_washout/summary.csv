@@ -1,0 +1,4 @@
+case,unconstrained_exact_fit_mg_L,constrained_exact_fit_mg_L,discrete_fit_mg_L,raw_gradient,lower_multiplier,upper_multiplier,kkt_residual,active_bound,feasible_lower_mg_L,feasible_upper_mg_L,qualification_time_h
+near_detection_lower,-0.035524173854539175,0,0,1758.1671867369889,1758.1671867369889,0,0,lower,0,0.021999999999999978,0
+interior,3.9965519372659233,3.9965519372659233,3.9965667635681665,-1.27649002479302e-10,0,0,1.27649002479302e-10,interior,3.9420000000000002,4.0419999999999998,2.0625
+stock_limit_upper,10.027893036225546,10,10,-1382.3265016642849,0,1382.3265016642849,0,upper,9.9739999999999984,10,0

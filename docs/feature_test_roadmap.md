@@ -217,13 +217,13 @@ relevant input.
 |---|---|
 | Variable timesteps and nonuniform schedules | Keep observation times fixed; verify the forward/cost/tangent/adjoint consistency on nonuniform meshes and define the refinement family explicitly. Implemented in [nonuniform_mesh.md](nonuniform_mesh.md), with a nested graded oscillator mesh and observed orders for eleven optimality-system quantities. |
 | Goal dependence | On the same reconstructed state and uncertainty set, show goals that qualify at different times and cases where one blocked goal prevents joint qualification. Implemented as a dedicated two-case oscillator cross-cutting test in [goal_dependence.md](goal_dependence.md). |
-| Measurement quality versus numerical accuracy | Refine the mesh with data fixed, then separately change measurement bounds. Demonstrate which budget term limits qualification. |
-| Observation weighting and correlated errors | Specify measurement covariance independently of goal-adjoint sensitivity. A dedicated correlated-noise example needs an appropriate joint uncertainty construction; the independent-Gaussian noise-box formula must not be reused unchanged. |
-| Units and scaling | Verify consistent results under unit conversion and use physically stated scales for conditioning and gain comparisons. |
-| State constraints and boundary optima | Test admissibility and positivity where relevant. Boundary KKT optimization is an explicit future solver extension, not something the current interior Newton driver already implements. |
-| Weak information and near singularity | Vary measurement design continuously toward a blind direction; distinguish a small numerical gradient from an accurately identified initial state. |
-| Nonlinear dynamics | Retain exact or independently verified references; test state-dependent Jacobians and the second-order terms required by the incremental adjoint. Existing nonlinear decay supplies a foundation. |
-| Added measurement experiments | Add an actual observation, reoptimize, and recompute the uncertainty set and qualification. Do not merely shrink covariance by assumption. |
+| Measurement quality versus numerical accuracy | Refine the mesh with data fixed, then separately change measurement bounds. Demonstrate which budget term limits qualification. Implemented as a one-compartment IV drug washout with fixed plasma observations, two sensor-error bounds, analytic references, separated error budgets, and persistent concentration/AUC qualification in [drug_washout.md](drug_washout.md). |
+| Observation weighting and correlated errors | Specify measurement covariance independently of goal-adjoint sensitivity. Implemented as an AR(1)-correlated plasma-assay experiment with a joint chi-square residual ellipsoid and a new cross-time `CorrelatedObservationTerm` in the shared discrete objective; see [drug_washout_correlated.md](drug_washout_correlated.md). The independent-Gaussian noise-box formula is not reused. |
+| Units and scaling | Verify consistent results under unit conversion and use physically stated scales for conditioning and gain comparisons. Implemented with the one-compartment drug washout in [unit_scaling.md](unit_scaling.md): mg/L-hours versus microgram/L-minutes, including objective, derivative, AUC, convergence, and qualification transformations. |
+| State constraints and boundary optima | Implemented in [bounded_washout.md](bounded_washout.md): a nonnegative, stock-limited initial drug concentration produces lower-bound, interior, and upper-bound least-squares optima. The reusable box active-set Newton method reports KKT multipliers and includes forward-error-aware qualification. |
+| Weak information and near singularity | Implemented as a 21-point oscillator sampling-time sweep in [weak_information.md](weak_information.md): exact physical information, midpoint discrete Hessian phase leakage, bounded-state uncertainty, goal diagnostics, and optimizer stationarity are compared. |
+| Nonlinear dynamics | Retain exact or independently verified references; test state-dependent Jacobians and second-order terms required by the incremental adjoint. Implemented first as logistic biomass growth with exact references and midpoint/first-order convergence in [logistic_growth.md](logistic_growth.md), then as staged Lotka–Volterra initial-state, rate, and joint recovery checked against its conserved quantity in [predator_prey.md](predator_prey.md). The joint six-control case motivated general-dimensional local information-spectrum diagnostics. |
+| Added measurement experiments | Implemented across the two-temperature case (added wall sensor), two-tank case (added upstream concentration sensor), electrothermal case (signed voltage observation), and decay qualification case (added exposure observation). Each reruns the inverse solve and recomputes the data-consistent set or qualification; see the corresponding example documents. |
 
 ## 5. Suggested sequence and completion checklist
 
@@ -240,6 +240,18 @@ A proposed continuation is:
 5. **Completed:** a stiff, analytically solvable chemical reaction with bounded
    species qualification; see [stiff_reaction.md](stiff_reaction.md).
 6. **Completed:** matched poorly and properly timed oscillator reconstruction and qualification experiments; see [oscillator.md](oscillator.md#15-poorly-timed-sampling-is-a-full-inverse-problem-test).
+7. **Completed:** measurement versus numerical accuracy in a one-compartment drug washout; see [drug_washout.md](drug_washout.md).
+8. **Completed:** correlated assay weighting and joint uncertainty in the drug-washout example; see [drug_washout_correlated.md](drug_washout_correlated.md).
+9. **Completed:** unit and scaling invariance of the drug-washout discrete optimality system; see [unit_scaling.md](unit_scaling.md).
+10. **Completed:** nonlinear logistic-growth state finding with exact references for the full discrete optimality workflow; see [logistic_growth.md](logistic_growth.md).
+11. **Completed:** coupled nonlinear predator–prey recovery in three stages (initial populations, rates, and joint estimation), with derivative checks, an invariant reference, and midpoint/first-order refinement; see [predator_prey.md](predator_prey.md).
+
+The predator–prey case extends logistic growth from a scalar nonlinear equation
+to coupled populations. It first isolates initial-state recovery, then rate
+recovery, then combines them. The present model needs only finite-dimensional
+box bounds; its positive quadrant is invariant, so general path-constraint KKT
+machinery is not required. A future case with a meaningful active constraint
+between observation times remains a suitable trigger for that library extension.
 
 The ordering can change as the series develops. For each new example, complete
 and record:

@@ -18,6 +18,7 @@ def read_csv(name):
 
 decisions = read_csv("decisions.csv")
 envelopes = read_csv("envelopes.csv")
+states = read_csv("state_reconstruction.csv")
 cases = ["different_goal_times", "displacement_blocker"]
 case_titles = {
     "different_goal_times": r"Different qualification times: $\theta=0.5$, $N=1024$",
@@ -30,6 +31,59 @@ goal_labels = {
     "support_force": "Support force",
 }
 colors = {"displacement": "#2876a5", "velocity": "#b45b27", "support_force": "#39824b"}
+
+# Show the physical truth, the continuous least-squares fit to the same noisy
+# samples, and the theta-discrete optimal reconstruction. The bands are the
+# C++-computed nodal spreads of the shared observation-consistent set, including
+# the numerical-model allowance. Each panel marks that goal's persistent time.
+state_specs = [
+    ("displacement", "true_displacement_m", "analytical_fit_displacement_m",
+     "discrete_fit_displacement_m", "displacement_bound_m", "Displacement (m)"),
+    ("velocity", "true_velocity_m_s", "analytical_fit_velocity_m_s",
+     "discrete_fit_velocity_m_s", "velocity_bound_m_s", "Velocity (m/s)"),
+    ("support_force", "true_support_force_N", "analytical_fit_support_force_N",
+     "discrete_fit_support_force_N", "support_force_bound_N", "Support force (N)"),
+]
+fig, axes = plt.subplots(3, 2, figsize=(14, 10), sharex=True)
+for col, case in enumerate(cases):
+    case_rows = [r for r in states if r["case"] == case]
+    time = np.array([float(r["elapsed_s"]) for r in case_rows])
+    case_decisions = {r["goal"]: r for r in decisions if r["case"] == case}
+    for row, (goal, truth_key, analytic_key, discrete_key, bound_key, ylabel) in enumerate(state_specs):
+        ax = axes[row, col]
+        truth = np.array([float(r[truth_key]) for r in case_rows])
+        analytic = np.array([float(r[analytic_key]) for r in case_rows])
+        discrete = np.array([float(r[discrete_key]) for r in case_rows])
+        bound = np.array([float(r[bound_key]) for r in case_rows])
+        ax.plot(time, truth, color="black", lw=1.45, label="Analytical truth")
+        ax.plot(time, analytic, color="#777777", ls="--", lw=1.1,
+                label="Analytical fit to same data")
+        ax.plot(time, discrete, color=colors[goal], lw=1.1,
+                label="Theta-discrete fit")
+        ax.fill_between(time, discrete - bound, discrete + bound,
+                        color=colors[goal], alpha=.20,
+                        label="Observation set + numerical allowance")
+        decision = case_decisions[goal]
+        if decision["qualified"] == "1":
+            qtime = float(decision["persistent_time_s"])
+            ax.axvline(qtime, color=colors[goal], ls=":", lw=1.35,
+                       label=f"Persistent qualification: {qtime:.3f} s")
+        else:
+            ax.text(.98, .05, "NOT QUALIFIED", transform=ax.transAxes,
+                    ha="right", va="bottom", color="#9e3226",
+                    fontsize=8, fontweight="bold")
+        ax.set_ylabel(ylabel)
+        ax.set_title(f"{case_titles[case]}\n{goal_labels[goal]}")
+        ax.grid(alpha=.2)
+        if row == 0:
+            ax.legend(fontsize=7, loc="best")
+        if row == len(state_specs) - 1:
+            ax.set_xlabel("Elapsed time from $t_0$ (s)")
+fig.suptitle("Analytical and theta-discrete reconstructions with goal-specific uncertainty and qualification")
+fig.tight_layout(rect=(0, 0, 1, .95))
+fig.savefig(ROOT / "goal_dependence_reconstruction.png", dpi=180)
+plt.close(fig)
+
 fig, axes = plt.subplots(1, 2, figsize=(14, 5.3), sharey=True)
 for ax, case in zip(axes, cases):
     case_decisions = {r["goal"]: r for r in decisions if r["case"] == case}
@@ -116,4 +170,4 @@ fig.suptitle("Qualification is conjunctive: every goal must pass for the remaini
 fig.tight_layout(rect=(0, 0, 1, .93))
 fig.savefig(ROOT / "goal_dependence_times.png", dpi=180)
 plt.close(fig)
-print("Plotted retained C++ goal-dependence decisions; Python performs no inference or qualification.")
+print("Plotted retained C++ goal-dependence states, uncertainty, and decisions; Python performs no inference or qualification.")

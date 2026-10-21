@@ -66,6 +66,21 @@ int main(){try{
         auto small=psd_spectrum_2d(Mat<2,2>{{{1e-100,0.},{0.,1e-105}}});check(small.rank==2,"rank is relative to information scale");
         auto weak=psd_spectrum_2d(Mat<2,2>{{{1.,0.},{0.,1e-14}}});check(weak.rank==1,"explicit numerical rank threshold");
         rejects([]{psd_spectrum_2d(Mat<2,2>{{{NAN,0.},{0.,1.}}});},"reject nonfinite information");
+        {
+            const Mat<3,3> H{{{2.,-2.,0.},{-2.,2.,0.},{0.,0.,3.}}};
+            const auto spectrum=psd_spectrum(H);
+            check(spectrum.rank==2,"generic spectrum detects rank-two three-control information");
+            close(spectrum.eigenvalues[0],4.,1e-13,"generic spectrum largest eigenvalue");
+            close(spectrum.eigenvalues[1],3.,1e-13,"generic spectrum second eigenvalue");
+            close(norm(mv(H,spectrum.solve_compatible({2.,-2.,3.}))-Vec<3>{2.,-2.,3.}),0.,1e-12,
+                  "generic compatible spectral solve");
+            rejects([&]{spectrum.solve_compatible({1.,1.,0.});},"generic spectrum rejects null-space rhs");
+            const auto diagonal=psd_spectrum(Mat<4,4>{{{1.,0.,0.,0.},{0.,2.,0.,0.},{0.,0.,3.,0.},{0.,0.,0.,4.}}});
+            check(diagonal.rank==4,"generic spectrum supports four-control full rank");
+            close(diagonal.eigenvalues[0],4.,1e-14,"generic spectrum sorts eigenvalues");
+            rejects([]{psd_spectrum(Mat<3,3>{{{1.,0.,0.},{0.,1.,0.},{0.,0.,-1.}}});},"generic spectrum rejects indefinite matrix");
+            rejects([]{psd_spectrum(Mat<3,3>{{{1.,1.,0.},{0.,1.,0.},{0.,0.,1.}}});},"generic spectrum rejects nonsymmetric matrix");
+        }
         auto quadratic_problem=[](){Problem<1,2> p;p.initial.value=[](auto){return Vec<1>{0.};};p.initial.jacobian=[](auto){return Mat<1,2>{};};p.initial.directional_jacobian=[](auto,auto){return Mat<1,2>{};};p.dynamics.value=[](double,auto,auto){return Vec<1>{};};p.dynamics.derivatives=[](double,auto,auto){return Derivatives<1,2>{};};p.dynamics.directional_derivatives=[](double,auto,auto,auto,auto){return Derivatives<1,2>{};};return p;};
         auto empty_system=System<1,2>(quadratic_problem(),Grid::uniform(2.,3.,2,.5));
         close(norm(minimize_quadratic_psd_2d(empty_system,{2.,3.}).optimum.control-Vec<2>{2.,3.}),0.,1e-15,"zero-information optimizer retains representative");
@@ -75,6 +90,21 @@ int main(){try{
         auto nonlinear=quadratic_problem();nonlinear.penalty.value=[](auto x){return .25*std::pow(x[0],4)+.5*x[1]*x[1];};nonlinear.penalty.gradient=[](auto x){return Vec<2>{std::pow(x[0],3),x[1]};};nonlinear.penalty.hessian_vector=[](auto x,auto d){return Vec<2>{3*x[0]*x[0]*d[0],d[1]};};
         rejects([&]{minimize_quadratic_psd_2d(System<1,2>(nonlinear,Grid::uniform(2.,3.,2,.5)),{2.,3.});},"reject changing Hessian in quadratic optimizer");
 
+    }
+
+    {
+        auto bounded_quadratic=[](double target){Problem<1,1> p;
+            p.initial.value=[](auto){return Vec<1>{0.};};p.initial.jacobian=[](auto){return Mat<1,1>{};};p.initial.directional_jacobian=[](auto,auto){return Mat<1,1>{};};
+            p.dynamics.value=[](double,auto,auto){return Vec<1>{0.};};p.dynamics.derivatives=[](double,auto,auto){return Derivatives<1,1>{};};p.dynamics.directional_derivatives=[](double,auto,auto,auto,auto){return Derivatives<1,1>{};};
+            p.penalty.value=[target](const Vec<1>& x){return .5*(x[0]-target)*(x[0]-target);};p.penalty.gradient=[target](const Vec<1>& x){return Vec<1>{x[0]-target};};p.penalty.hessian_vector=[](const Vec<1>&,const Vec<1>& d){return d;};return p;};
+        const auto grid=Grid::uniform(0.,1.,2,.5);
+        auto upper=minimize_box_constrained(System<1,1>(bounded_quadratic(2.),grid),{.5},{0.},{1.});
+        close(upper.control[0],1.,1e-14,"box optimizer upper boundary");close(upper.gradient[0],-1.,1e-14,"upper-bound raw gradient sign");close(upper.upper_multiplier[0],1.,1e-14,"upper-bound KKT multiplier");check(upper.active_upper[0]&&upper.kkt_residual<1e-14,"upper-bound KKT stationarity");
+        auto lower=minimize_box_constrained(System<1,1>(bounded_quadratic(-2.),grid),{.5},{0.},{1.});
+        close(lower.control[0],0.,1e-14,"box optimizer lower boundary");close(lower.gradient[0],2.,1e-14,"lower-bound raw gradient sign");close(lower.lower_multiplier[0],2.,1e-14,"lower-bound KKT multiplier");check(lower.active_lower[0]&&lower.kkt_residual<1e-14,"lower-bound KKT stationarity");
+        auto interior=minimize_box_constrained(System<1,1>(bounded_quadratic(.25),grid),{.5},{0.},{1.});close(interior.control[0],.25,1e-14,"box optimizer interior solution");check(!interior.active_lower[0]&&!interior.active_upper[0]&&interior.kkt_residual<1e-14,"interior KKT stationarity");
+        rejects([&]{minimize_box_constrained(System<1,1>(bounded_quadratic(.25),grid),{1.5},{0.},{1.});},"reject box optimizer start outside bounds");
+        rejects([&]{minimize_box_constrained(System<1,1>(bounded_quadratic(.25),grid),{.5},{1.},{0.});},"reject inverted optimizer bounds");
     }
 
     close(worst_amplification_2d(identity<2>()).gain,1.,1e-14,"identity amplification");
@@ -169,6 +199,38 @@ int main(){try{
     close(nodal.cost(xi,ne.trajectory),ne.cost,2e-14,"mixed cost API");
     close(dot(ne.gradient,d),(np.cost-nm.cost)/(2*eps),3e-8,"nodal direct-control gradient FD");
     close(norm(nodal.hessian_vector(xi,d)-(.5/eps)*(np.gradient-nm.gradient)),0.,2e-7,"nodal mixed incremental adjoint FD");
+    // Cross-time correlated residuals contribute r^T W r/2 and their shared
+    // adjoint/Hessian actions must match finite differences of that same cost.
+    auto correlated_problem=cp;CorrelatedObservationTerm<2,2> correlated;
+    correlated.node={0,4};correlated.precision={{2.,.5},{.5,3.}};
+    for(double observed:{.15,.35}){
+        auto residual=ScalarFunction<2,2>::zero();
+        residual.evaluate=[observed](double,const Vec<2>& x,const Vec<2>& p){
+            return ScalarValue<2,2>{x[0]-.2*p[1]-observed,{1.,0.},{0.,-.2}};
+        };
+        residual.directional_gradient=[](double,const Vec<2>&,const Vec<2>&,const Vec<2>&,const Vec<2>&){
+            return ScalarDirection<2,2>{};
+        };
+        correlated.residual.push_back(residual);
+    }
+    correlated_problem.correlated_observations.push_back(correlated);
+    System<2,2> correlated_system(correlated_problem,variable);
+    auto ce=correlated_system.evaluate(xi),cep=correlated_system.evaluate(xi+eps*d),cem=correlated_system.evaluate(xi-eps*d);
+    double correlated_addition=0.;
+    for(std::size_t i=0;i<2;++i)for(std::size_t j=0;j<2;++j){
+        double ri=ce.trajectory.state[correlated.node[i]][0]-.2*xi[1]-(i==0?.15:.35);
+        double rj=ce.trajectory.state[correlated.node[j]][0]-.2*xi[1]-(j==0?.15:.35);
+        correlated_addition+=.5*ri*correlated.precision[i][j]*rj;
+    }
+    close(ce.cost,e.cost+correlated_addition,2e-14,"correlated observation quadratic cost");
+    close(correlated_system.cost(xi,ce.trajectory),ce.cost,2e-14,"correlated standalone cost API");
+    close(dot(ce.gradient,d),(cep.cost-cem.cost)/(2*eps),3e-8,"correlated observation adjoint gradient FD");
+    close(norm(correlated_system.hessian_vector(xi,d)-(.5/eps)*(cep.gradient-cem.gradient)),0.,2e-7,
+          "correlated observation incremental adjoint FD");
+    auto nonsymmetric=correlated_problem;nonsymmetric.correlated_observations[0].precision[0][1]=.6;
+    rejects([&]{System<2,2> invalid(nonsymmetric,variable);},"nonsymmetric observation precision rejected");
+    auto indefinite=correlated_problem;indefinite.correlated_observations[0].precision={{1.,2.},{2.,1.}};
+    rejects([&]{System<2,2> invalid(indefinite,variable);},"indefinite observation precision rejected");
     auto goal=sys.goal_gradient(xi,e.trajectory,4,{1.,0.});
     close(dot(goal,d),s.back()[0],2e-12,"goal adjoint versus tangent with direct controls");
     close(dot(goal,d),(plus.trajectory.state.back()[0]-minus.trajectory.state.back()[0])/(2*eps),2e-8,"goal adjoint versus FD");

@@ -52,12 +52,22 @@ template<std::size_t P> struct Penalty {
     std::function<Vec<P>(const Vec<P>&,const Vec<P>&)> hessian_vector;
     static Penalty zero(){Penalty p;p.hessian_vector=[](const Vec<P>&,const Vec<P>&){return Vec<P>{};};return p;}
 };
+template<std::size_t N,std::size_t P> struct CorrelatedObservationTerm {
+    // Each callback returns one residual (prediction minus observation), plus
+    // its state/control derivatives and directional derivatives of them.
+    std::vector<std::size_t> node;
+    std::vector<ScalarFunction<N,P>> residual;
+    std::vector<std::vector<double>> precision;
+};
 template<std::size_t N,std::size_t P> struct Problem {
     Dynamics<N,P> dynamics;InitialCondition<N,P> initial;
     ScalarFunction<N,P> running=ScalarFunction<N,P>::zero(),terminal=ScalarFunction<N,P>::zero();
     Penalty<P> penalty=Penalty<P>::zero();
     // Isolated measurements are nodal costs, not running-cost densities.
     std::vector<std::pair<std::size_t,ScalarFunction<N,P>>> nodal;
+    // A group of residuals coupled by a dense precision matrix W contributes
+    // 0.5 r^T W r. This supports correlated observations at different nodes.
+    std::vector<CorrelatedObservationTerm<N,P>> correlated_observations;
 };
 template<std::size_t N> struct Trajectory {std::vector<Vec<N>> state;double max_residual{};std::size_t newton_updates{};};
 template<std::size_t N,std::size_t P> struct Evaluation {
@@ -78,6 +88,38 @@ template<std::size_t N,std::size_t P> class System {
         double h=grid_.time[n+1]-grid_.time[n],th=grid_.theta[n];
         return add(scaled(h*(1-th),deriv(grid_.time[n],x[n],p).control),scaled(h*th,deriv(grid_.time[n+1],x[n+1],p).control));
     }
+    std::vector<ScalarValue<N,P>> correlated_values(
+        const CorrelatedObservationTerm<N,P>& term,const std::vector<Vec<N>>& x,
+        const Vec<P>& p) const{
+        std::vector<ScalarValue<N,P>> value(term.node.size());
+        for(std::size_t i=0;i<term.node.size();++i)
+            value[i]=term.residual[i].evaluate(grid_.time[term.node[i]],x[term.node[i]],p);
+        return value;
+    }
+    double correlated_cost(const CorrelatedObservationTerm<N,P>& term,
+                           const std::vector<Vec<N>>& x,const Vec<P>& p) const{
+        const auto value=correlated_values(term,x,p);
+        double result=0.0;
+        for(std::size_t i=0;i<value.size();++i)
+            for(std::size_t j=0;j<value.size();++j)
+                result+=0.5*value[i].value*term.precision[i][j]*value[j].value;
+        return result;
+    }
+    void correlated_first_order(const CorrelatedObservationTerm<N,P>& term,
+                                const std::vector<Vec<N>>& x,const Vec<P>& p,
+                                double& cost,std::vector<Vec<N>>& sources,
+                                Vec<P>& gradient) const{
+        const auto value=correlated_values(term,x,p);
+        std::vector<double> weighted(value.size(),0.0);
+        for(std::size_t i=0;i<value.size();++i){
+            for(std::size_t j=0;j<value.size();++j){
+                cost+=0.5*value[i].value*term.precision[i][j]*value[j].value;
+                weighted[i]+=term.precision[i][j]*value[j].value;
+            }
+            sources[term.node[i]]=sources[term.node[i]]+weighted[i]*value[i].x;
+            gradient=gradient+weighted[i]*value[i].control;
+        }
+    }
 public:
     System(Problem<N,P> problem,Grid grid,NewtonOptions options={}):problem_(std::move(problem)),grid_(std::move(grid)),options_(options){
         if(!problem_.dynamics.value||!problem_.dynamics.derivatives||!problem_.dynamics.admissible||!problem_.initial.value||!problem_.initial.jacobian||
@@ -85,6 +127,39 @@ public:
         if(!std::isfinite(options_.absolute_tolerance)||!std::isfinite(options_.relative_tolerance)||options_.absolute_tolerance<=0||options_.relative_tolerance<0||!options_.max_iterations||!options_.max_backtracks)throw std::invalid_argument("Newton options");
         for(const auto& [node,cost]:problem_.nodal)
             if(node>=grid_.time.size()||!cost.evaluate)throw std::invalid_argument("Invalid nodal cost");
+        for(const auto& term:problem_.correlated_observations){
+            const auto count=term.node.size();
+            if(count==0||term.residual.size()!=count||term.precision.size()!=count)
+                throw std::invalid_argument("Invalid correlated observation dimensions");
+            double scale=0.0;
+            for(std::size_t i=0;i<count;++i){
+                if(term.node[i]>=grid_.time.size()||!term.residual[i].evaluate)
+                    throw std::invalid_argument("Invalid correlated observation residual");
+                if(term.precision[i].size()!=count)
+                    throw std::invalid_argument("Correlated precision matrix must be square");
+                for(double item:term.precision[i]){
+                    if(!std::isfinite(item))throw std::invalid_argument("Nonfinite correlated precision");
+                    scale=std::max(scale,std::abs(item));
+                }
+            }
+            if(!(scale>0.0))throw std::invalid_argument("Correlated precision matrix is zero");
+            std::vector<std::vector<double>> factor(count,std::vector<double>(count,0.0));
+            for(std::size_t i=0;i<count;++i){
+                for(std::size_t j=0;j<count;++j)
+                    if(std::abs(term.precision[i][j]-term.precision[j][i])>
+                       64*std::numeric_limits<double>::epsilon()*scale)
+                        throw std::invalid_argument("Correlated precision matrix must be symmetric");
+                for(std::size_t j=0;j<=i;++j){
+                    double entry=term.precision[i][j];
+                    for(std::size_t k=0;k<j;++k)entry-=factor[i][k]*factor[j][k];
+                    if(i==j){
+                        if(!(entry>64*std::numeric_limits<double>::epsilon()*scale))
+                            throw std::invalid_argument("Correlated precision matrix must be positive definite");
+                        factor[i][j]=std::sqrt(entry);
+                    }else factor[i][j]=entry/factor[j][j];
+                }
+            }
+        }
     }
     const Grid& grid() const{return grid_;}
     Trajectory<N> forward(const Vec<P>& p) const{
@@ -126,6 +201,8 @@ public:
         for(std::size_t n=0;n<x.size();++n)value+=w[n]*problem_.running.evaluate(grid_.time[n],x[n],p).value;
         value+=problem_.terminal.evaluate(grid_.time.back(),x.back(),p).value;
         for(const auto& [node,cost]:problem_.nodal)value+=cost.evaluate(grid_.time[node],x[node],p).value;
+        for(const auto& term:problem_.correlated_observations)
+            value+=correlated_cost(term,x,p);
         if(!std::isfinite(value))throw std::runtime_error("Nonfinite cost");
         return value;
     }
@@ -137,6 +214,8 @@ public:
         for(std::size_t n=0;n<x.size();++n){auto c=problem_.running.evaluate(grid_.time[n],x[n],p);e.cost+=w[n]*c.value;e.nodal_adjoint[n]=w[n]*c.x;e.gradient=e.gradient+w[n]*c.control;}
         auto phi=problem_.terminal.evaluate(grid_.time.back(),x.back(),p);e.cost+=phi.value;e.nodal_adjoint.back()=e.nodal_adjoint.back()+phi.x;e.gradient=e.gradient+phi.control;
         for(const auto& [node,cost]:problem_.nodal){auto v=cost.evaluate(grid_.time[node],x[node],p);e.cost+=v.value;e.nodal_adjoint[node]=e.nodal_adjoint[node]+v.x;e.gradient=e.gradient+v.control;}
+        for(const auto& term:problem_.correlated_observations)
+            correlated_first_order(term,x,p,e.cost,e.nodal_adjoint,e.gradient);
         for(std::size_t n=grid_.steps();n-->0;){auto [bn,cn]=blocks(n,x,p);auto z=LU<N>(transpose(bn)).solve(e.nodal_adjoint[n+1]);e.step_multiplier[n]=z;
             e.nodal_adjoint[n]=e.nodal_adjoint[n]+mv(transpose(cn),z);e.gradient=e.gradient+mv(transpose(forcing(n,x,p)),z);
         }
@@ -181,6 +260,31 @@ public:
             if(!cost.directional_gradient)throw std::invalid_argument("Nodal cost requires second-order callback");
             auto dc=cost.directional_gradient(grid_.time[node],x[node],p,s[node],direction);
             dl[node]=dl[node]+dc.x;hv=hv+dc.control;
+        }
+        for(const auto& term:problem_.correlated_observations){
+            const auto value=correlated_values(term,x,p);
+            std::vector<double> residual_direction(term.node.size(),0.0),weighted(term.node.size(),0.0),weighted_direction(term.node.size(),0.0);
+            std::vector<ScalarDirection<N,P>> derivative_direction(term.node.size());
+            for(std::size_t i=0;i<term.node.size();++i){
+                const auto node=term.node[i];
+                if(!term.residual[i].directional_gradient)
+                    throw std::invalid_argument("Correlated residual requires second-order callback");
+                residual_direction[i]=dot(value[i].x,s[node])+dot(value[i].control,direction);
+                derivative_direction[i]=term.residual[i].directional_gradient(
+                    grid_.time[node],x[node],p,s[node],direction);
+            }
+            for(std::size_t i=0;i<term.node.size();++i)
+                for(std::size_t j=0;j<term.node.size();++j){
+                    weighted[i]+=term.precision[i][j]*value[j].value;
+                    weighted_direction[i]+=term.precision[i][j]*residual_direction[j];
+                }
+            for(std::size_t i=0;i<term.node.size();++i){
+                const auto node=term.node[i];
+                dl[node]=dl[node]+weighted_direction[i]*value[i].x+
+                    weighted[i]*derivative_direction[i].x;
+                hv=hv+weighted_direction[i]*value[i].control+
+                    weighted[i]*derivative_direction[i].control;
+            }
         }
         for(std::size_t n=grid_.steps();n-->0;){double h=grid_.time[n+1]-grid_.time[n],th=grid_.theta[n];auto [bn,cn]=blocks(n,x,p);
             auto old=problem_.dynamics.directional_derivatives(grid_.time[n],x[n],p,s[n],direction),next=problem_.dynamics.directional_derivatives(grid_.time[n+1],x[n+1],p,s[n+1],direction);

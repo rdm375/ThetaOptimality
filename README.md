@@ -78,6 +78,8 @@ state. Read [the standalone derivation and experiment](docs/insulated_thermal.md
 
 ![Insulated thermal reconstruction](results/insulated_thermal/reconstruction.png)
 
+![Insulated thermal engineering decisions](results/insulated_thermal/qualification_verdict.png)
+
 ## Poorly timed oscillator measurements
 
 Four displacement samples at exact half-periods have zero analytical
@@ -95,6 +97,27 @@ reconstructions, mesh-refinement behavior, and engineering qualification. See
 [the experiment and interpretation](docs/oscillator.md#15-poorly-timed-sampling-is-a-full-inverse-problem-test).
 
 ![Poor versus proper oscillator sampling](results/oscillator_poor_timing/sampling_comparison.png)
+
+### Weak information as the sampling design degrades
+
+This cross-cutting test continuously moves four displacement samples from
+well-spread times toward the half-period blind schedule. It compares the exact
+physical information matrix with the midpoint discrete Hessian, bounded
+initial-state uncertainty, and the discrete fitted velocity. The optimizer can
+have a tiny gradient while the velocity remains unidentifiable; near the blind
+schedule, midpoint phase error can even create false discrete curvature.
+
+```bash
+make information-sweep-plots
+```
+
+The qualification markers are exact-model diagnostics with bounded measurement
+errors and intentionally omit the numerical allowance. See the
+[full derivation and scope](docs/weak_information.md).
+
+![Weak-information sampling sweep](results/oscillator_information_sweep/weak_information_sweep.png)
+
+![Oscillator sampling schedule deformation](results/oscillator_information_sweep/sampling_schedule_sweep.png)
 
 ## Nonuniform time-step consistency
 
@@ -140,15 +163,18 @@ make goal-dependence-plots
 Read the [standalone goal-dependence experiment](docs/goal_dependence.md) for
 the uncertainty assumptions and full interpretation.
 
-The nonuniform oscillator case also plots analytical and reconstructed states,
-bounded uncertainty bands, whole-interval qualification bounds, and persistent
-qualification times for both theta values. See the
-[standalone experiment](docs/nonuniform_mesh.md) for the assumptions and
-interpretation.
+The reconstruction figure compares the analytical truth, the analytical
+least-squares fit to the same observations, and the theta-discrete fit. Its
+uncertainty bands come from the shared observation-consistent set with the
+numerical-model allowance; vertical markers show each goal's persistent
+qualification time. The normalized-bound plot shows the whole-interval test
+used for qualification, and the timeline makes the joint decision explicit.
 
-![Nonuniform oscillator uncertainty and qualification](results/nonuniform_oscillator/state_uncertainty_qualification.png)
+![Goal-dependent state reconstruction and uncertainty](results/goal_dependence/goal_dependence_reconstruction.png)
 
-![Insulated thermal engineering decisions](results/insulated_thermal/qualification_verdict.png)
+![Goal-dependent whole-interval uncertainty bounds](results/goal_dependence/goal_dependence_bounds.png)
+
+![Goal-dependent qualification times](results/goal_dependence/goal_dependence_times.png)
 
 ## Transient amplification in two mixing tanks
 
@@ -317,7 +343,159 @@ with late samples; C qualifies from $t_0$. Read [the experiment and derivation](
 
 ![Stiff reaction convergence rates](results/stiff_reaction/convergence_orders.png)
 
-`make test` runs thirteen suites: the library validation plus twelve numerical examples, including both oscillator sampling designs and the nonuniform-mesh test. The state-qualification examples print their persistent qualification decisions, with `unqualified` where a goal does not meet tolerance over its horizon. `make qualification-plots` draws the decay, thermal, weak-coupling, gas, oscillator, nonuniform-mesh, two-tank, insulated-thermal, electrothermal, and stiff-reaction examples; `make decay-plots` draws only decay and `make thermal-plots` only the two-temperature example.
+`make test` runs the library validation and numerical examples, including both oscillator sampling designs, the weak-information sweep, bounded initial-state washout, the nonuniform-mesh test, the drug-washout accuracy experiments, and nonlinear logistic growth. State-qualification examples print persistent qualification decisions, with `unqualified` where a goal does not meet tolerance over its horizon. `make qualification-plots` draws the decay, thermal, weak-coupling, gas, oscillator, weak-information, bounded-washout, nonuniform-mesh, goal-dependence, two-tank, insulated-thermal, electrothermal, stiff-reaction, drug-washout, and logistic-growth examples; `make decay-plots` draws only decay and `make thermal-plots` only the two-temperature example.
+
+## State constraints and boundary optima
+
+The bounded washout case estimates a nonnegative initial drug concentration
+that cannot exceed the stock concentration. Assay noise near detection can
+drive the unconstrained fit below zero; a saturated stock sample can push it
+above the physical upper bound. The C++20 active-set box optimizer returns the
+lower-bound, interior, or upper-bound solution with KKT multipliers and checks
+the corresponding gradient signs. It also compares the midpoint theta solution,
+discrete derivatives, whole-interval qualification, and temporal convergence
+with exact washout references.
+
+```bash
+make bounded-washout-plots
+```
+
+Read the [derivation and test details](docs/bounded_washout.md).
+
+![Bounded washout state and qualification](results/bounded_washout/state_qualification.png)
+
+![Bounded washout KKT multipliers](results/bounded_washout/kkt_multipliers.png)
+
+![Bounded washout theta convergence](results/bounded_washout/theta_convergence.png)
+
+## Nonlinear dynamics: logistic biomass growth
+
+The logistic-growth example isolates nonlinear dynamics with an exact solution.
+It validates the state-dependent Jacobian and its second derivative through the
+discrete tangent, adjoint, and incremental-adjoint Hessian, then compares the
+recovered initial biomass and objective derivatives against analytical
+references. The same fixed assays are used on every mesh. Midpoint approaches
+second order, while theta equal to 0.65 approaches first order. Bounded assay
+uncertainty and a propagated theta error allowance give a coarse unqualified
+case and a refined case that qualifies persistently from 2.75 h.
+
+```bash
+make logistic-growth-plots
+```
+
+Read the [model derivation and validation details](docs/logistic_growth.md).
+
+![Logistic-growth reconstruction and qualification](results/logistic_growth/state_qualification.png)
+
+![Logistic-growth theta convergence](results/logistic_growth/theta_convergence.png)
+
+![Logistic-growth objective derivatives](results/logistic_growth/objective_derivatives.png)
+
+## Nonlinear dynamics: staged predator–prey recovery
+
+The [Lotka–Volterra experiment](docs/predator_prey.md) successively estimates
+the two initial populations, the four kinetic rates, and all six quantities
+together from paired prey/predator observations. It exercises the library's
+coupled nonlinear state derivatives, discrete adjoint, Hessian-vector products,
+and finite-dimensional box-constrained optimizer. The analytical conserved
+quantity checks an independent high-accuracy reference, and mesh refinement
+checks midpoint second-order and theta=0.65 first-order convergence. The six-
+control joint fit also exercises the new arbitrary-dimension PSD information
+spectrum, reporting local rank and conditioning without claiming global
+uniqueness.
+
+```bash
+make predator-prey-plots
+```
+
+![Predator–prey state reconstruction](results/predator_prey/state_reconstruction.png)
+
+![Predator–prey phase portrait](results/predator_prey/phase_portrait.png)
+
+![Predator–prey convergence and derivative checks](results/predator_prey/convergence_and_derivatives.png)
+
+## Measurement accuracy versus numerical accuracy: drug washout
+
+The one-compartment IV-bolus example infers an unknown initial plasma
+concentration from six fixed observations. It compares bounded sensor
+uncertainty with the error from the theta-discrete forward model, then checks
+their combined effect on concentration and remaining AUC qualification. The
+same dataset is used while refining the mesh and while changing the stated
+sensor error bound.
+
+```bash
+make drug-washout-plots
+```
+
+The C++20 example validates the forward state, tangent, nodal observation cost,
+discrete adjoint gradient, Hessian action, theta-quadrature AUC, recovered
+initial state, and qualification against exact exponential references. It
+reports second-order convergence for midpoint and first-order convergence for
+$\theta=0.65$. The plots separate measurement and numerical contributions and
+mark each persistent qualification time. Read the [standalone experiment](docs/drug_washout.md)
+for the model, error-budget assumptions, equations, and interpretation.
+
+![Drug-washout reconstruction and qualification](results/drug_washout/reconstruction_and_qualification.png)
+
+![Drug-washout measurement and numerical error budgets](results/drug_washout/error_budget_decomposition.png)
+
+![Drug-washout convergence](results/drug_washout/convergence.png)
+
+![Drug-washout qualification times](results/drug_washout/qualification_times.png)
+
+## Correlated plasma-assay errors
+
+The next cross-cutting test keeps the exact same one-compartment washout model
+but gives the six assay errors a known AR(1) correlation. A correct generalized
+least-squares objective is compared with the same data interpreted under a
+diagonal covariance assumption. The joint uncertainty set uses the full
+covariance ellipsoid; it does not reuse the independent Gaussian noise-box
+formula.
+
+```bash
+make correlated-washout-plots
+```
+
+This case adds the shared `CorrelatedObservationTerm`, which combines residuals
+across time before applying the discrete adjoint and incremental adjoint. For
+the fixed data, the fitted initial concentration barely shifts, but the
+correlation-aware confidence interval is about 30% wider. On the refined
+midpoint grid, accounting for correlation delays concentration qualification
+from 2.56 h to 3.16 h and remaining-AUC qualification from 1.77 h to 2.31 h.
+Read [the standalone experiment and derivation](docs/drug_washout_correlated.md).
+
+![Correlated-assay reconstruction and uncertainty](results/drug_washout_correlated/correlated_reconstruction.png)
+
+![Correlated-assay initial-concentration intervals](results/drug_washout_correlated/initial_concentration_intervals.png)
+
+![Correlated-assay error budgets](results/drug_washout_correlated/correlated_error_budgets.png)
+
+![Correlated-assay convergence](results/drug_washout_correlated/correlated_convergence.png)
+
+![Correlated-assay qualification times](results/drug_washout_correlated/correlated_qualification_times.png)
+
+## Unit and scaling invariance
+
+The same drug-washout reconstruction is computed in mg/L and hours, then in
+microgram/L and minutes. The experiment checks the required transformations of
+the state, objective, tangent, discrete adjoint, Hessian, fitted initial state,
+AUC sensitivity, uncertainty bounds, and qualification times. At $N=512$, the
+dimensionless objective and scaled derivatives agree to roundoff; the physical
+qualification times are identical after converting minutes back to hours. The
+observed convergence orders remain two for $\theta=0.5$ and one for
+$\theta=0.65$. See [the full derivation and checks](docs/unit_scaling.md).
+
+```bash
+make unit-scaling-plots
+```
+
+![Unit-converted discrete trajectories](results/unit_scaling/trajectory_unit_conversion.png)
+
+![Objective and derivative unit transformations](results/unit_scaling/unit_transformed_quantities.png)
+
+![Unit-invariant convergence orders](results/unit_scaling/unit_scaling_convergence.png)
+
+![Unit-invariant qualification times](results/unit_scaling/unit_scaling_qualification.png)
 
 ## State qualification in C++20
 
@@ -536,6 +714,6 @@ Before reaching the numerical floor, $e_{k+1}/e_k^2$ settles near **0.1493**, de
 
 This is a small dense ODE library with prescribed time grids, explicit analytical derivative callbacks, and optional second derivatives. It supports arbitrary finite strictly increasing time grids and per-step theta in $[0,1]$; accuracy and positivity still depend on the model and grid. `Grid::uniform` is only a convenience.
 
-It currently uses identity mass matrices, stores complete trajectories, and refactors dense step matrices during derivative sweeps. It has no sparse backend, DAE solver, mesh-adaptation derivatives, Enzyme binding, or GPU execution. Callback interfaces allow future derivative adapters without changing the mathematical contract. The control predicate is a feasibility safeguard; the optimizer solves interior unconstrained stationarity and does not implement boundary KKT conditions. Sampled observations now use explicit `Problem::nodal` costs; their values and derivative sources are not multiplied by running-cost quadrature weights. `goal_gradient` and `state_pullback` expose the same discrete adjoint for prediction goals and information actions. `qualification.hpp` contains local goal variance, box support, independent-Gaussian noise-box calibration, and persistent node criteria. Decay-specific nonlinear set construction and physical error bounds remain in the example model.
+It currently uses identity mass matrices, stores complete trajectories, and refactors dense step matrices during derivative sweeps. It has no sparse backend, DAE solver, mesh-adaptation derivatives, Enzyme binding, GPU execution, or general nonlinear-constraint optimizer. Callback interfaces allow future derivative adapters without changing the mathematical contract. For componentwise bounds on finite-dimensional controls, `minimize_box_constrained` uses an active-set Newton step and reports KKT multipliers; general coupled constraints remain outside scope. Sampled observations use explicit `Problem::nodal` costs; their values and derivative sources are not multiplied by running-cost quadrature weights. `goal_gradient` and `state_pullback` expose the same discrete adjoint for prediction goals and information actions. `qualification.hpp` contains local goal variance, box support, independent-Gaussian noise-box calibration, and persistent node criteria. Decay-specific nonlinear set construction and physical error bounds remain in the example model.
 
 `include/theta_opt/` is the reusable library. `examples/` contains problem definitions, `tests/` verification, `docs/` derivations and callback contracts, and `results/` reproducible outputs. C++ produces all numerical results; Python is used only for figures.

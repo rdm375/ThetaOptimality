@@ -1,0 +1,3 @@
+steps,discrete_fit_g_L,analytical_fit_g_L,feasible_lower_g_L,feasible_upper_g_L,theta_allowance_g_L,qualification_time_h
+32,1.60001,1.59964,1.58514,1.61429,0.00880584,unqualified
+128,1.59966,1.59964,1.58514,1.61429,0.000569548,2.75

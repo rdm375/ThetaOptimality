@@ -1,0 +1,63 @@
+check,error,tolerance,passed
+theta=0.500000 state observed convergence order,2.3194905097057017e-05,0.28000000000000003,1
+theta=0.500000 tangent observed convergence order,2.319866465949616e-05,0.28000000000000003,1
+theta=0.500000 cost observed convergence order,4.3215793561479643e-05,0.28000000000000003,1
+theta=0.500000 gradient observed convergence order,1.4314083615740714e-05,0.28000000000000003,1
+theta=0.500000 hessian observed convergence order,1.9547330617708525e-05,0.28000000000000003,1
+theta=0.500000 recovered_initial observed convergence order,2.875155819825892e-05,0.28000000000000003,1
+theta=0.500000 auc observed convergence order,4.1262837591204971e-09,0.28000000000000003,1
+theta=0.650000 state observed convergence order,0.0064038058259073827,0.32000000000000001,1
+theta=0.650000 tangent observed convergence order,0.0064038058122997121,0.32000000000000001,1
+theta=0.650000 cost observed convergence order,0.00084076108515196424,0.32000000000000001,1
+theta=0.650000 gradient observed convergence order,0.0056554258716124961,0.32000000000000001,1
+theta=0.650000 hessian observed convergence order,0.0060955853817706851,0.32000000000000001,1
+theta=0.650000 recovered_initial observed convergence order,0.0068702272385634533,0.32000000000000001,1
+theta=0.650000 auc observed convergence order,0.0044514740387910923,0.32000000000000001,1
+N32_precise discrete optimum matches closed-form discrete LS,1.7763568394002505e-15,2e-08,1
+N32_precise discrete adjoint gradient stationarity,4.9974285959231774e-12,2e-08,1
+N32_precise analytic center lies in measurement set,0,9.9999999999999998e-13,1
+N32_precise true initial state lies in measurement set,0,9.9999999999999998e-13,1
+N32_precise theta AUC adjoint equals quadrature sensitivity,4.4408920985006262e-16,1.9999999999999999e-11,1
+N32_precise AUC gradient converges to analytical sensitivity,0.00023054378918008211,0.02,1
+N32_precise numerical concentration allowance encloses truth,0,2.0000000000000001e-10,1
+N32_precise measurement and numerical AUC allowances enclose truth,0,2.0000000000000001e-10,1
+N32_coarse_sensors discrete optimum matches closed-form discrete LS,1.7763568394002505e-15,2e-08,1
+N32_coarse_sensors discrete adjoint gradient stationarity,4.9944151067726849e-14,2e-08,1
+N32_coarse_sensors analytic center lies in measurement set,0,9.9999999999999998e-13,1
+N32_coarse_sensors true initial state lies in measurement set,0,9.9999999999999998e-13,1
+N32_coarse_sensors theta AUC adjoint equals quadrature sensitivity,4.4408920985006262e-16,1.9999999999999999e-11,1
+N32_coarse_sensors AUC gradient converges to analytical sensitivity,0.00023054378918008211,0.02,1
+N32_coarse_sensors numerical concentration allowance encloses truth,0,2.0000000000000001e-10,1
+N32_coarse_sensors measurement and numerical AUC allowances enclose truth,0,2.0000000000000001e-10,1
+N128_precise discrete optimum matches closed-form discrete LS,1.7763568394002505e-15,2e-08,1
+N128_precise discrete adjoint gradient stationarity,4.0854150973975489e-10,2e-08,1
+N128_precise analytic center lies in measurement set,0,9.9999999999999998e-13,1
+N128_precise true initial state lies in measurement set,0,9.9999999999999998e-13,1
+N128_precise theta AUC adjoint equals quadrature sensitivity,4.4408920985006262e-15,1.9999999999999999e-11,1
+N128_precise AUC gradient converges to analytical sensitivity,1.4408994224890392e-05,0.02,1
+N128_precise numerical concentration allowance encloses truth,0,2.0000000000000001e-10,1
+N128_precise measurement and numerical AUC allowances enclose truth,0,2.0000000000000001e-10,1
+N128_coarse_sensors discrete optimum matches closed-form discrete LS,0,2e-08,1
+N128_coarse_sensors discrete adjoint gradient stationarity,3.2915524650565922e-12,2e-08,1
+N128_coarse_sensors analytic center lies in measurement set,0,9.9999999999999998e-13,1
+N128_coarse_sensors true initial state lies in measurement set,0,9.9999999999999998e-13,1
+N128_coarse_sensors theta AUC adjoint equals quadrature sensitivity,4.4408920985006262e-15,1.9999999999999999e-11,1
+N128_coarse_sensors AUC gradient converges to analytical sensitivity,1.4408994224890392e-05,0.02,1
+N128_coarse_sensors numerical concentration allowance encloses truth,0,2.0000000000000001e-10,1
+N128_coarse_sensors measurement and numerical AUC allowances enclose truth,0,2.0000000000000001e-10,1
+N512_precise discrete optimum matches closed-form discrete LS,8.8817841970012523e-15,2e-08,1
+N512_precise discrete adjoint gradient stationarity,5.7522055560788655e-10,2e-08,1
+N512_precise analytic center lies in measurement set,0,9.9999999999999998e-13,1
+N512_precise true initial state lies in measurement set,0,9.9999999999999998e-13,1
+N512_precise theta AUC adjoint equals quadrature sensitivity,1.5543122344752192e-14,1.9999999999999999e-11,1
+N512_precise AUC gradient converges to analytical sensitivity,9.0056215817924112e-07,2.0000000000000002e-05,1
+N512_precise numerical concentration allowance encloses truth,0,2.0000000000000001e-10,1
+N512_precise measurement and numerical AUC allowances enclose truth,0,2.0000000000000001e-10,1
+N512_coarse_sensors discrete optimum matches closed-form discrete LS,8.8817841970012523e-15,2e-08,1
+N512_coarse_sensors discrete adjoint gradient stationarity,5.7524289617068588e-12,2e-08,1
+N512_coarse_sensors analytic center lies in measurement set,0,9.9999999999999998e-13,1
+N512_coarse_sensors true initial state lies in measurement set,0,9.9999999999999998e-13,1
+N512_coarse_sensors theta AUC adjoint equals quadrature sensitivity,1.5543122344752192e-14,1.9999999999999999e-11,1
+N512_coarse_sensors AUC gradient converges to analytical sensitivity,9.0056215817924112e-07,2.0000000000000002e-05,1
+N512_coarse_sensors numerical concentration allowance encloses truth,0,2.0000000000000001e-10,1
+N512_coarse_sensors measurement and numerical AUC allowances enclose truth,0,2.0000000000000001e-10,1

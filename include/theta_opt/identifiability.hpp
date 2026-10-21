@@ -1,7 +1,94 @@
 #pragma once
 #include "optimize.hpp"
+#include <algorithm>
+#include <array>
+#include <limits>
 
 namespace theta_opt {
+// Dense PSD spectrum for fixed, compile-time control dimension P. Directions
+// are returned as vectors; no pseudoinverse uncertainty is assigned to null
+// directions. Coordinates and physical scaling remain the caller's choice.
+template<std::size_t P> struct PsdSpectrum {
+    Vec<P> eigenvalues{};
+    std::array<Vec<P>,P> directions{};
+    std::size_t rank{};
+    double cutoff{};
+
+    Vec<P> solve_compatible(const Vec<P>& rhs,double relative_tolerance=1e-10) const {
+        (void)norm(rhs);
+        if(!std::isfinite(relative_tolerance)||relative_tolerance<=0.)
+            throw std::invalid_argument("Positive compatibility tolerance required");
+        Vec<P> result{};const double size=norm(rhs);
+        for(std::size_t j=0;j<P;++j){
+            const double component=dot(directions[j],rhs);
+            if(eigenvalues[j]>cutoff)result=result+(component/eigenvalues[j])*directions[j];
+            else if(std::abs(component)>relative_tolerance*size)
+                throw std::domain_error("Right hand side has unresolved null-space component");
+        }
+        return result;
+    }
+};
+
+template<std::size_t P>
+PsdSpectrum<P> psd_spectrum(const Mat<P,P>& input,double relative_cutoff=1e-12) {
+    static_assert(P>0);
+    if(!std::isfinite(relative_cutoff)||relative_cutoff<=0.||relative_cutoff>=1.)
+        throw std::invalid_argument("Rank cutoff must lie in (0,1)");
+    double scale=0.;
+    for(const auto& row:input){(void)norm(row);for(double value:row)scale=std::max(scale,std::abs(value));}
+    PsdSpectrum<P> result;
+    for(std::size_t j=0;j<P;++j)result.directions[j][j]=1.;
+    if(scale==0.)return result;
+    Mat<P,P> matrix{};
+    for(std::size_t i=0;i<P;++i)for(std::size_t j=0;j<P;++j){
+        if(std::abs(input[i][j]-input[j][i])/scale>relative_cutoff)
+            throw std::domain_error("Symmetric information matrix required");
+        matrix[i][j]=.5*(input[i][j]/scale+input[j][i]/scale);
+    }
+    Mat<P,P> vectors=identity<P>();
+    const double rotation_tolerance=8.*std::numeric_limits<double>::epsilon();
+    const std::size_t max_rotations=100*P*P;
+    for(std::size_t iteration=0;iteration<max_rotations;++iteration){
+        std::size_t p=0,q=0;double largest=0.;
+        for(std::size_t i=0;i<P;++i)for(std::size_t j=i+1;j<P;++j)
+            if(std::abs(matrix[i][j])>largest){largest=std::abs(matrix[i][j]);p=i;q=j;}
+        double diagonal_scale=0.;for(std::size_t i=0;i<P;++i)diagonal_scale=std::max(diagonal_scale,std::abs(matrix[i][i]));
+        if(largest<=rotation_tolerance*std::max(1.,diagonal_scale))break;
+        const double apq=matrix[p][q];
+        const double tau=(matrix[q][q]-matrix[p][p])/(2.*apq);
+        const double sign=tau<0.?-1.:1.;
+        const double tangent=sign/(std::abs(tau)+std::hypot(1.,tau));
+        const double cosine=1./std::sqrt(1.+tangent*tangent),sine=tangent*cosine;
+        const double app=matrix[p][p],aqq=matrix[q][q];
+        matrix[p][p]=app-tangent*apq;matrix[q][q]=aqq+tangent*apq;
+        matrix[p][q]=0.;matrix[q][p]=0.;
+        for(std::size_t k=0;k<P;++k)if(k!=p&&k!=q){
+            const double akp=matrix[k][p],akq=matrix[k][q];
+            matrix[k][p]=cosine*akp-sine*akq;matrix[p][k]=matrix[k][p];
+            matrix[k][q]=sine*akp+cosine*akq;matrix[q][k]=matrix[k][q];
+        }
+        for(std::size_t k=0;k<P;++k){
+            const double vkp=vectors[k][p],vkq=vectors[k][q];
+            vectors[k][p]=cosine*vkp-sine*vkq;vectors[k][q]=sine*vkp+cosine*vkq;
+        }
+    }
+    std::array<std::size_t,P> order{};for(std::size_t j=0;j<P;++j)order[j]=j;
+    std::sort(order.begin(),order.end(),[&](std::size_t i,std::size_t j){return matrix[i][i]>matrix[j][j];});
+    const double largest=matrix[order[0]][order[0]];
+    if(largest<=0.)throw std::domain_error("Positive semidefinite matrix required");
+    for(std::size_t j=0;j<P;++j){
+        const double value=matrix[order[j]][order[j]];
+        if(value < -relative_cutoff*largest)throw std::domain_error("Indefinite information matrix");
+        result.eigenvalues[j]=scale*std::max(0.,value);
+        for(std::size_t i=0;i<P;++i)result.directions[j][i]=vectors[i][order[j]];
+        for(double component:result.directions[j])if(!std::isfinite(component))throw std::overflow_error("Information direction overflow");
+    }
+    result.cutoff=relative_cutoff*result.eigenvalues[0];
+    if(!std::isfinite(result.eigenvalues[0]))throw std::overflow_error("Information spectrum overflow");
+    for(double value:result.eigenvalues)if(value>result.cutoff)++result.rank;
+    return result;
+}
+
 // Spectral diagnostics in the coordinates/scales supplied by the caller.
 // Small two-control PSD utility; no diagonal regularization or null-space prior.
 struct PsdSpectrum2 {

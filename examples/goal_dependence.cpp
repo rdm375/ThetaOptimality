@@ -35,11 +35,18 @@ int main(int argc,char** argv){try{
     const std::filesystem::path output=argc>1?argv[1]:"results/goal_dependence";
     std::filesystem::create_directories(output);
     Checks checks(output/"checks.csv");
-    std::ofstream decisions(output/"decisions.csv"),envelopes(output/"envelopes.csv");
+    std::ofstream decisions(output/"decisions.csv"),envelopes(output/"envelopes.csv"),
+        states(output/"state_reconstruction.csv");
     decisions<<std::setprecision(17)
         <<"case,theta,steps,uncertainty_model,goal,units,tolerance,qualified,persistent_time_s,joint_qualified,joint_time_s,blocking_goals\n";
     envelopes<<std::setprecision(17)
         <<"case,theta,elapsed_s,interval_end_s,goal,units,tolerance,node_bound,whole_interval_bound,normalized_whole_interval_bound\n";
+    states<<std::setprecision(17)
+        <<"case,theta,steps,elapsed_s,true_displacement_m,analytical_fit_displacement_m,"
+        <<"discrete_fit_displacement_m,displacement_bound_m,true_velocity_m_s,"
+        <<"analytical_fit_velocity_m_s,discrete_fit_velocity_m_s,velocity_bound_m_s,"
+        <<"true_support_force_N,analytical_fit_support_force_N,"
+        <<"discrete_fit_support_force_N,support_force_bound_N\n";
     std::cout<<"GOAL-DEPENDENCE CROSS-CUTTING TEST\n"
              <<"Each case uses one fitted state and one shared observation-consistent initial-state set.\n"
              <<"Qualification is goal-specific; joint qualification requires every goal to pass.\n";
@@ -107,8 +114,20 @@ int main(int argc,char** argv){try{
         else std::cout<<"NOT QUALIFIED; blocking goal(s): "<<blockers<<'\n';
 
         const auto& grid=model.grid();
+        const auto reconstruction=model.forward(result.center);
+        const auto analytical_center=analytical_fit();
         for(std::size_t n=0;n<grid.time.size();++n){
             const double tau=grid.time[n]-t0;
+            const auto truth_state=exact(tau,truth);
+            const auto analytical_state=exact(tau,analytical_center);
+            const auto discrete_state=reconstruction.state[n];
+            const auto support_force=[](const Vec<2>& x){return stiffness*x[0]+damping*x[1];};
+            states<<item.name<<','<<item.theta<<','<<item.steps<<','<<tau<<','
+                <<truth_state[0]<<','<<analytical_state[0]<<','<<discrete_state[0]<<','
+                <<result.nodes[n][0]<<','<<truth_state[1]<<','<<analytical_state[1]<<','
+                <<discrete_state[1]<<','<<result.nodes[n][1]<<','
+                <<support_force(truth_state)<<','<<support_force(analytical_state)<<','
+                <<support_force(discrete_state)<<','<<result.nodes[n][2]<<'\n';
             for(std::size_t k=0;k<oq::goals.size();++k){
                 envelopes<<item.name<<','<<item.theta<<','<<tau<<',';
                 if(n<grid.steps())envelopes<<grid.time[n+1]-t0;

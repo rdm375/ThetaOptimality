@@ -29,6 +29,39 @@ $$
 
 Thus $J_h=\sum_n w_n c_n+\Phi+\mathcal R$. This matters on nonuniform grids: an interior weight is generally not just one interval length. With isolated observations, add explicit costs $\sum_j\ell_j(t_{n_j},\mathbf x_{n_j},\boldsymbol\xi)$, without multiplying them by $w_{n_j}$. Their state gradients add to $\mathbf q_{n_j}$, their direct control gradients add to the reduced gradient, and their directional gradient derivatives add to the incremental adjoint. The same derivation otherwise applies. Pure sampled-data assimilation has zero running cost; theta-consistent quadrature remains available for genuine running terms and is tested in the separate running-cost example.
 
+For a group of observations with known covariance $\mathbf R$, retain the residual vector
+
+$$
+\mathbf r(\boldsymbol\xi)=\left[r_i\right]_{i=1}^m,
+\qquad r_i=\psi_i(t_{n_i},\mathbf x_{n_i},\boldsymbol\xi)-y_i,
+$$
+
+and use the joint weighted cost
+
+$$
+J_{\mathrm{obs}}=\frac12\mathbf r^T\mathbf W\mathbf r,
+\qquad \mathbf W=\mathbf R^{-1}.
+$$
+
+The observation contribution to the state source at node $n_i$ is
+$\nabla_{\mathbf x}\psi_i\,(\mathbf W\mathbf r)_i$; its direct control contribution is
+$\nabla_{\boldsymbol\xi}\psi_i\,(\mathbf W\mathbf r)_i$. These are added to the ordinary
+nodal sources before the same reverse discrete-adjoint sweep. No time quadrature
+weight is applied to these isolated data. For a direction $\mathbf v$, the
+incremental source contains both terms
+
+$$
+\nabla\psi_i\,[\mathbf W D\mathbf r[\mathbf v]]_i
++D\nabla\psi_i[\mathbf v]\,(\mathbf W\mathbf r)_i,
+$$
+
+which correspond to the weighted Gauss-Newton term and residual curvature. A
+correlated observation group therefore requires cross-node aggregation before
+the adjoint sweep; it cannot be represented as independent scalar nodal costs.
+The library's `CorrelatedObservationTerm` stores these residual callbacks and a
+symmetric positive-definite precision matrix, and uses the same construction in
+cost, adjoint-gradient, and incremental-adjoint evaluations.
+
 For implementation, write the same update as $\mathbf R_n=\mathbf x_{n+1}-\mathbf x_n-h_n[(1-\theta_n)\mathbf f_n+\theta_n\mathbf f_{n+1}]=0$. Its derivative blocks are $\partial_{\mathbf x_{n+1}}\mathbf R_n=\mathbf B_n$ and $\partial_{\mathbf x_n}\mathbf R_n=-\mathbf C_n$, with
 
 $$

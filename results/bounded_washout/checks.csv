@@ -1,0 +1,42 @@
+check,error,tolerance,passed
+near_detection_lower expected active set,0,0,1
+near_detection_lower KKT residual,0,2.0000000000000001e-09,1
+near_detection_lower nonnegative discrete trajectory,0,9.9999999999999998e-13,1
+near_detection_lower discrete fit matches analytical discrete constrained minimizer,0,2.0000000000000001e-10,1
+near_detection_lower lower multiplier sign,0,0,1
+near_detection_lower analytical exact-cost gradient,4.770117811858654e-08,1.9999999999999999e-06,1
+near_detection_lower analytical exact-cost Hessian,1.2159580364823341e-07,1.9999999999999999e-06,1
+near_detection_lower bounded-data set contains truth,0,9.9999999999999998e-13,1
+near_detection_lower zero-state equilibrium remains exact,0,9.9999999999999998e-17,1
+near_detection_lower midpoint tangent convergence order,0.00036923373311292806,0.12,1
+near_detection_lower zero-state equilibrium remains exact on finest grid,0,9.9999999999999998e-17,1
+near_detection_lower midpoint tangent order on finest pair,1.7900384414959447e-05,0.14999999999999999,1
+interior expected active set,0,0,1
+interior KKT residual,2.9700686354772188e-11,2.0000000000000001e-09,1
+interior nonnegative discrete trajectory,0,9.9999999999999998e-13,1
+interior discrete fit matches analytical discrete constrained minimizer,3.8857805861880479e-16,2.0000000000000001e-10,1
+interior interior stationarity,2.9700686354772188e-11,2e-08,1
+interior analytical exact-cost gradient,2.4301698431372643e-09,1.9999999999999999e-06,1
+interior analytical exact-cost Hessian,3.9755832403898239e-08,1.9999999999999999e-06,1
+interior bounded-data set contains truth,0,9.9999999999999998e-13,1
+interior midpoint state convergence order,0.00036923378674158513,0.12,1
+interior midpoint tangent convergence order,0.00036923373311292806,0.12,1
+interior interior fitted-state convergence order,0.00029496308965892837,0.20000000000000001,1
+interior midpoint state order on finest pair,1.7899922930109113e-05,0.14999999999999999,1
+interior midpoint tangent order on finest pair,1.7900384414959447e-05,0.14999999999999999,1
+tangent-adjoint scalar pairing,2.2737367544323206e-13,2.0000000000000001e-09,1
+discrete adjoint objective gradient,6.6279426391702145e-09,1.9999999999999999e-06,1
+incremental-adjoint Hessian,6.2218168750405312e-07,1.9999999999999999e-06,1
+theta discrete objective versus exact discrete reference,4.6505022055498557e-12,2e-08,1
+stock_limit_upper expected active set,0,0,1
+stock_limit_upper KKT residual,0,2.0000000000000001e-09,1
+stock_limit_upper nonnegative discrete trajectory,0,9.9999999999999998e-13,1
+stock_limit_upper discrete fit matches analytical discrete constrained minimizer,0,2.0000000000000001e-10,1
+stock_limit_upper upper multiplier sign,0,0,1
+stock_limit_upper analytical exact-cost gradient,6.0244929045438766e-08,1.9999999999999999e-06,1
+stock_limit_upper analytical exact-cost Hessian,2.3923348635435104e-08,1.9999999999999999e-06,1
+stock_limit_upper bounded-data set contains truth,0,9.9999999999999998e-13,1
+stock_limit_upper midpoint state convergence order,0.00036923378264885898,0.12,1
+stock_limit_upper midpoint tangent convergence order,0.00036923373311292806,0.12,1
+stock_limit_upper midpoint state order on finest pair,1.7899856023184668e-05,0.14999999999999999,1
+stock_limit_upper midpoint tangent order on finest pair,1.7900384414959447e-05,0.14999999999999999,1
