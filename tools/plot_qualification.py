@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# Copyright (C) 2026 Richard Myers
+
 """Plot C++20 qualification outputs. No inference or qualification decisions."""
 from pathlib import Path
 import csv

@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: AGPL-3.0-only
+// Copyright (C) 2026 Richard Myers
+
 #include "oscillator_model.hpp"
 #include "oscillator_qualification_model.hpp"
 #include <filesystem>

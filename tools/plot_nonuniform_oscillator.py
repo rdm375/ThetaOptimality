@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: AGPL-3.0-only
+# Copyright (C) 2026 Richard Myers
+
 """Plot retained C++ nonuniform-mesh convergence data; run no simulation."""
 import csv
 from pathlib import Path

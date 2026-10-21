@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: AGPL-3.0-only
+// Copyright (C) 2026 Richard Myers
+
 #pragma once
 #include "decay_model.hpp"
 #include <theta_opt/qualification.hpp>

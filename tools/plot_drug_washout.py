@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: AGPL-3.0-only
+# Copyright (C) 2026 Richard Myers
+
 """Render C++ drug-washout reconstruction, budget, and convergence outputs.
 
 This script performs plotting only. It does not fit parameters, estimate error

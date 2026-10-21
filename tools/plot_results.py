@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# Copyright (C) 2026 Richard Myers
+
 """Plot C++ results. Python is an optional visualization dependency only."""
 from pathlib import Path
 import csv,json,math

@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+// Copyright (C) 2026 Richard Myers
 #include "peng_robinson_model.hpp"
 #include "peng_robinson_bounds.hpp"
 #include <filesystem>

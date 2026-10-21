@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# Copyright (C) 2026 Richard Myers
+
 """Render thermal results produced entirely by C++20."""
 from pathlib import Path
 import csv,math

@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: AGPL-3.0-only
+# Copyright (C) 2026 Richard Myers
+
 """Plot retained C++ two-tank results; no simulation or qualification logic."""
 import csv
 from pathlib import Path

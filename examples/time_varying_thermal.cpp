@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: AGPL-3.0-only
+// Copyright (C) 2026 Richard Myers
+
 #include <theta_opt/theta_opt.hpp>
 #include <algorithm>
 #include <array>

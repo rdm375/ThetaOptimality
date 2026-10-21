@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# Copyright (C) 2026 Richard Myers
+
 cmake_minimum_required(VERSION 3.20)
 project(ThetaOptimality VERSION 0.9.0 LANGUAGES CXX)
 include(GNUInstallDirs)

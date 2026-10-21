@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: "If you use ThetaOptimality in research or teaching, please cite this software."
+title: ThetaOptimality
+version: 0.9.0
+date-released: 2026-10-21
+license: AGPL-3.0-only
+authors:
+  - family-names: Myers
+    given-names: Richard
+abstract: >-
+  A C++20 header-only library for a theta-consistent discrete optimality
+  system, including forward, tangent linear, discrete adjoint, reduced
+  gradient, and incremental-adjoint Hessian-vector calculations. Analytical
+  and engineering examples test convergence, inverse-problem information,
+  uncertainty, and state qualification.

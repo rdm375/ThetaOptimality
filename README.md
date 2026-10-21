@@ -1,585 +1,173 @@
 # ThetaOptimality
 
-A C++20 library for the **theta-consistent discrete optimality system and its tangent linear model**. It is intended to provide common numerical machinery for our series of small, analytically verifiable examples, before applying the same construction to larger physical models.
+**A small C++20 library for building and testing a numerically consistent
+discrete optimality system for time-dependent inverse problems.**
 
-The library computes a nonlinear forward trajectory, evaluates the matching theta-quadrature cost, propagates tangent perturbations, solves the exact discrete adjoint, and returns reduced gradients and incremental-adjoint Hessian-vector products. These operations describe one discrete constrained optimization problem. The formulas are developed together in [docs/formulation.md](docs/formulation.md).
+The project develops one coupled discrete construction: a theta-method state
+trajectory, a matching theta-quadrature objective, its tangent linear model,
+the exact discrete adjoint, reduced gradients, and incremental-adjoint
+Hessian-vector products. It also includes state-estimation and engineering
+qualification experiments that compare discrete results with analytical
+solutions, bounded observation sets, and numerical error estimates.
 
-The first worked example is nonlinear concentration decay with accumulated exposure. Its continuous state, cost, tangent, costate, gradient, and Hessian have elementary analytical references. The example uses the library's explicit quadrature and nodal cost sources throughout; accumulated running cost is not added to the physical state. The analytical references never replace a numerical forward step or supply the optimization gradient.
+The purpose is educational and methodological: make the pieces inspectable on
+small problems, test their derivatives and convergence, and expose cases where
+good numerical optimization does not imply that the physical state is
+identifiable or sufficiently known. This is a research and teaching codebase,
+not a general-purpose sparse PDE or production estimation package.
 
-See [the feature-based test roadmap](docs/feature_test_roadmap.md) for current
-coverage, proposed engineering examples, and the shared validation and
-qualification requirements for extending this series.
+## Why this project
 
-## Electrical state from resistor temperature
+For a time-discrete model, the objective and its derivatives should belong to
+the same discrete problem as the forward state. Differentiating a different
+continuous or discretized problem can produce gradients that do not match the
+numerical objective actually optimized. ThetaOptimality makes that connection
+explicit and tests it with directional finite differences, tangent-adjoint
+pairings, Hessian checks, analytical references, and mesh refinement.
 
-An isolated RLC discharge heats a resistor through **Ri²**. Temperature records
-can locally identify initial voltage and current while leaving two opposite
-polarities globally indistinguishable. Each fitted branch has a full-rank local
-Hessian. The new example exercises nonlinear electrical-to-thermal coupling and
-the residual-curvature terms in the exact incremental adjoint.
+The examples also separate three questions that are easy to conflate:
+
+1. **Did the numerical optimization converge?**
+2. **Do the observations determine the state or parameters?**
+3. **Does the available information establish the requested engineering
+   tolerance, including measurement and numerical uncertainty?**
+
+An unqualified result means the stated assumptions and error budgets do not
+establish the tolerance. It does not prove that the actual state error exceeds
+it. Local information diagnostics are not global uniqueness certificates.
+
+## The discrete workflow
+
+For a model \(\dot{x}=f(t,x,\xi)\) with unknown finite-dimensional vector
+\(\xi\), the library supplies these parts of one discrete optimality system:
+
+| Component | Role in the experiment |
+|---|---|
+| Theta-method forward solve | Defines the numerical trajectory used in the inverse problem. |
+| Matching theta-quadrature objective | Evaluates running and terminal costs on that trajectory. |
+| Tangent linear model | Propagates perturbations in initial conditions or model controls. |
+| Discrete adjoint | Computes objective sensitivities through the discrete equations. |
+| Reduced gradient and Hessian-vector products | Drive optimization and test second-order derivatives. |
+| State qualification | Compares whole-interval state uncertainty and numerical error with engineering tolerances. |
+
+The complete equations and conventions are in
+[`docs/formulation.md`](docs/formulation.md); callback contracts and usage are
+in [`docs/api.md`](docs/api.md). The library is header-only in
+[`include/theta_opt/`](include/theta_opt/).
+
+## Experiments and documentation
+
+Each experiment has a standalone write-up describing its model, assumptions,
+numerical formulation, checks, findings, and limitations. The table links to
+every experiment document so readers can go directly from the overview to the
+derivation.
+
+| Experiment | What it tests | Documentation |
+|---|---|---|
+| Nonlinear decay and accumulated exposure | Full forward, cost, tangent, adjoint, gradient, Hessian, and analytical convergence workflow. | [Decay example](docs/decay.md) · [State qualification](docs/state_qualification.md) |
+| Electrical state from resistor temperature | Nonlinear observation ambiguity, local curvature, and disconnected feasible state sets. | [Electrothermal experiment](docs/electrothermal.md) |
+| Persistent unobservable thermal mode | Difference observations identify a decaying mode but not the common temperature offset. | [Insulated thermal experiment](docs/insulated_thermal.md) |
+| Poorly timed oscillator samples | Half-period sampling loses the initial-velocity direction; moving sample times restores it. | [Oscillator experiment](docs/oscillator.md) · [Weak-information sweep](docs/weak_information.md) |
+| Nonuniform oscillator mesh | Tests the full discrete system and convergence on nested, nonuniform time grids. | [Nonuniform-mesh experiment](docs/nonuniform_mesh.md) |
+| Goal-dependent qualification | Shows why different physical goals can qualify at different times and one can block a joint decision. | [Goal-dependence experiment](docs/goal_dependence.md) |
+| Transient amplification in two tanks | A stable coupled system can temporarily amplify concentration error and delay qualification. | [Two-tank experiment](docs/two_tank.md) |
+| Hidden-state oscillator | Reconstructs an unmeasured initial velocity from displacement observations. | [Oscillator experiment](docs/oscillator.md) |
+| Static Peng–Robinson composition | Estimates gas-mixture fractions from thermodynamic density observations and compares identifiability. | [Peng–Robinson experiment](docs/peng_robinson.md) |
+| Two-temperature state finding | Infers two coupled temperatures from one thermometer and tests engineering qualification. | [Two-temperature experiment](docs/two_temperature.md) |
+| Time-varying heater schedule | Estimates a finite-dimensional control schedule from thermal observations. | [Thermal schedule experiment](docs/time_varying_thermal.md) · [Control and path-constraint theory](docs/time_varying_controls_path_constraints.md) |
+| Weakly coupled winding and housing | Tests separated thermal time scales, hidden modes, and goal-specific qualification. | [Weak-coupling experiment](docs/weak_coupling.md) |
+| Stiff sequential reaction | Uses a closed-form chemical system to examine stiffness, positivity, sampling, and convergence. | [Stiff-reaction experiment](docs/stiff_reaction.md) |
+| State constraints and boundary optima | Checks active bounds, KKT multipliers, stationarity, and qualification at constrained optima. | [Bounded washout experiment](docs/bounded_washout.md) |
+| Nonlinear logistic growth | Estimates an initial state for nonlinear dynamics and checks discrete derivative convergence. | [Logistic-growth experiment](docs/logistic_growth.md) |
+| Joint predator–prey recovery | Separately estimates initial conditions, model parameters, and both together. | [Predator–prey experiment](docs/predator_prey.md) |
+| Measurement versus numerical accuracy | Separates sensor-error and discretization contributions in a drug-washout model. | [Drug-washout experiment](docs/drug_washout.md) |
+| Correlated observation errors | Tests the effect of correlated assay errors on fit, information, and qualification. | [Correlated-washout experiment](docs/drug_washout_correlated.md) |
+| Unit and scaling invariance | Checks that changing concentration and time units transforms derivatives and decisions consistently. | [Unit-scaling experiment](docs/unit_scaling.md) |
+| Time-varying gas composition | Reconstructs a changing feed composition and vessel state from Peng–Robinson density observations. | [Dynamic gas experiment](docs/time_varying_gas.md) |
+| Roadmap and cross-cutting tests | Tracks the theory features tested across multiple examples and future cases. | [Feature-test roadmap](docs/feature_test_roadmap.md) |
+
+These cases deliberately include both qualified and **NOT QUALIFIED** results.
+An unqualified result means that the stated data and error assumptions do not
+establish the requested tolerance; it does not prove that the actual state
+error exceeds that tolerance. Local information or a small optimization
+gradient is not, by itself, evidence of global uniqueness or engineering
+sufficiency.
+
+## Start here
+
+The nonlinear decay example is the smallest complete optimality-system
+verification. Its continuous solution, objective, tangent, adjoint, gradient,
+and Hessian have analytical references. Numerical optimization still uses the
+library's discrete forward solve and objective; analytical formulas are used
+as independent comparisons, not as substitutes for the numerical calculation.
 
 ```bash
-make electrothermal-plots
+make example       # Run the basic decay optimality-system example
+make validation    # Check library identities and derivatives
+make test          # Build and run the C++ validation and experiment suite
 ```
 
-A new shared `bounded_sets.hpp` searches the full two-control prior and retains
-all feasible regions. It supports quadratic observation bounds, disconnected
-box covers, whole-interval polynomial goal bounds, and conservative behavior
-when a subdivision budget is exhausted. Qualification uses the full union.
-
-Temperature-only data qualify resistor temperature rise (0.02 K tolerance) and
-stored energy (0.05 J) from elapsed zero, but leave signed voltage (0.01 V) and
-current (0.01 A) **NOT QUALIFIED** through eight seconds. Keeping only one fitted
-polarity would incorrectly qualify the signed goals. Adding a genuine ±0.02 V
-initial-voltage datum removes the opposite region and establishes joint
-qualification from **3.296875 s**. A ±3 V datum leaves both polarities feasible
-and does not establish joint qualification.
-
-The example adds **349 checks**, seven plots, and thirteen measured convergence
-quantities. Midpoint is second order and theta = 0.65 is approximately first
-order against independently evaluated analytical solutions and derivatives.
-Read [the complete engineering experiment](docs/electrothermal.md), including
-why local curvature, global ambiguity, and engineering sufficiency differ.
-
-![Electrothermal reconstruction](results/electrothermal/reconstruction.png)
-
-![Electrothermal engineering decisions](results/electrothermal/qualification_verdict.png)
-
-## Persistent unobservable thermal mode
-
-Two insulated masses exchange heat. Difference measurements identify the
-exponentially decaying temperature difference but cannot identify a persistent
-common temperature offset. This example tests singular optimization and the
-engineering consequences of genuinely missing measurement information.
+To run the full set of examples and regenerate their figures:
 
 ```bash
-make insulated-thermal-plots
-```
-
-A new shared **rank-aware quadratic optimizer** uses the discrete adjoint and
-incremental-adjoint Hessian, reports the missing direction, and preserves an
-explicit seed-selected representative without inventing information. Changing
-that representative changes absolute temperatures but not the difference fit.
-Bounded qualification retains the full common-offset uncertainty.
-
-At theta = 0.5, N = 512, the difference qualifies from **1.515625 elapsed
-minutes**, while both absolute temperatures and their weighted mean remain
-**NOT QUALIFIED** through the eight-minute horizon. An actual added absolute
-temperature datum makes those three goals qualify from zero; the tighter
-difference tolerance sets joint qualification at **1.515625 minutes**.
-The coarse midpoint and theta = 0.65, N = 512 cases cannot establish even the
-difference tolerance under the conservative numerical budget.
-
-The example adds **381 checks**, seven plots, analytical references, and twelve
-measured convergence quantities for each observation design. Midpoint gives
-second-order convergence; theta = 0.65 gives approximately first order.
-A converged representative is explicitly distinguished from a uniquely recovered
-state. Read [the standalone derivation and experiment](docs/insulated_thermal.md).
-
-![Insulated thermal reconstruction](results/insulated_thermal/reconstruction.png)
-
-![Insulated thermal engineering decisions](results/insulated_thermal/qualification_verdict.png)
-
-## Poorly timed oscillator measurements
-
-Four displacement samples at exact half-periods have zero analytical
-sensitivity to initial velocity. A matched case moves the same four samples to
-well-spaced times, restoring rank two and qualification of both initial-state
-components. Both cases use the C++20 theta method and the same bounded data,
-prior, and tolerances; only sample times change.
-
-```bash
-make sampling-comparison
-```
-
-The side-by-side plots compare the physical feasible sets, theta-discrete
-reconstructions, mesh-refinement behavior, and engineering qualification. See
-[the experiment and interpretation](docs/oscillator.md#15-poorly-timed-sampling-is-a-full-inverse-problem-test).
-
-![Poor versus proper oscillator sampling](results/oscillator_poor_timing/sampling_comparison.png)
-
-### Weak information as the sampling design degrades
-
-This cross-cutting test continuously moves four displacement samples from
-well-spread times toward the half-period blind schedule. It compares the exact
-physical information matrix with the midpoint discrete Hessian, bounded
-initial-state uncertainty, and the discrete fitted velocity. The optimizer can
-have a tiny gradient while the velocity remains unidentifiable; near the blind
-schedule, midpoint phase error can even create false discrete curvature.
-
-```bash
-make information-sweep-plots
-```
-
-The qualification markers are exact-model diagnostics with bounded measurement
-errors and intentionally omit the numerical allowance. See the
-[full derivation and scope](docs/weak_information.md).
-
-![Weak-information sampling sweep](results/oscillator_information_sweep/weak_information_sweep.png)
-
-![Oscillator sampling schedule deformation](results/oscillator_information_sweep/sampling_schedule_sweep.png)
-
-## Nonuniform time-step consistency
-
-The oscillator optimality system is tested on nested, quadratically graded
-time meshes while keeping all six observation times fixed. The test compares
-state, tangent, adjoint, nodal objective and its derivatives, recovered initial
-state, and a separate exact running-cost verification functional. Midpoint
-converges at second order and theta = 0.65 at first order across all eleven
-quantities.
-
-```bash
-make nonuniform-oscillator-plots
-```
-
-The C++20 test checks the fixed observation nodes, nested mesh family,
-tangent–adjoint pairing, discrete gradient and Hessian finite differences, and
-analytical convergence references. Read [the standalone experiment](docs/nonuniform_mesh.md).
-
-![Nonuniform oscillator mesh and convergence](results/nonuniform_oscillator/nonuniform_convergence.png)
-
-The nonuniform oscillator case also plots analytical and reconstructed states,
-bounded uncertainty bands, whole-interval qualification bounds, and persistent
-qualification times for both theta values. See the
-[standalone experiment](docs/nonuniform_mesh.md) for the assumptions and
-interpretation.
-
-![Nonuniform oscillator uncertainty and qualification](results/nonuniform_oscillator/state_uncertainty_qualification.png)
-
-## Goal-dependent qualification
-
-The goal-dependence test applies displacement, velocity, and support-force
-tolerances to the same reconstructed oscillator state and feasible uncertainty
-set. It verifies that each goal can qualify at a different persistent time,
-that joint qualification starts at the latest such time, and that one
-unqualified goal blocks the joint decision.
-
-```bash
-make goal-dependence-plots
-```
-
-![Goal-dependent engineering qualification](results/goal_dependence/goal_dependence_times.png)
-
-Read the [standalone goal-dependence experiment](docs/goal_dependence.md) for
-the uncertainty assumptions and full interpretation.
-
-The reconstruction figure compares the analytical truth, the analytical
-least-squares fit to the same observations, and the theta-discrete fit. Its
-uncertainty bands come from the shared observation-consistent set with the
-numerical-model allowance; vertical markers show each goal's persistent
-qualification time. The normalized-bound plot shows the whole-interval test
-used for qualification, and the timeline makes the joint decision explicit.
-
-![Goal-dependent state reconstruction and uncertainty](results/goal_dependence/goal_dependence_reconstruction.png)
-
-![Goal-dependent whole-interval uncertainty bounds](results/goal_dependence/goal_dependence_bounds.png)
-
-![Goal-dependent qualification times](results/goal_dependence/goal_dependence_times.png)
-
-## Transient amplification in two mixing tanks
-
-The next roadmap feature is implemented: recover two unknown initial tracer
-concentrations from downstream observations in a known two-tank flow system.
-Both decay rates are stable, yet the concentration perturbation norm grows by
-**22.19%** before decaying. The discrete tangent and adjoint recover its most
-amplified initial direction; independent analytical formulas validate the result.
-
-```bash
-make two-tank-plots
-make test
-```
-
-The refined midpoint case qualifies all three engineering goals from
-**2.515625 elapsed minutes** through the ten-minute horizon. Downstream
-concentration is initially within tolerance, subsequently exceeds it, and only
-then qualifies persistently. The coarse case remains unqualified. Adding an
-actual upstream observation makes all goals qualify from elapsed zero.
-The separate simultaneous 95% Gaussian noise-box case qualifies jointly from
-**8.8671875 minutes**. These are retrospective decisions under stated assumptions.
-
-Read [the standalone experiment and derivation](docs/two_tank.md), including
-why concentration amplification is compatible with decreasing tracer mass,
-and why a directly observed initial component has no measurable temporal order.
-Twelve non-roundoff-limited error measures converge at second order for
-midpoint and approximately first order for theta = 0.65. This example adds
-183 checks and reusable C++ amplification, polygon, defect, and interval tools.
-
-![Two-tank transient amplification](results/two_tank/amplification.png)
-
-![Two-tank qualification decisions](results/two_tank/qualification_verdict.png)
-
-## Hidden-state oscillator example
-
-Recover **initial displacement and unmeasured initial velocity** from six noisy
-displacement observations of a known mass–spring–damper system. This example has
-exact state, tangent, adjoint, objective, gradient, Hessian, and noisy-data
-least-squares references. Thirteen error measures, including both recovered
-initial-state components, converge at second order for theta = 0.5 and first
-order for theta = 0.65.
-
-```bash
-make oscillator-plots
-```
-
-It also demonstrates a measurement schedule that cannot identify velocity:
-sampling at integer half-periods eliminates that sensitivity. Genuine running
-cost, consistent quadrature, and costate comparisons use a separate analytical
-verification functional, without adding artificial information to the inverse
-problem. The hidden-state oscillator adds **245 numerical and qualification checks**. The matched sampling and nonuniform-mesh tests are separate suites in `make test`. It also reports engineering qualification for displacement
-(1 mm), velocity (2 mm/s), and support-force error (0.04 N), including numerical
-model error and whole-interval persistence. The coarse midpoint grid cannot
-establish the tolerances. The refined midpoint grid qualifies from elapsed zero
-with deterministic measurement bounds. The added theta = 0.65, N = 1024
-bounded-data case remains unqualified under its conservative numerical allowance;
-further refinement to theta = 0.65, N = 8192 qualifies all three goals from
-**4.029296875 s**. The simultaneous 95% Gaussian noise-box
-case qualifies all three goals from **4.8203125 s**. These are retrospective
-all-data decisions through the eight-second elapsed horizon.
-
-Read [the complete derivation and experiment](docs/oscillator.md).
-
-![Hidden-state oscillator convergence](results/oscillator/convergence.png)
-
-The phase portraits overlay the analytical solution and optimal discrete
-reconstruction, with a second panel magnifying their difference:
-
-![Oscillator phase portraits](results/oscillator/phase_portraits.png)
-
-![Oscillator engineering qualification verdict](results/oscillator/qualification_verdict.png)
-
-## Peng–Robinson gas composition example
-
-Infer methane–ethane–nitrogen mole fractions from density observations at several
-known temperatures and pressures, using the actual pinned **ThermoGPU** scalar
-CPU backend. The example runs the library's tangent, adjoint, exact Hessian-vector
-products, and optimizer, and independently encloses a nonlinear bounded-error
-composition set in C++20.
-
-```bash
-make gas-plots
-```
-
-The synthetic truth is 85% methane, 10% ethane, and 5% nitrogen. Four density
-observations with 0.1% error bounds give an accurate fit but cannot qualify all
-three fractions to one percentage point. With 0.02% error bounds, all three
-qualify. One density is deliberately underdetermined. Verdicts remain separate
-from numerical test success.
-
-This is a **static** specialization: composition carries unchanged between
-experiments. It does not test nontrivial theta stepping or running-cost
-quadrature; the decay and thermal examples continue to do that.
-Read [the complete experiment and derivation](docs/peng_robinson.md).
-The optional example links GPL-3.0-or-later upstream code; its original license
-and revision are included under `third_party/ThermoGPU`.
-
-![Peng–Robinson composition qualification](results/peng_robinson/composition_sets.png)
-
-## Two-temperature example
-
-The project now also includes the earlier coupled **fluid–wall thermal model**, using this same C++20 optimality and qualification machinery. It reconstructs both initial temperatures from fluid observations, checks conservative energy balance, and qualifies fluid temperature (0.2 K tolerance) and stored-energy deviation (60 kJ tolerance). The retained analytical Gaussian-ellipse reference qualifies those goals after 0.067798 and 1.995560 minutes. A separate numerical-error-aware 95% noise-box analysis reports physical qualification under its explicit initial-temperature domain assumption.
-
-```bash
-make thermal
-make thermal-plots
-```
-
-On the refined grid, the physical analysis qualifies both goals jointly after **4.734375 minutes**. Assimilating an added wall-temperature measurement at the same resolution reduces that time to **3.5078125 minutes**. The primary coarse grid cannot establish either tolerance with the conservative numerical allowance. The thermal tests distinguish numerical correctness, analytical/reference uncertainty, and physical qualification explicitly.
-
-Read [docs/two_temperature.md](docs/two_temperature.md) for the complete derivation, assumptions, reference comparisons, and figures. All thermal inference and qualification computations are C++20; Python only renders their outputs.
-
-The follow-on [time-varying two-temperature case](docs/time_varying_thermal.md) uses one fluid thermometer to estimate both initial temperatures and a three-knot heater schedule. It compares the fitted theta-method trajectory with an exact forced solution and reports the expected second-order convergence for $\theta=0.5$.
-
-![Two-temperature qualification verdict](results/two_temperature/qualification_verdict.png)
-
-## Hidden motor winding temperature under weak thermal contact
-
-The winding is hidden, while the housing sensor is visible. We vary the known
-winding-to-housing conductance and reconstruct both initial temperatures using
-the same housing-only observations, prior, and noise model. The weak-contact
-case has a full-rank information matrix and a stationary optimizer, yet the
-winding temperature remains unqualified through ten hours. Moderate and strong
-contact allow it to qualify after 103.59 and 10.86 minutes. The strong-contact
-housing bound passes, later rises above tolerance, then qualifies persistently
-after 27.97 minutes.
-
-```bash
-make weak-coupling-plots
-```
-
-The example exercises the existing shared forward, nodal cost, tangent,
-discrete adjoint, incremental adjoint, theta running quadrature, and whole-
-interval qualification interfaces. It adds **174 checks**, including measured
-second-order convergence for midpoint and first-order convergence for
-$\theta=0.65$. No generic library API change was needed. Read
-[the full derivation and experiment](docs/weak_coupling.md).
-
-![Weak-contact reconstruction](results/weak_coupling/reconstruction.png)
-
-![Weak-contact qualification](results/weak_coupling/qualification.png)
-
-## Stiff chemical kinetics with an exact solution
-
-The consecutive first-order reaction $A\to B\to C$ supplies a closed-form stiff
-system with a fast-to-slow rate ratio of 1000. Product concentration alone is
-observed; the initial reactant and intermediate concentrations are inferred.
-The test compares the exact reaction solution with the library's theta forward,
-cost, tangent, discrete adjoint, incremental adjoint, optimizer, convergence,
-and bounded qualification calculations.
-
-```bash
-make stiff-reaction
-make stiff-reaction-plots
-```
-
-With a step ten times the fast reaction timescale, midpoint remains stable but
-leaves a large sign-alternating numerical fast mode and produces negative
-species concentrations. Backward Euler damps that mode more strongly. Once the
-fast mode is resolved, the full workflow converges at approximately second
-order for $\theta=0.5$ and first order for $\theta=0.65$. The bounded
-qualification test reports when each species becomes sufficiently determined.
-The reconstruction figure overlays the analytic trajectories and marks the
-persistent A/B qualification times: 0.0919 s with early samples and 0.1125 s
-with late samples; C qualifies from $t_0$. Read [the experiment and derivation](docs/stiff_reaction.md).
-
-![Stiff-reaction reconstruction with analytical states and qualification times](results/stiff_reaction/stiffness_and_reconstruction.png)
-
-![Stiff reaction convergence rates](results/stiff_reaction/convergence_orders.png)
-
-`make test` runs the library validation and numerical examples, including both oscillator sampling designs, the weak-information sweep, bounded initial-state washout, the nonuniform-mesh test, the drug-washout accuracy experiments, nonlinear logistic growth, and the staged predator–prey case. State-qualification examples print persistent qualification decisions, with `unqualified` where a goal does not meet tolerance over its horizon. `make qualification-plots` draws the decay, thermal, time-varying thermal, weak-coupling, gas, oscillator, weak-information, bounded-washout, nonuniform-mesh, goal-dependence, two-tank, insulated-thermal, electrothermal, stiff-reaction, drug-washout, logistic-growth, and predator–prey examples; `make decay-plots` draws only decay and `make thermal-plots` only the original two-temperature example.
-
-## State constraints and boundary optima
-
-The bounded washout case estimates a nonnegative initial drug concentration
-that cannot exceed the stock concentration. Assay noise near detection can
-drive the unconstrained fit below zero; a saturated stock sample can push it
-above the physical upper bound. The C++20 active-set box optimizer returns the
-lower-bound, interior, or upper-bound solution with KKT multipliers and checks
-the corresponding gradient signs. It also compares the midpoint theta solution,
-discrete derivatives, whole-interval qualification, and temporal convergence
-with exact washout references.
-
-```bash
-make bounded-washout-plots
-```
-
-Read the [derivation and test details](docs/bounded_washout.md).
-
-![Bounded washout state and qualification](results/bounded_washout/state_qualification.png)
-
-![Bounded washout KKT multipliers](results/bounded_washout/kkt_multipliers.png)
-
-![Bounded washout theta convergence](results/bounded_washout/theta_convergence.png)
-
-## Nonlinear dynamics: logistic biomass growth
-
-The logistic-growth example isolates nonlinear dynamics with an exact solution.
-It validates the state-dependent Jacobian and its second derivative through the
-discrete tangent, adjoint, and incremental-adjoint Hessian, then compares the
-recovered initial biomass and objective derivatives against analytical
-references. The same fixed assays are used on every mesh. Midpoint approaches
-second order, while theta equal to 0.65 approaches first order. Bounded assay
-uncertainty and a propagated theta error allowance give a coarse unqualified
-case and a refined case that qualifies persistently from 2.75 h.
-
-```bash
-make logistic-growth-plots
-```
-
-Read the [model derivation and validation details](docs/logistic_growth.md).
-
-![Logistic-growth reconstruction and qualification](results/logistic_growth/state_qualification.png)
-
-![Logistic-growth theta convergence](results/logistic_growth/theta_convergence.png)
-
-![Logistic-growth objective derivatives](results/logistic_growth/objective_derivatives.png)
-
-## Nonlinear dynamics: staged predator–prey recovery
-
-The [Lotka–Volterra experiment](docs/predator_prey.md) successively estimates
-the two initial populations, the four kinetic rates, and all six quantities
-together from paired prey/predator observations. It exercises the library's
-coupled nonlinear state derivatives, discrete adjoint, Hessian-vector products,
-and finite-dimensional box-constrained optimizer. The analytical conserved
-quantity checks an independent high-accuracy reference, and mesh refinement
-checks midpoint second-order and theta=0.65 first-order convergence. The six-
-control joint fit also exercises the new arbitrary-dimension PSD information
-spectrum, reporting local rank and conditioning without claiming global
-uniqueness.
-
-```bash
-make predator-prey-plots
-```
-
-![Predator–prey state reconstruction](results/predator_prey/state_reconstruction.png)
-
-![Predator–prey phase portrait](results/predator_prey/phase_portrait.png)
-
-![Predator–prey convergence and derivative checks](results/predator_prey/convergence_and_derivatives.png)
-
-## Time-varying controls and path constraints
-
-The library now supports finite-dimensional piecewise-linear controls and
-softmax parameterizations for time-varying gas compositions. Scheduled-control
-derivatives are chained through the theta forward, tangent, adjoint, and
-incremental adjoint. Nodal path inequalities can be solved with an
-augmented-Lagrangian method that reports discrete KKT residuals. See the
-[API guide](docs/api.md) and [implementation note](docs/time_varying_controls_path_constraints.md).
-The current path constraints apply at mesh nodes; a transient gas-mixture
-experiment and between-node constraint certification are follow-on work.
-
-## Measurement accuracy versus numerical accuracy: drug washout
-
-The one-compartment IV-bolus example infers an unknown initial plasma
-concentration from six fixed observations. It compares bounded sensor
-uncertainty with the error from the theta-discrete forward model, then checks
-their combined effect on concentration and remaining AUC qualification. The
-same dataset is used while refining the mesh and while changing the stated
-sensor error bound.
-
-```bash
-make drug-washout-plots
-```
-
-The C++20 example validates the forward state, tangent, nodal observation cost,
-discrete adjoint gradient, Hessian action, theta-quadrature AUC, recovered
-initial state, and qualification against exact exponential references. It
-reports second-order convergence for midpoint and first-order convergence for
-$\theta=0.65$. The plots separate measurement and numerical contributions and
-mark each persistent qualification time. Read the [standalone experiment](docs/drug_washout.md)
-for the model, error-budget assumptions, equations, and interpretation.
-
-![Drug-washout reconstruction and qualification](results/drug_washout/reconstruction_and_qualification.png)
-
-![Drug-washout measurement and numerical error budgets](results/drug_washout/error_budget_decomposition.png)
-
-![Drug-washout convergence](results/drug_washout/convergence.png)
-
-![Drug-washout qualification times](results/drug_washout/qualification_times.png)
-
-## Correlated plasma-assay errors
-
-The next cross-cutting test keeps the exact same one-compartment washout model
-but gives the six assay errors a known AR(1) correlation. A correct generalized
-least-squares objective is compared with the same data interpreted under a
-diagonal covariance assumption. The joint uncertainty set uses the full
-covariance ellipsoid; it does not reuse the independent Gaussian noise-box
-formula.
-
-```bash
-make correlated-washout-plots
-```
-
-This case adds the shared `CorrelatedObservationTerm`, which combines residuals
-across time before applying the discrete adjoint and incremental adjoint. For
-the fixed data, the fitted initial concentration barely shifts, but the
-correlation-aware confidence interval is about 30% wider. On the refined
-midpoint grid, accounting for correlation delays concentration qualification
-from 2.56 h to 3.16 h and remaining-AUC qualification from 1.77 h to 2.31 h.
-Read [the standalone experiment and derivation](docs/drug_washout_correlated.md).
-
-![Correlated-assay reconstruction and uncertainty](results/drug_washout_correlated/correlated_reconstruction.png)
-
-![Correlated-assay initial-concentration intervals](results/drug_washout_correlated/initial_concentration_intervals.png)
-
-![Correlated-assay error budgets](results/drug_washout_correlated/correlated_error_budgets.png)
-
-![Correlated-assay convergence](results/drug_washout_correlated/correlated_convergence.png)
-
-![Correlated-assay qualification times](results/drug_washout_correlated/correlated_qualification_times.png)
-
-## Unit and scaling invariance
-
-The same drug-washout reconstruction is computed in mg/L and hours, then in
-microgram/L and minutes. The experiment checks the required transformations of
-the state, objective, tangent, discrete adjoint, Hessian, fitted initial state,
-AUC sensitivity, uncertainty bounds, and qualification times. At $N=512$, the
-dimensionless objective and scaled derivatives agree to roundoff; the physical
-qualification times are identical after converting minutes back to hours. The
-observed convergence orders remain two for $\theta=0.5$ and one for
-$\theta=0.65$. See [the full derivation and checks](docs/unit_scaling.md).
-
-```bash
-make unit-scaling-plots
-```
-
-![Unit-converted discrete trajectories](results/unit_scaling/trajectory_unit_conversion.png)
-
-![Objective and derivative unit transformations](results/unit_scaling/unit_transformed_quantities.png)
-
-![Unit-invariant convergence orders](results/unit_scaling/unit_scaling_convergence.png)
-
-![Unit-invariant qualification times](results/unit_scaling/unit_scaling_qualification.png)
-
-## State qualification in C++20
-
-The full **measurement-to-qualification experiment** is now [examples/decay_qualification.cpp](examples/decay_qualification.cpp). It uses the optimality library to reconstruct the initial concentration, compute measurement information and goal adjoints, propagate uncertainty, and decide whether concentration and accumulated exposure meet specified tolerances. All numerical inference, analytical references, nonlinear uncertainty sets, numerical-error allowances, and qualification decisions run in C++20. Python only plots the resulting CSV files.
-
-```bash
-make test qualification
-# Optional figures; numerical results already exist after the command above.
 make qualification-plots
 ```
 
-Read [docs/state_qualification.md](docs/state_qualification.md) for the standalone explanation of the experiment, assumptions, error budgets, and results. The earlier `theta_decay` executable remains a separate running-cost optimality-system verification example; it does not replace the measurement-driven state-qualification experiment.
+Requirements: a C++20 compiler, GNU Make, and the C++ standard library. Python
+3 with Matplotlib is only needed to render figures; simulations, fits,
+derivatives, convergence estimates, and qualification decisions are computed
+in C++20. The optional Peng–Robinson examples use the pinned scalar CPU
+ThermoGPU source included in `third_party/ThermoGPU`; they do not require CUDA.
+See its [`PROVENANCE.md`](third_party/ThermoGPU/PROVENANCE.md) for provenance
+and licensing details.
 
-`make test` now runs both the library validation and state-qualification checks. It ends with a table of persistent qualification times for concentration and exposure, using `unqualified` when no time exists over the ten-minute horizon. All reported times are elapsed from $t_0$. The same C++ report is written to `results/qualification/qualification_times.csv` and read directly by the plot renderer. The qualification plots mark these times with vertical lines and label unqualified cases explicitly; no threshold-crossing decisions are made in Python. Use `make validation` for only the library checks.
-
-The final **PHYSICAL QUALIFICATION DETERMINATION** gives the actual engineering decision separately from numerical test success. It states whether concentration, exposure, and **all requested goals together** qualify. Joint qualification starts at the latest individual persistent qualification time, and is not established if either goal remains unqualified. The baseline is **NOT QUALIFIED for all requested goals: exposure blocks it**. The added-exposure case is **QUALIFIED for all requested goals from elapsed zero** on the refined grid. These decisions use bounded-error data and continuous, numerical-error-aware envelopes; local Gaussian indicators and uncorrected node results remain diagnostics. `qualification_decisions.csv` is the C++ source for the final console and plot verdicts.
-
-![Explicit physical qualification verdict](results/qualification/qualification_verdict.png)
-
-| Bounded-data experiment | Concentration | Accumulated exposure |
-|---|---|---|
-| Analytical reference with concentration observations | Qualified after 0.25850 min | Unqualified over the horizon |
-| Coarse numerical model with physical error allowance | Qualified after 5 min | Unqualified over the horizon |
-| Added bounded exposure observation, refined numerical model | Qualified over the whole horizon | Qualified over the whole horizon |
-
-The numerical statements in this table use **whole-step envelopes**, including the time between nodes, relative to the piecewise-linear numerical reconstruction. They are conditional analytical error bounds evaluated in ordinary floating point, not directed-rounding certificates. The added observation is assimilated before retrospective qualification; this is not an online prediction made before the observation arrived.
-
-![C++20 state qualification with numerical-error budgets](results/qualification/qualification.png)
-
-## Build and run
-
-The header-only library and example require a C++20 compiler and the standard library. The tested direct build is:
-
-```bash
-make
-make test
-make example
-```
-
-Or compile without a build system:
-
-```bash
-g++ -std=c++20 -O2 -Wall -Wextra -Wpedantic -Werror \
-    -Iinclude examples/decay.cpp -o theta_decay
-./theta_decay results
-```
-
-Python is optional and only plots the C++-generated CSV files:
+Install the plotting dependency, if needed, with:
 
 ```bash
 python3 -m pip install matplotlib
-make plots
 ```
 
-CMake configuration and installation files are also supplied:
+The Peng–Robinson examples use the pinned scalar CPU ThermoGPU implementation
+in [`third_party/ThermoGPU/`](third_party/ThermoGPU/). No CUDA is required.
+Its provenance and separate licensing are documented in
+[`third_party/ThermoGPU/PROVENANCE.md`](third_party/ThermoGPU/PROVENANCE.md).
+
+CMake is also supported:
 
 ```bash
 cmake -S . -B build-cmake -DCMAKE_BUILD_TYPE=Release
-cmake --build build-cmake
+cmake --build build-cmake --parallel
 ctest --test-dir build-cmake --output-on-failure
-./build-cmake/theta_decay results
-cmake --install build-cmake --prefix "$HOME/.local"
 ```
 
-The release was validated with GCC 13.3.0 through Make and direct compiler commands. CMake was unavailable in the execution environment, so its configuration/install route has not been exercised here.
+## Example gallery
 
-## Use the library
+Each example documents its model, assumptions, theory exercised, checks, and
+limitations in a standalone page under [`docs/`](docs/). Figures below are
+committed outputs from the corresponding C++ experiment; their Python scripts
+only render the saved results.
 
-For a model with `N` states and `P` controls, supply a `Problem<N,P>` and a prescribed `Grid`. State and control dimensions are compile-time constants; vectors and matrices use `std::array`. Controls are denoted by `xi`; theta refers exclusively to the integrator weights.
+| Case | What it tests | Experiment notes and representative figure |
+|---|---|---|
+| **Nonlinear decay and exposure** | Complete forward, quadrature, tangent, adjoint, gradient, Hessian, and second-order midpoint convergence workflow. | [State qualification](docs/state_qualification.md) · [qualification figure](results/qualification/qualification_verdict.png) |
+| **Hidden-state oscillator** | Recover an unmeasured initial velocity; compare analytical and discrete fits, derivatives, and convergence. | [Oscillator](docs/oscillator.md) · [reconstruction](results/oscillator/reconstruction.png) |
+| **Poor versus proper sampling** | Show exact rank loss at half-period sample times and recovery when the same number of samples are placed informatively. | [Sampling experiment](docs/oscillator.md#15-poorly-timed-sampling-is-a-full-inverse-problem-test) · [comparison](results/oscillator_poor_timing/sampling_comparison.png) |
+| **State qualification** | Retain bounded data-consistent uncertainty and include a numerical-model allowance in whole-interval decisions. | [Qualification theory](docs/state_qualification.md) · [decision plot](results/qualification/qualification_verdict.png) |
+| **Time-varying thermal control** | Estimate a finite-dimensional heater schedule using a discrete optimality system. | [Thermal schedule](docs/time_varying_thermal.md) · [reconstruction](results/time_varying_thermal/reconstruction.png) |
+| **Dynamic gas composition** | Infer initial vessel composition and a changing feed from Peng–Robinson density observations. | [Gas schedule](docs/time_varying_gas.md) · [reconstruction](results/time_varying_gas/composition_reconstruction.png) |
+| **Stiff reaction kinetics** | Test a closed-form sequential reaction, stiff time scales, positivity, observation timing, and qualification. | [Stiff reaction](docs/stiff_reaction.md) · [reconstruction](results/stiff_reaction/stiffness_and_reconstruction.png) |
+| **Nonlinear population dynamics** | Estimate initial state, model parameters, and both jointly for Lotka–Volterra dynamics. | [Predator–prey](docs/predator_prey.md) · [phase portrait](results/predator_prey/phase_portrait.png) |
+| **Ambiguity and missing modes** | Preserve multiple feasible branches or persistent unobservable directions rather than reporting a unique-looking fit. | [Electrothermal](docs/electrothermal.md) · [Insulated thermal](docs/insulated_thermal.md) |
+| **Cross-cutting cases** | Nonuniform meshes, transient amplification, correlated observations, units/scaling, path constraints, and goal-dependent qualification. | [Feature roadmap](docs/feature_test_roadmap.md) |
 
-The decay example supplies a complete `Problem<2,1>` in [examples/decay_model.hpp](examples/decay_model.hpp). Using that model:
+The complete set of derivations and experiments is indexed in
+[`docs/`](docs/feature_test_roadmap.md). To regenerate figures after running
+the relevant C++ cases, use `make qualification-plots` (requires Matplotlib).
+
+## Library use
+
+For a model with \(N\) states and \(P\) unknown controls, define a
+`Problem<N,P>` and a time `Grid`:
 
 ```cpp
 #include <theta_opt/theta_opt.hpp>
@@ -587,160 +175,43 @@ The decay example supplies a complete `Problem<2,1>` in [examples/decay_model.hp
 
 using namespace theta_opt;
 
-System<2,1> system(decay::problem(),
+System<2, 1> system(decay::problem(),
     Grid::uniform(decay::t0, decay::tf, 160, 0.5));
 Vec<1> xi{2.4};
 
 auto trajectory = system.forward(xi);
-double J = system.cost(xi, trajectory);
 auto tangent = system.tangent(xi, trajectory, Vec<1>{1.0});
 auto adjoint = system.adjoint(xi, trajectory);
 auto gradient = adjoint.gradient;
-auto Hv = system.hessian_vector(xi, Vec<1>{1.0});
-
-// Convenience: forward + cost + adjoint + reduced gradient.
-auto evaluation = system.evaluate(xi);
-
-auto optimum = minimize(system, Vec<1>{1.0}, OptimizeOptions{},
-    [](const Vec<1>& trial) { return trial[0] > 0; });
+auto hessian_vector = system.hessian_vector(xi, Vec<1>{1.0});
+auto evaluation = system.evaluate(xi); // forward + cost + adjoint + gradient
 ```
 
-`adjoint.nodal_adjoint` is the quadrature-source adjoint in the paper; `adjoint.step_multiplier` stores the auxiliary backward solves. `cost_to_go_adjoint(xi, adjoint)` gives the endpoint-adjusted convention used for pointwise continuous-costate comparisons. Both conventions give the same initial-state gradient; see the explanation below.
+Second-order callbacks are explicit. A Hessian request without the required
+directional derivatives throws; there is no silent finite-difference Hessian.
+See [`docs/api.md`](docs/api.md) for the callback contract and
+[`docs/formulation.md`](docs/formulation.md) for the full discrete equations.
 
-| Model component | First-order callbacks | Additional callbacks for exact Hessian products |
-|---|---|---|
-| Dynamics | `value`, `derivatives` containing state and control Jacobians | `directional_derivatives` of those Jacobians |
-| Initial state | `value`, `jacobian` with respect to controls | `directional_jacobian` |
-| Running cost | `evaluate`: value, state gradient, direct control gradient | `directional_gradient` |
-| Terminal cost | Same scalar-function interface | `directional_gradient` |
-| Control penalty | `value`, `gradient` | `hessian_vector` |
+## Scope and interpretation
 
-`Dynamics::admissible` optionally rejects nonphysical states during forward Newton steps. The optimizer accepts a separate control-admissibility predicate. Defaults represent zero running/terminal costs and a zero penalty. If you replace an entire scalar-function object, use `ScalarFunction::zero()` for a known zero function or provide the second-order callback explicitly. Missing second-order callbacks cause Hessian requests to throw; there is no silent finite-difference Hessian.
+- The core uses dense, compile-time-sized vectors and matrices for small ODE
+  systems; it is not a sparse PDE or large-scale optimization library.
+- Time-varying controls are finite-dimensional schedules or bases, not
+  unrestricted functions of time.
+- Qualification conclusions depend on the stated model, prior, observation
+  assumptions, tolerances, and numerical-error estimates. They are not formal
+  directed-rounding certificates or safety certifications.
+- The examples are synthetic or idealized method demonstrations, not
+  validated clinical, industrial, or safety-critical tools.
+- See the [feature-test roadmap](docs/feature_test_roadmap.md) for current
+  coverage, limitations, and proposed cases.
 
-All callbacks must be deterministic, dimensionally compatible, finite on the iterates evaluated, and mutually consistent. They are evaluated at fixed time. Second-order callbacks differentiate along the supplied state and control directions; they are derivatives of Jacobians/gradients, not derivatives of the function value. [docs/api.md](docs/api.md) specifies their contracts and returned quantities.
+## License
 
-## The decay experiment
-
-Let $t\in[t_0,t_f]=[2,12]$ minutes and let normalized concentration $x$ and exposure $q$ satisfy
-
-$$
-\dot x=-0.5x-0.1x^2,\qquad \dot q=x,
-\qquad x(t_0)=\xi>0,\quad q(t_0)=0.
-$$
-
-The nonzero $t_0$ exercises the general interval convention. Concentration is dimensionless and exposure has units of minutes. The running cost, terminal exposure target, and initial penalty are
-
-$$
-J(\xi)=\frac{0.1}{2}\int_{t_0}^{t_f}x^2\,dt
-+\frac12[q(t_f)-Q]^2+\frac{0.4}{2}(\xi-3.2)^2,
-\qquad Q=q(t_f;3).
-$$
-
-Weights carry the units needed to make these terms compatible. This is a controlled verification objective. The optimum balances three terms and need not equal the concentration used to choose $Q$.
-
-With $\tau=t-t_0$, $r=e^{-a\tau}$, $k=(b/a)(1-r)$, and $D=1+k\xi$,
-
-$$
-x=\frac{\xi r}{D},\qquad q=\frac{\log D}{b},
-\qquad\frac{0.1}{2}\int_{t_0}^t x^2\,ds
-=\frac{0.1}{2b}(\xi-x-aq).
-$$
-
-Differentiating these expressions gives the exact tangent and reduced derivatives. Differentiating the remaining continuous cost with respect to the current physical state gives the continuous costate. Their full derivation is in [docs/decay.md](docs/decay.md).
-
-The analytical-objective minimizer is approximately **2.94636705953319**. Its value is computed by an independent bracketed root solve of the analytical gradient. Discrete optimization starts at **1.0** and uses only the library's adjoint gradient and incremental-adjoint Hessian.
-
-![C++ forward, tangent, and adjoint against analytical references](results/trajectory.png)
-
-These comparisons use $\xi=2.4$, away from the optimum, so the gradients and costates remain nontrivial. The markers are values from the C++ library, and the continuous curves come from analytical expressions.
-
-## Validation
-
-The validation executable checks the nonlinear decay example and an additional time-dependent two-state, two-control problem on a nonuniform grid with varying theta. The latter includes a nonlinear initial map, direct control dependence in the dynamics and both costs, state/control cross derivatives, and a penalty. It tests derivative paths that the scalar initial-state-only decay example does not cover.
-
-Checks include:
-
-- Pivoted linear solves, including transpose solves and singular-matrix rejection.
-- Nonuniform quadrature weights, endpoint contributions, and total weight.
-- Tangents against finite differences of the actual discrete forward solve.
-- Adjoint gradients against finite differences of the actual discrete objective.
-- Incremental-adjoint Hessian products against finite differences of gradients, and Hessian symmetry.
-- Independent global block-system tangent and adjoint solutions against sequential sweeps.
-- Forward Newton trajectories against independent scalar quadratic-root theta steps.
-- Discrete stationarity and local quadratic Newton convergence.
-- Analytical temporal convergence for all seven quantities reported below.
-
-The test executable reports its check count at runtime. The release validation report records compiler flags, count, and sanitizer coverage in [results/validation.txt](results/validation.txt). AddressSanitizer and UndefinedBehaviorSanitizer are run with leak detection disabled because the execution environment prevents LeakSanitizer's process inspection.
-
-## Second-order convergence of the coupled construction
-
-For $N=20,40,80,160,320,640$, independently rebuild and solve the complete problem. State, tangent, adjoint, cost, gradient, and Hessian comparisons use fixed $\xi=2.4$ to isolate temporal error. The fitted initial state is compared separately with the analytical-objective minimizer. State/tangent/adjoint errors are maximum component errors over all time nodes in the specified numerical scaling.
-
-Compute
-
-$$
-p_h=\log_2(E_h/E_{h/2}).
-$$
-
-The finest two grids give:
-
-| Quantity | $\theta=0.5$ | $\theta=0.65$ |
-|---|---:|---:|
-| Forward state | 2.000033 | 0.991291 |
-| Cost functional | 2.000070 | 0.969608 |
-| Tangent linear solution | 2.000052 | 0.978875 |
-| Endpoint-adjusted adjoint | 2.000041 | 0.975298 |
-| Reduced gradient | 1.999838 | 0.974290 |
-| Reduced Hessian | 1.999987 | 0.969373 |
-| Optimized initial state | 2.000054 | 0.968191 |
-
-![Convergence of the C++ discrete optimality system](results/convergence.png)
-
-The last panel in that figure is control error at each time step, calculated as $|\xi_h^*-\xi^*|$. The executable also writes a dedicated `control_convergence.csv`, including each fitted control, the analytical minimizer, error, and observed order. This directly tests whether solving successively refined discrete optimization problems recovers the continuous problem's optimum.
-
-![Convergence of the optimized initial concentration](results/control_convergence.png)
-
-The half-weight method shows second-order convergence throughout. The off-centered method supplies a first-order control experiment. Smoothness, stable propagation, and an isolated optimum with nonzero Hessian are essential here. Newton and optimization tolerances must be below the temporal errors being measured.
-
-**Adjoint convention matters.** The raw nodal adjoint includes the preceding interval's quadrature endpoint contribution. For a pointwise comparison to a remaining-cost continuous costate, subtract
-
-$$
-h_{n-1}\theta_{n-1}\nabla_{\mathbf x}c(t_n,\mathbf x_n)
-$$
-
-at nodes $n\ge1$. The library returns the paper's raw nodal adjoint and exposes the conversion separately. The raw and adjusted values are both retained in the trajectory CSV. No adjustment occurs at $t_0$, and the reduced gradient is unchanged. We do not claim that an unadjusted step or nodal multiplier automatically approximates the continuous costate at second order.
-
-## Quadratic convergence of Newton optimization
-
-Temporal order and nonlinear solver order are different experiments. On the fixed $N=160$, $\theta=0.5$ grid, Newton's errors to an independently bracketed discrete minimizer decrease approximately as
-
-$$
-1.9466,\quad0.5622,\quad0.04729,\quad3.3405\times10^{-4},
-\quad1.6664\times10^{-8},\quad O(10^{-15}).
-$$
-
-Before reaching the numerical floor, $e_{k+1}/e_k^2$ settles near **0.1493**, demonstrating local quadratic convergence. The trace records accepted step lengths as well as cost and gradient norm. Local convergence uses full Newton steps; an Armijo line search and a descent-direction fallback safeguard earlier iterations. A floating-point allowance in the objective decrease comparison prevents rounded costs from blocking convergence near stationarity.
-
-![Quadratic convergence of the library Newton optimizer](results/newton.png)
-
-## Scope of this first version
-
-This is a small dense ODE library with prescribed time grids, explicit analytical derivative callbacks, and optional second derivatives. It supports arbitrary finite strictly increasing time grids and per-step theta in $[0,1]$; accuracy and positivity still depend on the model and grid. `Grid::uniform` is only a convenience.
-
-It currently uses identity mass matrices, stores complete trajectories, and refactors dense step matrices during derivative sweeps. It has no sparse backend, DAE solver, mesh-adaptation derivatives, Enzyme binding, GPU execution, or general nonlinear-constraint optimizer. Callback interfaces allow future derivative adapters without changing the mathematical contract. For componentwise bounds on finite-dimensional controls, `minimize_box_constrained` uses an active-set Newton step and reports KKT multipliers; general coupled constraints remain outside scope. Sampled observations use explicit `Problem::nodal` costs; their values and derivative sources are not multiplied by running-cost quadrature weights. `goal_gradient` and `state_pullback` expose the same discrete adjoint for prediction goals and information actions. `qualification.hpp` contains local goal variance, box support, independent-Gaussian noise-box calibration, and persistent node criteria. Decay-specific nonlinear set construction and physical error bounds remain in the example model.
-
-`include/theta_opt/` is the reusable library. `examples/` contains problem definitions, `tests/` verification, `docs/` derivations and callback contracts, and `results/` reproducible outputs. C++ produces all numerical results; Python is used only for figures.
-## Time-varying gas-composition reconstruction
-
-The dynamic Peng–Robinson example estimates a changing ethane feed schedule
-and initial vessel composition from density observations of a well-mixed gas
-vessel. It uses the existing ThermoGPU EOS inside the C++20 discrete theta
-optimality system and compares the discrete states with an analytical mixing
-solution. It includes adjoint-gradient checks and the expected theta-method
-convergence rates.
-
-Run the example and render its results with:
-
-    make time-varying-gas-plots
-
-See docs/time_varying_gas.md for the model, equations, experiment, and limits.
+ThetaOptimality project code is licensed under
+[`AGPL-3.0-only`](LICENSE). ThermoGPU source and the connected composition
+examples carry their separately identified GPL-3.0-or-later terms; see
+[`third_party/ThermoGPU/PROVENANCE.md`](third_party/ThermoGPU/PROVENANCE.md).
+The AGPL version is available under the terms of `LICENSE`. Separate
+commercial licensing, if offered by the rights holders, requires a separate
+written agreement. See [`COPYRIGHT`](COPYRIGHT) for the licensing notice.

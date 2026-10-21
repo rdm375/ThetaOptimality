@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: AGPL-3.0-only
+// Copyright (C) 2026 Richard Myers
+
 #pragma once
 #include "insulated_thermal_model.hpp"
 namespace insulated_thermal::qualification {

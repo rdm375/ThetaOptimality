@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+// Copyright (C) 2026 Richard Myers
 #pragma once
 #include <theta_opt/theta_opt.hpp>
 #include <thermogpu/peng_robinson.hpp>
