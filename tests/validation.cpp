@@ -30,7 +30,68 @@ Problem<2,2> coupled(){
     p.penalty.hessian_vector=[](const Vec<2>&,const Vec<2>& d){return Vec<2>{.1*d[0],.2*d[1]};};return p;
 }
 
+void new_analysis_validation(){
+    // Discrete theta state maps agree with the existing TLM and their reverse
+    // propagation is its exact Euclidean transpose.
+    System<2,1> sys(decay::problem(),Grid::uniform(decay::t0,decay::tf,20,.5));
+    Vec<1> p{2.4};const auto evaluation=sys.evaluate(p);
+    const auto maps=sys.state_transition_operators(evaluation.trajectory,p);
+    const auto product=state_transition_product(maps);
+    const auto tangent=sys.tangent(p,evaluation.trajectory,{1.});
+    const auto initial_direction=mv(decay::problem().initial.jacobian(p),Vec<1>{1.});
+    close(norm(mv(product,initial_direction)-tangent.back()),0.,2e-12,"state transition product equals TLM propagation");
+    Vec<2> initial{.3,-.2},terminal{-.7,.4};
+    const auto forward=propagate_state_tangent(initial,maps);
+    const auto backward=propagate_state_adjoint(terminal,maps);
+    close(dot(terminal,forward.back()),dot(backward.front(),initial),2e-12,"state TLM/adjoint duality");
+    auto amp=finite_horizon_amplification(std::vector<Mat<2,2>>{{{{2.,0.},{0.,.5}}}},
+                                            Vec<2>{1.,1.},Vec<2>{1.,1.});
+    close(amp.gain,2.,1e-12,"finite horizon largest singular gain");
+
+    std::vector<LinearizedObservation<2,1>> observations(1);
+    observations[0].node=20;observations[0].state_gradient={0.,1.};
+    observations[0].standard_deviation=.2;
+    const auto rows=observation_sensitivities(sys,p,evaluation.trajectory,observations);
+    close(rows[0][0],sys.goal_gradient(p,evaluation.trajectory,20,{0.,1.})[0],1e-13,
+          "observation row uses discrete adjoint");
+    const auto info=fisher_information<2>({Vec<2>{1.,0.},Vec<2>{0.,2.}},{1.,1.});
+    const auto posterior=add_information_precision(info,Mat<2,2>{{{1.,0.},{0.,0.}}});
+    close(posterior[0][0],2.,1e-12,"data and prior precision combine");
+    const auto covariance=covariance_from_precision(info);
+    close(covariance[0][0],1.,1e-12,"Fisher covariance first variance");
+    close(covariance[1][1],.25,1e-12,"Fisher covariance second variance");
+    close(sensitivity_condition_number(info),2.,1e-12,"sensitivity condition number");
+    close(correlation_matrix(covariance)[0][0],1.,1e-12,"covariance correlation conversion");
+    rejects([]{(void)covariance_from_precision(Mat<2,2>{{{1.,0.},{0.,0.}}});},
+            "rank deficient information has no finite covariance");
+
+    auto prior=independent_prior_regularizer(Vec<2>{1.,2.},Vec<2>{2.,4.});
+    close(prior.value({3.,6.}),1.,1e-14,"Gaussian prior Mahalanobis cost");
+    close(norm(prior.gradient({3.,6.})-Vec<2>{.5,.25}),0.,1e-14,"prior precision gradient");
+    auto null_penalty=subspace_regularizer<2,1>({Vec<2>{0.,1.}},3.,Vec<2>{0.,0.});
+    close(null_penalty.value({2.,4.}),24.,1e-13,"nullspace projector regularization");
+    auto h1=spatial_difference_regularizer<4>(1,2.,1.,Vec<4>{});
+    close(h1.value({1.,1.,1.,1.}),0.,1e-14,"H1 constant nullspace");
+    auto h2=spatial_difference_regularizer<4>(2,1.,1.,Vec<4>{});
+    close(h2.value({1.,2.,3.,4.}),0.,1e-13,"H2 affine nullspace");
+    rejects([]{(void)spatial_difference_regularizer<3>(2,0.,1.,Vec<3>{});},
+            "spatial regularizer validates spacing");
+
+    // Weak-constraint state gradient checked against a centered difference.
+    std::array<Vec<2>,3> x{{{.2,-.3},{.4,.1},{-.2,.5}}};
+    std::array<Vec<2>,3> reference{{{0.,0.},{.1,.2},{.2,.3}}};
+    std::array<Mat<2,2>,2> m{{{{{1.,.2},{0.,.8}}},{{{.9,0.},{.1,1.}}}}};
+    std::array<Mat<2,2>,2> q{{{{{2.,.1},{.1,1.}}},{{{1.5,0.},{0.,.7}}}}};
+    const auto weak=weak_constraint_trajectory_penalty(x,reference,m,q);
+    constexpr double eps=1e-6;
+    auto xp=x,xm=x;xp[1][0]+=eps;xm[1][0]-=eps;
+    const auto wp=weak_constraint_trajectory_penalty(xp,reference,m,q);
+    const auto wm=weak_constraint_trajectory_penalty(xm,reference,m,q);
+    close(weak.gradient[1][0],(wp.value-wm.value)/(2*eps),1e-8,"weak constraint state gradient FD");
+}
+
 int main(){try{
+    new_analysis_validation();
     {
         Box2 box{{-2.,-1.},{2.,1.}};Quadratic2 square{0.,{},{{{1.,0.},{0.,1.}}}};
         auto range=quadratic_range(square,box);check(range.lower<=0&&range.upper>=5.,"quadratic box range encloses corners");

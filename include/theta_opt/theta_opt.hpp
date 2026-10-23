@@ -12,3 +12,5 @@
 #include "identifiability.hpp"
 
 #include "bounded_sets.hpp"
+#include "transient_analysis.hpp"
+#include "regularization.hpp"

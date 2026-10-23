@@ -85,6 +85,8 @@ derivation.
 | Unit and scaling invariance | Checks that changing concentration and time units transforms derivatives and decisions consistently. | [Unit-scaling experiment](docs/unit_scaling.md) |
 | Time-varying gas composition | Reconstructs a changing feed composition and vessel state from Peng–Robinson density observations. | [Dynamic gas experiment](docs/time_varying_gas.md) |
 | Roadmap and cross-cutting tests | Tracks the theory features tested across multiple examples and future cases. | [Feature-test roadmap](docs/feature_test_roadmap.md) |
+| Transient state and parameter analysis | Discrete state maps, finite-horizon amplification, observation sensitivities, Fisher information, covariance, and correlation. | [Transient analysis](docs/transient_flow_state_parameter_analysis.md) |
+| Matrix-based regularization | Correlated priors, weak-sensitivity subspaces, spatial H1/H2 penalties, and weak-constraint trajectory penalties. | [Regularizers](docs/matrix_based_regularizers.md) |
 
 These cases deliberately include both qualified and **NOT QUALIFIED** results.
 An unqualified result means that the stated data and error assumptions do not

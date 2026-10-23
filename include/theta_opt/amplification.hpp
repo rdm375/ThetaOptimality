@@ -5,6 +5,31 @@
 #include "system.hpp"
 
 namespace theta_opt {
+// Propagate a state perturbation through discrete theta-step TLM maps.
+template<std::size_t N>
+std::vector<Vec<N>> propagate_state_tangent(
+    const Vec<N>& initial,const std::vector<Mat<N,N>>& transition) {
+    (void)norm(initial);
+    std::vector<Vec<N>> result(transition.size()+1);
+    result[0]=initial;
+    for(std::size_t k=0;k<transition.size();++k)
+        result[k+1]=mv(transition[k],result[k]);
+    return result;
+}
+
+// Pull a terminal state gradient backward through the same maps. This is the
+// transpose of propagate_state_tangent under the Euclidean inner product.
+template<std::size_t N>
+std::vector<Vec<N>> propagate_state_adjoint(
+    const Vec<N>& terminal,const std::vector<Mat<N,N>>& transition) {
+    (void)norm(terminal);
+    std::vector<Vec<N>> result(transition.size()+1);
+    result.back()=terminal;
+    for(std::size_t k=transition.size();k-->0;)
+        result[k]=mv(transpose(transition[k]),result[k+1]);
+    return result;
+}
+
 // Jacobians of the implemented state trajectory with respect to its controls.
 // Includes the initial-condition map and direct dynamics/control dependence.
 template<std::size_t N,std::size_t P>

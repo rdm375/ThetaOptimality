@@ -251,6 +251,29 @@ public:
             out.state[n+1]=next;
         }return out;
     }
+    // Discrete state-to-state tangent maps for the implemented theta steps.
+    // Linearizing R_n(x_{n+1},x_n,p)=0 gives
+    // B_n dx_{n+1}=C_n dx_n, hence M_n=B_n^{-1}C_n.
+    // This is a local map along the supplied trajectory, not a nonlinear
+    // stability certificate or a parameter-sensitivity map.
+    std::vector<Mat<N,N>> state_transition_operators(
+        const Trajectory<N>& trajectory,const Vec<P>& p) const {
+        if(trajectory.state.size()!=grid_.time.size())
+            throw std::invalid_argument("Trajectory size");
+        (void)norm(p);
+        std::vector<Mat<N,N>> result(grid_.steps());
+        for(std::size_t n=0;n<grid_.steps();++n){
+            auto [bn,cn]=blocks(n,trajectory.state,p);
+            const LU<N> factor(bn);
+            for(std::size_t j=0;j<N;++j){
+                Vec<N> column{};
+                for(std::size_t i=0;i<N;++i)column[i]=cn[i][j];
+                const auto solved=factor.solve(column);
+                for(std::size_t i=0;i<N;++i)result[n][i][j]=solved[i];
+            }
+        }
+        return result;
+    }
     std::vector<Vec<N>> tangent(const Vec<P>& p,const Trajectory<N>& trajectory,const Vec<P>& direction) const{
         const auto& x=trajectory.state;if(x.size()!=grid_.time.size())throw std::invalid_argument("Trajectory size");
         std::vector<Vec<N>> s(x.size());s[0]=mv(problem_.initial.jacobian(p),direction);
